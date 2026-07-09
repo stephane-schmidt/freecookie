@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.5
+Stable tag: 0.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,12 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.1.7 =
+* Badge : cookie croqué sur le côté (mordu latéral).
+
+= 0.1.6 =
+* Nouveau badge : cookie croqué minimal avec marques de dents (monochrome, à la couleur du site).
 
 = 0.1.5 =
 * Titres du bandeau protégés du style du thème ; le titre des préférences prend la couleur dominante.

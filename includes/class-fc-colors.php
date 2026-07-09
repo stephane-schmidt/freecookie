@@ -159,7 +159,7 @@ class FC_Colors {
 		$accent_text = self::sanitize( $c['accent_text'] ?? '' ) ?: self::readable_on( $accent );
 		$sec_bg      = self::sanitize( $c['secondary_bg'] ?? '' ) ?: self::mix( $bg, $text, 0.06 );
 		$sec_text    = self::sanitize( $c['secondary_text'] ?? '' ) ?: $text;
-		$badge_body  = self::sanitize( $c['badge'] ?? '' ) ?: self::tint( $accent, 0.60 );
+		$badge_solid = self::sanitize( $c['badge'] ?? '' ) ?: $accent;
 
 		return array(
 			'--fc-accent'         => $accent,
@@ -171,10 +171,8 @@ class FC_Colors {
 			'--fc-border'         => self::mix( $text, $bg, 0.86 ),
 			'--fc-secondary-bg'   => $sec_bg,
 			'--fc-secondary-text' => $sec_text,
-			'--fc-badge-body'     => $badge_body,
-			'--fc-badge-chip'     => self::shade( $accent, 0.06 ),
-			'--fc-badge-rim'      => self::shade( $accent, 0.28 ),
-			'--fc-badge-speckle'  => self::shade( $accent, 0.14 ),
+			'--fc-badge-solid'    => $badge_solid,
+			'--fc-badge-hole'     => self::tint( $badge_solid, 0.58 ),
 		);
 	}
 
