@@ -95,10 +95,36 @@ class FC_Frontend {
 	/**
 	 * Rend le bandeau dans le pied de page.
 	 */
+	/**
+	 * Services tiers détectés sur le site, groupés par catégorie, avec finalité + note.
+	 *
+	 * @return array<string,array<int,array<string,mixed>>>
+	 */
+	protected function detected_services() {
+		$scan = FC_Scanner::last();
+		$keys = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array();
+		$out  = array();
+		foreach ( $keys as $key ) {
+			$meta = FC_Categories::meta( $key );
+			if ( 'necessary' === $meta['category'] ) {
+				continue;
+			}
+			$out[ $meta['category'] ][] = array(
+				'key'     => $key,
+				'label'   => FC_Categories::service_label( $key ),
+				'purpose' => $meta['purpose'],
+				'score'   => $meta['score'],
+				'color'   => FC_Categories::score_color( $meta['score'] ),
+			);
+		}
+		return $out;
+	}
+
 	public function render_banner() {
 		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
 		$strings  = $this->strings( $lang );
 		$cats     = FC_Categories::all();
+		$services = $this->detected_services();
 		$defaults = FC_Plugin::default_settings();
 		$about    = isset( $this->settings['about'] ) && is_array( $this->settings['about'] )
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )

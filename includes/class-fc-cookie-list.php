@@ -15,10 +15,10 @@ class FC_Cookie_List {
 	/** En-têtes de colonnes par langue. */
 	protected static function headers( $lang ) {
 		$h = array(
-			'fr' => array( 'name' => 'Cookie', 'service' => 'Service', 'duration' => 'Durée', 'desc' => 'Finalité' ),
-			'en' => array( 'name' => 'Cookie', 'service' => 'Service', 'duration' => 'Duration', 'desc' => 'Purpose' ),
-			'de' => array( 'name' => 'Cookie', 'service' => 'Dienst', 'duration' => 'Dauer', 'desc' => 'Zweck' ),
-			'it' => array( 'name' => 'Cookie', 'service' => 'Servizio', 'duration' => 'Durata', 'desc' => 'Finalità' ),
+			'fr' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Note', 'duration' => 'Durée', 'desc' => 'Finalité' ),
+			'en' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Rating', 'duration' => 'Duration', 'desc' => 'Purpose' ),
+			'de' => array( 'name' => 'Cookie', 'service' => 'Dienst', 'score' => 'Note', 'duration' => 'Dauer', 'desc' => 'Zweck' ),
+			'it' => array( 'name' => 'Cookie', 'service' => 'Servizio', 'score' => 'Voto', 'duration' => 'Durata', 'desc' => 'Finalità' ),
 		);
 		return isset( $h[ $lang ] ) ? $h[ $lang ] : $h['en'];
 	}
@@ -61,14 +61,18 @@ class FC_Cookie_List {
 			$out .= '<div class="fc-cl__scroll"><table class="fc-cl__table"><thead><tr>'
 				. '<th>' . esc_html( $head['name'] ) . '</th>'
 				. '<th>' . esc_html( $head['service'] ) . '</th>'
+				. '<th>' . esc_html( $head['score'] ) . '</th>'
 				. '<th>' . esc_html( $head['duration'] ) . '</th>'
 				. '<th>' . esc_html( $head['desc'] ) . '</th>'
 				. '</tr></thead><tbody>';
 
 			foreach ( $report[ $cat ] as $c ) {
-				$out .= '<tr>'
+				$meta  = FC_Categories::meta( $c['service'] );
+				$color = FC_Categories::score_color( $meta['score'] );
+				$out  .= '<tr>'
 					. '<td><code>' . esc_html( $c['name'] ) . '</code></td>'
-					. '<td>' . esc_html( $c['service'] ) . '</td>'
+					. '<td>' . esc_html( FC_Categories::service_label( $c['service'] ) ) . '</td>'
+					. '<td><span class="fc-score fc-score--' . esc_attr( $color ) . '">' . (int) $meta['score'] . '/10</span></td>'
 					. '<td>' . esc_html( $c['duration'] ) . '</td>'
 					. '<td>' . esc_html( $c['desc'] ) . '</td>'
 					. '</tr>';

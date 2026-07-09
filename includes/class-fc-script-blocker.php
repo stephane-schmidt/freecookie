@@ -99,10 +99,14 @@ class FC_Script_Blocker {
 		}
 
 		$category = '';
+		$service  = '';
 
 		// Par URL (src).
 		if ( preg_match( '#\bsrc\s*=\s*[\'"]([^\'"]+)[\'"]#i', $attrs, $sm ) ) {
 			$category = $this->match_url( $sm[1] );
+			if ( '' !== $category ) {
+				$service = FC_Categories::match_service( $sm[1] );
+			}
 		}
 
 		// Par signature inline.
@@ -119,7 +123,7 @@ class FC_Script_Blocker {
 			return $m[0];
 		}
 
-		return $this->neutralize_script( $attrs, $inner, $category );
+		return $this->neutralize_script( $attrs, $inner, $category, $service );
 	}
 
 	/**
@@ -130,7 +134,7 @@ class FC_Script_Blocker {
 	 * @param string $category Finalité.
 	 * @return string
 	 */
-	protected function neutralize_script( $attrs, $inner, $category ) {
+	protected function neutralize_script( $attrs, $inner, $category, $service = '' ) {
 		// Retire un éventuel type existant, on force text/plain.
 		$attrs = preg_replace( '#\s*type\s*=\s*[\'"][^\'"]*[\'"]#i', '', $attrs );
 		// Déplace src → data-fc-src pour empêcher tout préchargement.
@@ -138,7 +142,8 @@ class FC_Script_Blocker {
 
 		$attrs = trim( $attrs );
 		$attrs = '' !== $attrs ? ' ' . $attrs : '';
-		return '<script type="text/plain" data-fc-category="' . esc_attr( $category ) . '"'
+		$svc   = $service ? ' data-fc-service="' . esc_attr( $service ) . '"' : '';
+		return '<script type="text/plain" data-fc-category="' . esc_attr( $category ) . '"' . $svc
 			. $attrs . '>' . $inner . '</script>';
 	}
 
@@ -175,11 +180,13 @@ class FC_Script_Blocker {
 		if ( '' === $category ) {
 			return $m[0];
 		}
+		$service = FC_Categories::match_service( $sm[1] );
+		$svc     = $service ? ' data-fc-service="' . esc_attr( $service ) . '"' : '';
 
 		// src → data-fc-src pour empêcher le chargement, + classe pour le placeholder CSS.
 		$new = preg_replace( '#\bsrc\s*=\s*([\'"])([^\'"]+)\1#i', 'data-fc-src=$1$2$1', $attrs );
 		$new = $this->add_class( $new, 'fc-blocked-embed' );
-		return '<iframe' . $new . ' data-fc-category="' . esc_attr( $category ) . '">';
+		return '<iframe' . $new . ' data-fc-category="' . esc_attr( $category ) . '"' . $svc . '>';
 	}
 
 	/**

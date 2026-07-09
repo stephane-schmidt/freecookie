@@ -87,11 +87,12 @@
 		} catch (e) { return null; }
 	}
 
-	function saveConsent(granted, action) {
-		var obj = { v: D.version, c: granted, id: uuid(), t: Math.floor(Date.now() / 1000) };
+	function saveConsent(granted, off, action) {
+		off = off || [];
+		var obj = { v: D.version, c: granted, off: off, id: uuid(), t: Math.floor(Date.now() / 1000) };
 		writeCookie(D.cookie, JSON.stringify(obj), D.consentExpiry || 180);
 		applyConsentMode(granted);
-		unblock(granted);
+		unblock(granted, off);
 		logConsent(obj, action);
 		return obj;
 	}
@@ -111,15 +112,19 @@
 	}
 
 	/* ---------- Déblocage ---------- */
-	function unblock(granted) {
+	function unblock(granted, off) {
+		off = off || [];
+		function allowed(cat, svc) {
+			return granted.indexOf(cat) !== -1 && (!svc || off.indexOf(svc) === -1);
+		}
 		// Scripts neutralisés.
 		var scripts = document.querySelectorAll('script[type="text/plain"][data-fc-category]');
 		Array.prototype.forEach.call(scripts, function (node) {
-			if (granted.indexOf(node.getAttribute('data-fc-category')) === -1) { return; }
+			if (!allowed(node.getAttribute('data-fc-category'), node.getAttribute('data-fc-service'))) { return; }
 			var s = document.createElement('script');
 			for (var i = 0; i < node.attributes.length; i++) {
 				var a = node.attributes[i];
-				if (a.name === 'type' || a.name === 'data-fc-category') { continue; }
+				if (a.name === 'type' || a.name === 'data-fc-category' || a.name === 'data-fc-service') { continue; }
 				if (a.name === 'data-fc-src') { s.setAttribute('src', a.value); continue; }
 				s.setAttribute(a.name, a.value);
 			}
@@ -129,7 +134,7 @@
 		// Iframes neutralisées.
 		var frames = document.querySelectorAll('iframe[data-fc-src][data-fc-category]');
 		Array.prototype.forEach.call(frames, function (f) {
-			if (granted.indexOf(f.getAttribute('data-fc-category')) === -1) { return; }
+			if (!allowed(f.getAttribute('data-fc-category'), f.getAttribute('data-fc-service'))) { return; }
 			f.setAttribute('src', f.getAttribute('data-fc-src'));
 			f.removeAttribute('data-fc-src');
 			f.classList.remove('fc-blocked-embed');
@@ -161,30 +166,63 @@
 	function openAbout() { show(root); hide(panel); show(aboutEl()); banner.setAttribute('data-fc-state', 'about'); }
 	function openPanel() {
 		show(root); show(panel); hide(aboutEl()); banner.setAttribute('data-fc-state', 'prefs');
-		// Reflète l'état courant dans les cases.
+		// Reflète l'état courant dans les cases (catégories + services).
 		var c = getConsent();
 		var granted = c ? c.c : [];
+		var off = c ? (c.off || []) : [];
 		Array.prototype.forEach.call(document.querySelectorAll('.fc-toggle'), function (t) {
 			t.checked = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
+		});
+		Array.prototype.forEach.call(document.querySelectorAll('.fc-svc-toggle'), function (t) {
+			var on = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
+			t.checked = on && off.indexOf(t.getAttribute('data-fc-svc')) === -1;
+			t.disabled = !on;
 		});
 	}
 	function closeAll() { hide(root); show(badge); }
 
 	function readToggles() {
-		var out = [];
+		var cats = [];
 		Array.prototype.forEach.call(document.querySelectorAll('.fc-toggle'), function (t) {
-			if (t.checked) { out.push(t.getAttribute('data-fc-cat')); }
+			if (t.checked) { cats.push(t.getAttribute('data-fc-cat')); }
 		});
-		return out;
+		var off = [];
+		Array.prototype.forEach.call(document.querySelectorAll('.fc-svc-toggle'), function (t) {
+			if (!t.checked) { off.push(t.getAttribute('data-fc-svc')); }
+		});
+		return { cats: cats, off: off };
 	}
 
 	function onClick(action) {
-		if (action === 'accept') { saveConsent(optionalKeys(), 'accept'); closeAll(); }
-		else if (action === 'reject') { saveConsent([], 'reject'); closeAll(); }
-		else if (action === 'save') { saveConsent(readToggles(), 'save'); closeAll(); }
+		if (action === 'accept') { saveConsent(optionalKeys(), [], 'accept'); closeAll(); }
+		else if (action === 'reject') { saveConsent([], [], 'reject'); closeAll(); }
+		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save'); closeAll(); }
 		else if (action === 'customize') { openPanel(); }
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
+	}
+
+	/* ---------- Badge : estompé après inactivité, réveil à l'approche ---------- */
+	function initBadgeProximity() {
+		if (!badge) { return; }
+		var mx = -9999, my = -9999, wasNear = false, timer, raf = false;
+		function scheduleDim() { clearTimeout(timer); timer = setTimeout(function () { badge.classList.add('fc-badge--dim'); }, 10000); }
+		function isNear() {
+			var r = badge.getBoundingClientRect();
+			if (!r.width) { return false; }
+			var dx = Math.max(r.left - mx, 0, mx - r.right);
+			var dy = Math.max(r.top - my, 0, my - r.bottom);
+			return dx * dx + dy * dy <= 100 * 100;
+		}
+		function update() {
+			raf = false;
+			var near = isNear();
+			if (near && !wasNear) { wasNear = true; clearTimeout(timer); badge.classList.remove('fc-badge--dim'); badge.classList.add('fc-badge--near'); }
+			else if (!near && wasNear) { wasNear = false; badge.classList.remove('fc-badge--near'); scheduleDim(); }
+		}
+		document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; if (raf) { return; } raf = true; requestAnimationFrame(update); }, { passive: true });
+		document.addEventListener('touchstart', function () { badge.classList.remove('fc-badge--dim'); badge.classList.add('fc-badge--near'); }, { passive: true });
+		scheduleDim();
 	}
 
 	/* ---------- Init ---------- */
@@ -206,12 +244,25 @@
 			if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
 		});
 		if (badge) { badge.addEventListener('click', openPanel); }
+		initBadgeProximity();
+
+		// Synchro : (dé)cocher une catégorie (dé)coche et (dés)active ses services.
+		root.addEventListener('change', function (e) {
+			var t = e.target;
+			if (t && t.classList && t.classList.contains('fc-toggle')) {
+				var cat = t.getAttribute('data-fc-cat');
+				Array.prototype.forEach.call(root.querySelectorAll('.fc-svc-toggle[data-fc-cat="' + cat + '"]'), function (s) {
+					s.disabled = !t.checked;
+					s.checked = t.checked;
+				});
+			}
+		});
 
 		var consent = getConsent();
 		if (consent) {
 			// Visiteur déjà décidé : on applique et on montre juste le badge.
 			applyConsentMode(consent.c);
-			unblock(consent.c);
+			unblock(consent.c, consent.off || []);
 			show(badge);
 		} else {
 			openBanner();

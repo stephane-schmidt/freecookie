@@ -54,6 +54,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php if ( $desc ) : ?>
 							<p class="fc-cat__desc"><?php echo esc_html( $desc ); ?></p>
 						<?php endif; ?>
+						<?php if ( ! $locked && ! empty( $services[ $key ] ) ) : ?>
+							<ul class="fc-svcs">
+								<?php foreach ( $services[ $key ] as $svc ) : ?>
+									<li class="fc-svc">
+										<label class="fc-svc__row">
+											<span class="fc-svc__main">
+												<span class="fc-svc__name"><?php echo esc_html( $svc['label'] ); ?></span>
+												<span class="fc-score fc-score--<?php echo esc_attr( $svc['color'] ); ?>" title="<?php esc_attr_e( 'Respect de la vie privée', 'freecookie' ); ?>"><?php echo (int) $svc['score']; ?>/10</span>
+											</span>
+											<input type="checkbox" class="fc-svc-toggle" data-fc-svc="<?php echo esc_attr( $svc['key'] ); ?>" data-fc-cat="<?php echo esc_attr( $key ); ?>" aria-label="<?php echo esc_attr( $svc['label'] ); ?>">
+										</label>
+										<?php if ( ! empty( $svc['purpose'] ) ) : ?>
+											<p class="fc-svc__desc"><?php echo esc_html( $svc['purpose'] ); ?></p>
+										<?php endif; ?>
+									</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>
