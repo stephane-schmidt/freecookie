@@ -1,0 +1,132 @@
+/* FreeCookie — bandeau de consentement. Neutre, accessible, sobre. */
+
+#freecookie-root[hidden],
+#freecookie-badge[hidden],
+.fc-prefs[hidden] { display: none !important; }
+
+.fc-banner {
+	position: fixed;
+	left: 50%;
+	bottom: 20px;
+	transform: translateX(-50%);
+	width: min(680px, calc(100% - 32px));
+	max-height: calc(100vh - 40px);
+	overflow-y: auto;
+	z-index: 2147483000;
+	background: var(--fc-bg, #ffffff);
+	color: var(--fc-text, #1a2430);
+	border: 1px solid var(--fc-border, #e2e6ea);
+	border-radius: 12px;
+	box-shadow: 0 12px 40px rgba(20, 32, 45, .18);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 1.55;
+}
+
+.fc-inner { padding: 22px 24px; display: flex; flex-direction: column; gap: 16px; }
+.fc-title { margin: 0; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.fc-desc { margin: 0; color: var(--fc-muted, #46535f); }
+
+.fc-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.fc-actions .fc-btn { flex: 1 1 auto; }
+
+.fc-btn {
+	appearance: none;
+	border: 1px solid transparent;
+	border-radius: 8px;
+	padding: 11px 18px;
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+	line-height: 1.2;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+.fc-btn:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 2px; }
+
+/* Parité stricte accepter / refuser : même forme, même poids, même taille. */
+.fc-btn--primary { background: var(--fc-accent, #1c7a6b); color: var(--fc-accent-text, #fff); }
+.fc-btn--primary:hover { background: var(--fc-accent-deep, #124c43); }
+.fc-btn--secondary { background: var(--fc-secondary-bg, #eef1f3); color: var(--fc-secondary-text, #1a2430); border-color: var(--fc-border, #dde2e6); }
+.fc-btn--secondary:hover { filter: brightness(0.96); }
+.fc-btn--ghost { background: transparent; color: var(--fc-muted, #46535f); border-color: transparent; flex: 0 1 auto; }
+.fc-btn--ghost:hover { color: var(--fc-text, #1a2430); text-decoration: underline; }
+
+/* Préférences */
+.fc-prefs { border-top: 1px solid var(--fc-border, #edf0f2); padding: 20px 24px 22px; display: flex; flex-direction: column; gap: 14px; }
+.fc-prefs__title { margin: 0; font-size: 15px; font-weight: 700; }
+
+/* Insularité : on empêche le thème du site de recolorer/agrandir les titres du
+   bandeau. Le titre des préférences prend la couleur dominante (accent). */
+#freecookie-banner .fc-title {
+	color: var(--fc-text, #1a2430); font-size: 17px; line-height: 1.3; font-weight: 700;
+	margin: 0; text-transform: none; letter-spacing: normal;
+}
+#freecookie-banner .fc-prefs__title {
+	color: var(--fc-accent, #1c7a6b); font-size: 15px; line-height: 1.3; font-weight: 700;
+	margin: 0; text-transform: none; letter-spacing: normal;
+}
+.fc-cats { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.fc-cat { border: 1px solid var(--fc-border, #edf0f2); border-radius: 8px; padding: 12px 14px; }
+.fc-cat__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; }
+.fc-cat__name { font-weight: 600; }
+.fc-cat__lock { font-size: 12px; color: var(--fc-accent, #1c7a6b); font-weight: 600; margin-left: auto; margin-right: 10px; }
+.fc-cat__desc { margin: 6px 0 0; font-size: 13px; color: var(--fc-muted, #6b7784); }
+.fc-cat input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--fc-accent, #1c7a6b); flex: none; }
+.fc-prefs__actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* Badge de réouverture */
+.fc-badge {
+	position: fixed;
+	left: 20px;
+	bottom: 20px;
+	z-index: 2147482000;
+	width: 44px; height: 44px;
+	padding: 0;
+	border: none;
+	background: none;
+	cursor: pointer;
+	line-height: 0;
+	filter: drop-shadow(0 4px 10px rgba(20, 32, 45, .28));
+	transition: transform .15s ease;
+}
+.fc-badge:hover { transform: translateY(-2px) rotate(-5deg); }
+/* On neutralise toute bordure/fond/outline que le thème appliquerait aux <button>,
+   sans supprimer l'anneau de focus clavier (accessibilité). */
+#freecookie-badge { border: none !important; background: none !important; padding: 0 !important; box-shadow: none; -webkit-tap-highlight-color: transparent; }
+#freecookie-badge:focus:not(:focus-visible) { outline: none !important; }
+#freecookie-badge:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 3px; border-radius: 50%; }
+.fc-badge .fc-cookie { width: 100%; height: 100%; display: block; }
+.fc-cookie__disc { fill: var(--fc-badge-body, #e7c9a3); stroke: var(--fc-badge-rim, #8a5622); stroke-width: 2; }
+.fc-cookie__sheen { fill: none; stroke: #fff; stroke-opacity: .4; stroke-width: 3; stroke-linecap: round; }
+.fc-cookie__chip { fill: var(--fc-badge-chip, #7a5230); }
+.fc-cookie__speckle { fill: var(--fc-badge-speckle, #9c6428); opacity: .55; }
+
+/* Placeholder d'embed bloqué (iframe neutralisée) */
+iframe.fc-blocked-embed {
+	min-height: 160px;
+	background: repeating-linear-gradient(45deg, #f3f5f7, #f3f5f7 10px, #eceff2 10px, #eceff2 20px);
+	border: 1px dashed #cfd6dc;
+}
+
+@media (max-width: 560px) {
+	.fc-banner { left: 8px; right: 8px; bottom: 8px; transform: none; width: auto; }
+	.fc-badge { left: 12px; bottom: 12px; }
+	.fc-actions .fc-btn--ghost { order: 3; flex: 1 1 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.fc-btn, .fc-badge { transition: none; }
+}
+
+/* Liste de cookies (shortcode [freecookie_cookies]) */
+.fc-cookie-list { font-size: 15px; }
+.fc-cl__cat { margin: 24px 0 8px; font-size: 18px; font-weight: 700; }
+.fc-cl__note { margin: 0 0 12px; color: #6b7784; }
+.fc-cl__scroll { overflow-x: auto; }
+.fc-cl__table { border-collapse: collapse; width: 100%; min-width: 520px; }
+.fc-cl__table th, .fc-cl__table td { text-align: left; padding: 9px 12px; border-bottom: 1px solid #edf0f2; vertical-align: top; }
+.fc-cl__table thead th { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: #6b7784; }
+.fc-cl__table code { font-size: 13px; background: #f3f5f7; padding: 1px 6px; border-radius: 4px; }
+
+/* Les couleurs de la bannière sont pilotées par l'administration (variables --fc-*),
+   on ne force donc pas de thème sombre automatique qui les écraserait. */
