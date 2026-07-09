@@ -104,6 +104,7 @@ class FC_Frontend {
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )
 			: $defaults['about'];
 		$alabels  = FC_I18n::about_labels( $lang );
+		$shape    = FC_Shapes::valid( isset( $this->settings['badge_shape'] ) ? $this->settings['badge_shape'] : '' );
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 	}
 }

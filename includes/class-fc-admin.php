@@ -110,6 +110,7 @@ class FC_Admin {
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
 		$out['consent_days']     = max( 1, min( 3650, (int) ( $input['consent_days'] ?? 180 ) ) );
 		$out['visit_threshold']  = max( 0, (int) ( $input['visit_threshold'] ?? 10000 ) );
+		$out['badge_shape']      = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
 
 		// Couleurs (vide autorisé = auto/dérivé).
 		$colors = array();
@@ -221,6 +222,35 @@ class FC_Admin {
 						</tr>
 					<?php endforeach; ?>
 				</tbody></table>
+
+				<h2 class="title"><?php esc_html_e( 'Forme du cookie', 'freecookie' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Choisissez la forme du badge flottant (elle prend la couleur du site).', 'freecookie' ); ?></p>
+				<?php
+				$fc_bv    = FC_Colors::css_vars( $s );
+				$fc_shape = FC_Shapes::valid( $s['badge_shape'] ?? '' );
+				?>
+				<style>
+					.fc-shapes{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;max-width:820px;margin:6px 0 4px}
+					.fc-shape{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;border:1px solid #dcdcde;border-radius:10px;padding:12px 6px 8px;cursor:pointer;background:#fff}
+					.fc-shape input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+					.fc-shape:has(input:checked){border-color:#2271b1;box-shadow:0 0 0 1px #2271b1}
+					.fc-shape__ico{width:50px;height:50px}
+					.fc-shape__ico svg{width:100%;height:100%;display:block}
+					.fc-shape__lbl{font-size:11px;color:#50575e;text-align:center;line-height:1.2}
+					.fc-shapes .fc-cookie__disc{fill:var(--fc-badge-solid)}
+					.fc-shapes .fc-cookie__hole{fill:var(--fc-badge-hole)}
+					.fc-shapes .fc-cookie__line{fill:none;stroke:var(--fc-badge-solid);stroke-width:3;stroke-linejoin:round}
+					.fc-shapes .fc-cookie__ring{fill:none;stroke:var(--fc-badge-hole);stroke-width:3;opacity:.6}
+				</style>
+				<div class="fc-shapes" style="--fc-badge-solid:<?php echo esc_attr( $fc_bv['--fc-badge-solid'] ); ?>;--fc-badge-hole:<?php echo esc_attr( $fc_bv['--fc-badge-hole'] ); ?>">
+					<?php foreach ( FC_Shapes::all() as $fc_id => $fc_s ) : ?>
+						<label class="fc-shape">
+							<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?>>
+							<span class="fc-shape__ico"><svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true"><?php echo $fc_s['svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></svg></span>
+							<span class="fc-shape__lbl"><?php echo esc_html( $fc_s['label'] ); ?></span>
+						</label>
+					<?php endforeach; ?>
+				</div>
 
 				<h2 class="title"><?php
 					/* translators: %s: language code. */

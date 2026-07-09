@@ -93,24 +93,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <button type="button" id="freecookie-badge" class="fc-badge" hidden aria-label="<?php echo esc_attr( $strings['manage'] ); ?>" title="<?php echo esc_attr( $strings['manage'] ); ?>">
-	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-		<defs>
-			<mask id="fc-bite">
-				<rect width="64" height="64" fill="#fff"/>
-				<g fill="#000">
-					<circle cx="60" cy="32" r="13"/>
-					<circle cx="48" cy="24" r="4.5"/>
-					<circle cx="48" cy="40" r="4.5"/>
-					<circle cx="45" cy="32" r="4"/>
-				</g>
-			</mask>
-		</defs>
-		<circle class="fc-cookie__disc" cx="32" cy="32" r="27" mask="url(#fc-bite)"/>
-		<g class="fc-cookie__hole" mask="url(#fc-bite)">
-			<circle cx="24" cy="24" r="3.4"/>
-			<circle cx="24" cy="40" r="3.4"/>
-			<circle cx="30" cy="32" r="2.6"/>
-			<circle cx="20" cy="32" r="2.1"/>
-		</g>
-	</svg>
+	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><?php echo FC_Shapes::get( $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG interne statique de confiance. ?></svg>
 </button>

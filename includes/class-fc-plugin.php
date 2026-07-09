@@ -29,6 +29,7 @@ class FC_Plugin {
 			'consent_days'     => 180,
 			'visit_threshold'  => 10000,
 			'position'         => 'bottom',
+			'badge_shape'      => 'croque-lateral',
 			'colors'           => array(
 				'accent'         => '', // vide = couleur principale du site (auto).
 				'accent_text'    => '',
