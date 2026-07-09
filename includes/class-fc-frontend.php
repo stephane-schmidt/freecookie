@@ -85,6 +85,9 @@ class FC_Frontend {
 				'restUrl'        => esc_url_raw( rest_url( 'freecookie/v1/consent' ) ),
 				'nonce'          => wp_create_nonce( 'wp_rest' ),
 				'strings'        => $strings,
+				// Mode auto : aucune couleur principale fixée dans les réglages
+				// → le badge/bannière suit la couleur dominante de CHAQUE page.
+				'autoColor'      => ( '' === FC_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
 			)
 		);
 	}
@@ -93,9 +96,14 @@ class FC_Frontend {
 	 * Rend le bandeau dans le pied de page.
 	 */
 	public function render_banner() {
-		$lang    = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
-		$strings = $this->strings( $lang );
-		$cats    = FC_Categories::all();
+		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		$strings  = $this->strings( $lang );
+		$cats     = FC_Categories::all();
+		$defaults = FC_Plugin::default_settings();
+		$about    = isset( $this->settings['about'] ) && is_array( $this->settings['about'] )
+			? wp_parse_args( $this->settings['about'], $defaults['about'] )
+			: $defaults['about'];
+		$alabels  = FC_I18n::about_labels( $lang );
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 	}
 }

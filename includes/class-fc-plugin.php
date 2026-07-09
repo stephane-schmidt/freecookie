@@ -39,6 +39,20 @@ class FC_Plugin {
 				'badge'          => '',
 			),
 			'text_overrides'   => array(), // [langue][clé] => texte
+			'about'            => array(
+				'enabled' => true,
+				'name'    => 'FreeCookie',
+				'tagline' => '',
+				'website' => '',
+				'email'   => '',
+				'donate'  => 'https://revolut.me/stphanjt11',
+				'social'  => array(
+					'facebook'  => 'https://www.facebook.com/free.stephane',
+					'instagram' => 'https://www.instagram.com/free.stephane',
+					'tiktok'    => 'https://www.tiktok.com/@freestephane',
+					'github'    => 'https://github.com/stephane-schmidt',
+				),
+			),
 		);
 	}
 

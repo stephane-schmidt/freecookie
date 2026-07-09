@@ -40,6 +40,20 @@ class FC_Admin {
 		);
 	}
 
+	/** Réseaux sociaux proposés dans le volet À propos : clé => libellé. */
+	protected function social_networks() {
+		return array(
+			'facebook'  => 'Facebook',
+			'instagram' => 'Instagram',
+			'tiktok'    => 'TikTok',
+			'github'    => 'GitHub',
+			'linkedin'  => 'LinkedIn',
+			'x'         => 'X (Twitter)',
+			'youtube'   => 'YouTube',
+			'behance'   => 'Behance',
+		);
+	}
+
 	/**
 	 * Enregistre les hooks d'administration.
 	 */
@@ -120,6 +134,25 @@ class FC_Admin {
 			unset( $overrides[ $lang ] );
 		}
 		$out['text_overrides'] = $overrides;
+
+		// À propos / réseaux.
+		$about_in = isset( $input['about'] ) && is_array( $input['about'] ) ? $input['about'] : array();
+		$social   = array();
+		foreach ( array_keys( $this->social_networks() ) as $net ) {
+			$url = isset( $about_in['social'][ $net ] ) ? esc_url_raw( trim( (string) $about_in['social'][ $net ] ) ) : '';
+			if ( '' !== $url ) {
+				$social[ $net ] = $url;
+			}
+		}
+		$out['about'] = array(
+			'enabled' => ! empty( $about_in['enabled'] ),
+			'name'    => sanitize_text_field( $about_in['name'] ?? '' ),
+			'tagline' => sanitize_text_field( $about_in['tagline'] ?? '' ),
+			'website' => esc_url_raw( trim( (string) ( $about_in['website'] ?? '' ) ) ),
+			'email'   => sanitize_email( $about_in['email'] ?? '' ),
+			'donate'  => esc_url_raw( trim( (string) ( $about_in['donate'] ?? '' ) ) ),
+			'social'  => $social,
+		);
 
 		add_settings_error( 'freecookie', 'saved', __( 'Réglages enregistrés.', 'freecookie' ), 'updated' );
 		return $out;
@@ -234,6 +267,43 @@ class FC_Admin {
 						<th scope="row"><label for="fc-thr"><?php esc_html_e( 'Seuil gratuit (visites/mois)', 'freecookie' ); ?></label></th>
 						<td><input type="number" id="fc-thr" min="0" step="500" name="freecookie_settings[visit_threshold]" value="<?php echo esc_attr( (int) $s['visit_threshold'] ); ?>"></td>
 					</tr>
+				</tbody></table>
+
+				<h2 class="title"><?php esc_html_e( 'À propos / réseaux', 'freecookie' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'Un petit lien « À propos » sur la bannière ouvre un volet avec vos références et vos réseaux. Les libellés sont traduits automatiquement.', 'freecookie' ); ?></p>
+				<?php $ab = is_array( $s['about'] ) ? $s['about'] : array(); ?>
+				<?php $abs = is_array( $ab['social'] ?? null ) ? $ab['social'] : array(); ?>
+				<table class="form-table" role="presentation"><tbody>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Lien « À propos »', 'freecookie' ); ?></th>
+						<td><label><input type="checkbox" name="freecookie_settings[about][enabled]" value="1" <?php checked( ! empty( $ab['enabled'] ) ); ?>> <?php esc_html_e( 'Afficher le lien sur la bannière', 'freecookie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-ab-name"><?php esc_html_e( 'Nom', 'freecookie' ); ?></label></th>
+						<td><input type="text" id="fc-ab-name" class="regular-text" name="freecookie_settings[about][name]" value="<?php echo esc_attr( $ab['name'] ?? '' ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-ab-tag"><?php esc_html_e( 'Sous-titre', 'freecookie' ); ?></label></th>
+						<td><input type="text" id="fc-ab-tag" class="regular-text" name="freecookie_settings[about][tagline]" value="<?php echo esc_attr( $ab['tagline'] ?? '' ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-ab-web"><?php esc_html_e( 'Site web', 'freecookie' ); ?></label></th>
+						<td><input type="url" id="fc-ab-web" class="regular-text" name="freecookie_settings[about][website]" value="<?php echo esc_attr( $ab['website'] ?? '' ); ?>" placeholder="https://"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-ab-mail"><?php esc_html_e( 'E-mail', 'freecookie' ); ?></label></th>
+						<td><input type="email" id="fc-ab-mail" class="regular-text" name="freecookie_settings[about][email]" value="<?php echo esc_attr( $ab['email'] ?? '' ); ?>"></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-ab-donate"><?php esc_html_e( 'Lien de don / café', 'freecookie' ); ?></label></th>
+						<td><input type="url" id="fc-ab-donate" class="regular-text" name="freecookie_settings[about][donate]" value="<?php echo esc_attr( $ab['donate'] ?? '' ); ?>" placeholder="https://revolut.me/…"></td>
+					</tr>
+					<?php foreach ( $this->social_networks() as $net => $label ) : ?>
+						<tr>
+							<th scope="row"><label for="fc-soc-<?php echo esc_attr( $net ); ?>"><?php echo esc_html( $label ); ?></label></th>
+							<td><input type="url" id="fc-soc-<?php echo esc_attr( $net ); ?>" class="regular-text" name="freecookie_settings[about][social][<?php echo esc_attr( $net ); ?>]" value="<?php echo esc_attr( $abs[ $net ] ?? '' ); ?>" placeholder="https://"></td>
+						</tr>
+					<?php endforeach; ?>
 				</tbody></table>
 
 				<?php submit_button(); ?>

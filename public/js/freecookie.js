@@ -11,6 +11,46 @@
 
 	var root, banner, badge, panel;
 
+	/* ---------- Couleur dominante de la page (mode auto) ---------- */
+	function rgbOf(h){ h = h.slice(1); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
+	function toHex(c){
+		if (!c) { return ''; }
+		if (c.charAt(0) === '#') { var s = c.slice(1); if (s.length === 3) { s = s[0]+s[0]+s[1]+s[1]+s[2]+s[2]; } return '#' + s.toLowerCase(); }
+		var m = c.match(/rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)(?:[,\s\/]+([\d.]+))?/i);
+		if (!m) { return ''; }
+		if (m[4] !== undefined && parseFloat(m[4]) < 0.35) { return ''; } // quasi transparent
+		return '#' + [m[1], m[2], m[3]].map(function (x) { x = (+x).toString(16); return x.length < 2 ? '0' + x : x; }).join('');
+	}
+	function isBrand(h){ var r = rgbOf(h), mx = Math.max(r[0],r[1],r[2]), mn = Math.min(r[0],r[1],r[2]); if (mx === 0) { return false; } var l = (mx+mn)/2, s = (mx-mn)/mx; return l <= 232 && l >= 18 && s >= 0.22; }
+	function shade(h,p){ return '#' + rgbOf(h).map(function (c){ c = Math.round(c*(1-p)); c = c.toString(16); return c.length<2?'0'+c:c; }).join(''); }
+	function tint(h,p){ return '#' + rgbOf(h).map(function (c){ c = Math.round(c+(255-c)*p); c = c.toString(16); return c.length<2?'0'+c:c; }).join(''); }
+	function readable(h){ var r = rgbOf(h); return (0.299*r[0] + 0.587*r[1] + 0.114*r[2]) / 255 > 0.6 ? '#1a2430' : '#ffffff'; }
+
+	function detectPageColor(){
+		var tally = {};
+		function add(c, w){
+			var h = toHex(c); if (!h || !isBrand(h)) { return; }
+			var r = rgbOf(h), q = '#' + r.map(function (x){ x = Math.min(255, Math.round(x/24)*24).toString(16); return x.length<2?'0'+x:x; }).join('');
+			tally[q] = (tally[q] || 0) + w;
+		}
+		var els = document.querySelectorAll('h1,h2,h3,a,button,.btn,.button,[class*="btn"]');
+		var n = Math.min(els.length, 300);
+		for (var i = 0; i < n; i++){
+			var el = els[i];
+			if (root && (el === badge || (root.contains && root.contains(el)))) { continue; } // pas nos propres éléments
+			var cs = getComputedStyle(el);
+			add(cs.color, 1); add(cs.backgroundColor, 2); add(cs.borderTopColor, 1);
+		}
+		var best = '', bs = 0;
+		for (var k in tally){ if (tally[k] > bs){ bs = tally[k]; best = k; } }
+		return bs >= 3 ? best : '';
+	}
+	function applyAccentVars(hex){
+		var v = { '--fc-accent': hex, '--fc-accent-deep': shade(hex,0.18), '--fc-accent-text': readable(hex),
+			'--fc-badge-solid': hex, '--fc-badge-hole': tint(hex,0.58) };
+		[root, badge].forEach(function (el){ if (!el) { return; } for (var k in v){ el.style.setProperty(k, v[k]); } });
+	}
+
 	/* ---------- Cookie ---------- */
 	function readCookie(name) {
 		var m = document.cookie.match('(?:^|; )' + name.replace(/([.*+?^${}()|[\]\\])/g, '\\$1') + '=([^;]*)');
@@ -116,9 +156,11 @@
 	function show(el) { if (el) { el.hidden = false; } }
 	function hide(el) { if (el) { el.hidden = true; } }
 
-	function openBanner() { show(root); banner.setAttribute('data-fc-state', 'banner'); hide(panel); }
+	function aboutEl() { return root.querySelector('[data-fc-about]'); }
+	function openBanner() { show(root); banner.setAttribute('data-fc-state', 'banner'); hide(panel); hide(aboutEl()); }
+	function openAbout() { show(root); hide(panel); show(aboutEl()); banner.setAttribute('data-fc-state', 'about'); }
 	function openPanel() {
-		show(root); show(panel); banner.setAttribute('data-fc-state', 'prefs');
+		show(root); show(panel); hide(aboutEl()); banner.setAttribute('data-fc-state', 'prefs');
 		// Reflète l'état courant dans les cases.
 		var c = getConsent();
 		var granted = c ? c.c : [];
@@ -141,6 +183,8 @@
 		else if (action === 'reject') { saveConsent([], 'reject'); closeAll(); }
 		else if (action === 'save') { saveConsent(readToggles(), 'save'); closeAll(); }
 		else if (action === 'customize') { openPanel(); }
+		else if (action === 'about') { openAbout(); }
+		else if (action === 'about-back') { openBanner(); }
 	}
 
 	/* ---------- Init ---------- */
@@ -150,6 +194,12 @@
 		if (!root) { return; }
 		banner = document.getElementById('freecookie-banner');
 		panel = root.querySelector('[data-fc-panel]');
+
+		// Mode auto : le badge/bannière adopte la couleur dominante de CETTE page.
+		if ( D.autoColor ) {
+			var pageColor = detectPageColor();
+			if ( pageColor ) { applyAccentVars( pageColor ); }
+		}
 
 		root.addEventListener('click', function (e) {
 			var b = e.target.closest('[data-fc]');

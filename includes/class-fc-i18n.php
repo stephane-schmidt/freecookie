@@ -214,4 +214,23 @@ class FC_I18n {
 			),
 		);
 	}
+
+	/**
+	 * Libellés du volet « À propos » (auto-traduits selon la langue du visiteur).
+	 *
+	 * @param string $lang Code court.
+	 * @return array<string,string>
+	 */
+	public static function about_labels( $lang ) {
+		$m = array(
+			'fr' => array( 'about' => 'À propos', 'back' => 'Retour', 'coffee' => 'Offrez-moi un café', 'promo' => 'Bandeau de consentement libre et léger — gratuit jusqu’à 10 000 visites par mois. Découvrez le projet et suivez-nous :' ),
+			'en' => array( 'about' => 'About', 'back' => 'Back', 'coffee' => 'Buy me a coffee', 'promo' => 'A free, lightweight consent banner — free up to 10,000 visits per month. Discover the project and follow us:' ),
+			'de' => array( 'about' => 'Info', 'back' => 'Zurück', 'coffee' => 'Spendier mir einen Kaffee', 'promo' => 'Ein freies, leichtes Consent-Banner — kostenlos bis 10.000 Besuche pro Monat. Entdecken Sie das Projekt und folgen Sie uns:' ),
+			'it' => array( 'about' => 'Info', 'back' => 'Indietro', 'coffee' => 'Offrimi un caffè', 'promo' => 'Un banner di consenso libero e leggero — gratuito fino a 10.000 visite al mese. Scopri il progetto e seguici:' ),
+			'es' => array( 'about' => 'Acerca de', 'back' => 'Volver', 'coffee' => 'Invítame a un café', 'promo' => 'Un banner de consentimiento libre y ligero — gratis hasta 10 000 visitas al mes. Descubre el proyecto y síguenos:' ),
+			'nl' => array( 'about' => 'Info', 'back' => 'Terug', 'coffee' => 'Trakteer me op een koffie', 'promo' => 'Een vrije, lichte consent-banner — gratis tot 10.000 bezoeken per maand. Ontdek het project en volg ons:' ),
+			'pt' => array( 'about' => 'Sobre', 'back' => 'Voltar', 'coffee' => 'Pague-me um café', 'promo' => 'Um banner de consentimento livre e leve — gratuito até 10 000 visitas por mês. Descubra o projeto e siga-nos:' ),
+		);
+		return isset( $m[ $lang ] ) ? $m[ $lang ] : $m['en'];
+	}
 }

@@ -25,6 +25,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
 				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( $strings['accept_all'] ); ?></button>
 			</div>
+			<?php if ( ! empty( $about['enabled'] ) ) : ?>
+				<div class="fc-foot">
+					<button type="button" class="fc-link" data-fc="about"><?php echo esc_html( $alabels['about'] ); ?></button>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<div class="fc-prefs" data-fc-panel hidden>
@@ -57,6 +62,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<button type="button" class="fc-btn fc-btn--primary" data-fc="save"><?php echo esc_html( $strings['save'] ); ?></button>
 			</div>
 		</div>
+
+		<?php if ( ! empty( $about['enabled'] ) ) : ?>
+			<?php
+			$fc_social = ! empty( $about['social'] ) && is_array( $about['social'] ) ? array_filter( $about['social'] ) : array();
+			$fc_labels = array( 'facebook' => 'Facebook', 'instagram' => 'Instagram', 'tiktok' => 'TikTok', 'github' => 'GitHub', 'linkedin' => 'LinkedIn', 'x' => 'X', 'youtube' => 'YouTube', 'behance' => 'Behance' );
+			?>
+			<div class="fc-about" data-fc-about hidden>
+				<h3 class="fc-about__title"><?php echo esc_html( $about['name'] ? $about['name'] : 'FreeCookie' ); ?></h3>
+				<p class="fc-about__promo"><?php echo esc_html( $alabels['promo'] ); ?></p>
+				<div class="fc-about__social">
+					<?php if ( ! empty( $about['website'] ) ) : ?>
+						<a href="<?php echo esc_url( $about['website'] ); ?>" target="_blank" rel="noopener nofollow"><?php echo esc_html( wp_parse_url( $about['website'], PHP_URL_HOST ) ? wp_parse_url( $about['website'], PHP_URL_HOST ) : 'Site' ); ?></a>
+					<?php endif; ?>
+					<?php foreach ( $fc_social as $fc_net => $fc_url ) : ?>
+						<a href="<?php echo esc_url( $fc_url ); ?>" target="_blank" rel="noopener nofollow"><?php echo esc_html( isset( $fc_labels[ $fc_net ] ) ? $fc_labels[ $fc_net ] : ucfirst( $fc_net ) ); ?></a>
+					<?php endforeach; ?>
+				</div>
+				<?php if ( ! empty( $about['donate'] ) ) : ?>
+					<div class="fc-about__coffee">
+						<a href="<?php echo esc_url( $about['donate'] ); ?>" target="_blank" rel="noopener nofollow" class="fc-btn fc-btn--primary"><?php echo esc_html( $alabels['coffee'] ); ?></a>
+					</div>
+				<?php endif; ?>
+				<div class="fc-about__actions">
+					<button type="button" class="fc-btn fc-btn--secondary" data-fc="about-back"><?php echo esc_html( $alabels['back'] ); ?></button>
+				</div>
+			</div>
+		<?php endif; ?>
 	</div>
 </div>
 
