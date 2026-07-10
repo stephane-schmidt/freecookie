@@ -124,6 +124,8 @@ class FC_Shapes {
 			'fetes'      => array( 'label' => __( 'Fêtes', 'freecookie' ), 'pro' => true ),
 			'duo'        => array( 'label' => __( 'Duo graphique', 'freecookie' ), 'pro' => true ),
 			'decoupe'    => array( 'label' => __( 'Emporte-pièce', 'freecookie' ), 'pro' => true ),
+			'consent'    => array( 'label' => __( 'Consentement', 'freecookie' ), 'pro' => true ),
+			'reglages'   => array( 'label' => __( 'Réglages', 'freecookie' ), 'pro' => true ),
 		);
 	}
 
@@ -134,7 +136,7 @@ class FC_Shapes {
 	 * @return string
 	 */
 	public static function family_of( $id ) {
-		foreach ( array( 'cartoon', 'fournee', 'croques', 'nappes', 'pastilles', 'gourmandes', 'fetes', 'duo', 'decoupe' ) as $fam ) {
+		foreach ( array( 'cartoon', 'fournee', 'croques', 'nappes', 'pastilles', 'gourmandes', 'fetes', 'duo', 'decoupe', 'consent', 'reglages' ) as $fam ) {
 			if ( 0 === strpos( (string) $id, 'pro-' . $fam . '-' ) ) {
 				return $fam;
 			}
@@ -213,6 +215,10 @@ class FC_Shapes {
 			$cache[ 'pro-duo-' . $n ] = array( 'label' => sprintf( __( 'Duo %d', 'freecookie' ), $n ), 'svg' => self::gen_duo( $n ) );
 			/* translators: %d: variant number. */
 			$cache[ 'pro-decoupe-' . $n ] = array( 'label' => sprintf( __( 'Découpe %d', 'freecookie' ), $n ), 'svg' => self::gen_decoupe( $n ) );
+			/* translators: %d: variant number. */
+			$cache[ 'pro-consent-' . $n ] = array( 'label' => sprintf( __( 'Consentement %d', 'freecookie' ), $n ), 'svg' => self::gen_consent( $n ) );
+			/* translators: %d: variant number. */
+			$cache[ 'pro-reglages-' . $n ] = array( 'label' => sprintf( __( 'Réglage %d', 'freecookie' ), $n ), 'svg' => self::gen_reglages( $n ) );
 		}
 		return $cache;
 	}
@@ -761,6 +767,108 @@ class FC_Shapes {
 		for ( $i = 0; $i < 3 + ( $v % 2 ); $i++ ) {
 			$svg .= '<circle cx="' . ( 19 + ( ( $i * 9 + $v * 4 ) % 27 ) ) . '" cy="' . ( 24 + ( ( $i + $v ) % 2 ) * 5 ) . '" r="2" fill="#fff" fill-opacity=".7"/>';
 		}
+		return $svg;
+	}
+
+	/**
+	 * Consentement : badge abstrait « c'est réglé » — pastille organique
+	 * (blob) portant une coche + un élan de mouvement. Pas un petit gâteau :
+	 * évoque l'approbation, le choix administré.
+	 *
+	 * @param int $n Variante 1-20.
+	 * @return string
+	 */
+	protected static function gen_consent( $n ) {
+		$k    = $n - 1;
+		$sub  = $k % 4;
+		$v    = (int) floor( $k / 4 );
+		// Pastille organique légèrement tournée (blob) — 12 points ondulés.
+		$rot  = $k * 17;
+		$pts  = array();
+		for ( $i = 0; $i < 12; $i++ ) {
+			$a     = deg2rad( $i * 30 );
+			$r     = 27 + 2.4 * sin( $i * 1.5 + $k );
+			$pts[] = round( 32 + $r * cos( $a ), 1 ) . ',' . round( 32 + $r * sin( $a ), 1 );
+		}
+		$blob = ( 0 === $sub )
+			? '<circle class="fc-cookie__disc" cx="32" cy="32" r="27" transform="rotate(' . $rot . ' 32 32)"/>'
+			: '<polygon class="fc-cookie__disc" points="' . implode( ' ', $pts ) . '" transform="rotate(' . $rot . ' 32 32)"/>';
+		// Coche.
+		$check = '<path d="M21 33 l7.5 8 14 -17" fill="none" stroke="#fff" stroke-opacity=".92" stroke-width="' . ( 4.2 + ( $v % 2 ) * 0.8 ) . '" stroke-linecap="round" stroke-linejoin="round"/>';
+		// Élan de mouvement : 3 traits obliques décroissants.
+		$speed = '';
+		if ( 1 !== $sub ) {
+			$sn = 3 + ( $v % 2 );
+			for ( $i = 0; $i < $sn; $i++ ) {
+				$off    = $i * 5;
+				$speed .= '<line x1="' . ( 40 + $off ) . '" y1="' . ( 40 - $i * 2 ) . '" x2="' . ( 48 + $off - $i * 2 ) . '" y2="' . ( 32 - $i * 2 ) . '" stroke="#fff" stroke-opacity="' . ( 0.7 - $i * 0.15 ) . '" stroke-width="3" stroke-linecap="round"/>';
+			}
+		}
+		// Variante « puce » : petite pastille de couleur (accent secondaire).
+		$dot = ( 2 === $sub ) ? '<circle class="fc-cookie__hole" cx="46" cy="18" r="5"/>' : '';
+		// Variante « bouclier » : contour intérieur.
+		$ring = ( 3 === $sub ) ? '<circle class="fc-cookie__ring" cx="32" cy="32" r="21"/>' : '';
+		return $blob . $ring . $dot . $check . $speed;
+	}
+
+	/**
+	 * Réglages : badge abstrait « paramétrable » — engrenage, curseurs,
+	 * interrupteur, molette. Évoque le contrôle fin, l'administration.
+	 *
+	 * @param int $n Variante 1-20.
+	 * @return string
+	 */
+	protected static function gen_reglages( $n ) {
+		$k   = $n - 1;
+		$sub = $k % 4;
+		$v   = (int) floor( $k / 4 );
+		if ( 0 === $sub ) {
+			// Engrenage : dents = petits rectangles autour, trou central.
+			$teeth = 8 + $v;
+			$m     = 'fcm-rg' . $n;
+			$g     = '<g fill="#000">';
+			for ( $i = 0; $i < $teeth; $i++ ) {
+				$a  = $i * 360 / $teeth;
+				$g .= '<rect x="30" y="1" width="4" height="10" rx="1.5" transform="rotate(' . round( $a, 1 ) . ' 32 32)"/>';
+			}
+			$g .= '</g>';
+			return '<defs><mask id="' . $m . '"><rect width="64" height="64" fill="#fff"/><circle cx="32" cy="32" r="9" fill="#000"/></mask></defs>'
+				. '<g mask="url(#' . $m . ')"><circle class="fc-cookie__disc" cx="32" cy="32" r="24"/>' . str_replace( 'fill="#000"', 'class="fc-cookie__disc" fill=""', $g ) . '</g>'
+				. '<circle class="fc-cookie__ring" cx="32" cy="32" r="13"/>';
+		}
+		if ( 1 === $sub ) {
+			// Curseurs (sliders) : 3 pistes horizontales + poignées.
+			$svg  = '<circle class="fc-cookie__disc" cx="32" cy="32" r="27"/><g>';
+			$posx = array( 40, 24, 44 );
+			for ( $i = 0; $i < 3; $i++ ) {
+				$y    = 20 + $i * 12;
+				$svg .= '<rect x="14" y="' . ( $y - 1.5 ) . '" width="36" height="3" rx="1.5" fill="#fff" fill-opacity=".55"/>';
+				$svg .= '<circle cx="' . ( $posx[ ( $i + $v ) % 3 ] ) . '" cy="' . $y . '" r="4.6" fill="#fff" fill-opacity=".92"/>';
+			}
+			return $svg . '</g>';
+		}
+		if ( 2 === $sub ) {
+			// Interrupteur (toggle) ON.
+			$on   = 0 === $v % 2;
+			$svg  = '<circle class="fc-cookie__disc" cx="32" cy="32" r="27"/>';
+			$svg .= '<rect x="15" y="24" width="34" height="16" rx="8" fill="#fff" fill-opacity=".28"/>';
+			$svg .= '<circle cx="' . ( $on ? 41 : 23 ) . '" cy="32" r="6.4" fill="#fff" fill-opacity=".95"/>';
+			return $svg;
+		}
+		// Molette / bouton rotatif avec graduations + repère.
+		$svg  = '<circle class="fc-cookie__disc" cx="32" cy="32" r="27"/>';
+		$svg .= '<circle class="fc-cookie__ring" cx="32" cy="32" r="18"/>';
+		$ticks = 12;
+		for ( $i = 0; $i < $ticks; $i++ ) {
+			$a    = deg2rad( $i * 360 / $ticks );
+			$x1   = round( 32 + 22 * cos( $a ), 1 );
+			$y1   = round( 32 + 22 * sin( $a ), 1 );
+			$x2   = round( 32 + 25 * cos( $a ), 1 );
+			$y2   = round( 32 + 25 * sin( $a ), 1 );
+			$svg .= '<line x1="' . $x1 . '" y1="' . $y1 . '" x2="' . $x2 . '" y2="' . $y2 . '" stroke="#fff" stroke-opacity=".5" stroke-width="2" stroke-linecap="round"/>';
+		}
+		$a = deg2rad( 40 + $v * 60 );
+		$svg .= '<line x1="32" y1="32" x2="' . round( 32 + 13 * cos( $a ), 1 ) . '" y2="' . round( 32 + 13 * sin( $a ), 1 ) . '" stroke="#fff" stroke-opacity=".95" stroke-width="3.4" stroke-linecap="round"/>';
 		return $svg;
 	}
 

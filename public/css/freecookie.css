@@ -105,9 +105,25 @@
 .fc-prefs__actions { display: flex; gap: 10px; justify-content: flex-end; }
 
 /* Lien « À propos » (discret) + volet références / réseaux / don */
-.fc-foot { margin-top: 4px; text-align: right; }
+.fc-foot { margin-top: 4px; display: flex; gap: 16px; justify-content: flex-end; }
 .fc-link { background: none; border: none; padding: 0; font: inherit; font-size: 11px; color: var(--fc-muted, #6b7784); opacity: .6; text-decoration: none; cursor: pointer; }
 .fc-link:hover { opacity: 1; text-decoration: underline; text-underline-offset: 2px; }
+
+/* Volet pédagogique « À quoi servent les cookies ? » (utile / mitigé / dangereux) */
+.fc-edu[hidden] { display: none !important; }
+.fc-edu { border-top: 1px solid var(--fc-border, #edf0f2); padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 12px; }
+#freecookie-banner .fc-edu__title { margin: 0; font-size: 15px; line-height: 1.3; font-weight: 700; color: var(--fc-accent, #1c7a6b); text-transform: none; letter-spacing: normal; }
+.fc-edu__intro { margin: 0; color: var(--fc-muted, #46535f); font-size: 13.5px; line-height: 1.55; }
+.fc-edu__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.fc-edu__item { display: flex; gap: 11px; align-items: flex-start; }
+.fc-edu__item strong { display: block; font-size: 13.5px; margin-bottom: 2px; }
+.fc-edu__item p { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--fc-muted, #6b7784); }
+.fc-edu__dot { flex: none; width: 12px; height: 12px; border-radius: 50%; margin-top: 3px; }
+.fc-edu__item--useful .fc-edu__dot { background: #1f9d55; }
+.fc-edu__item--mixed .fc-edu__dot { background: #cf8500; }
+.fc-edu__item--danger .fc-edu__dot { background: #d64545; }
+.fc-edu__actions { display: flex; justify-content: flex-end; }
+
 .fc-about { border-top: 1px solid var(--fc-border, #edf0f2); padding: 18px 24px 20px; display: flex; flex-direction: column; gap: 10px; }
 #freecookie-banner .fc-about__title { margin: 0; font-size: 15px; line-height: 1.3; font-weight: 700; color: var(--fc-accent, #1c7a6b); text-transform: none; letter-spacing: normal; }
 .fc-about__promo { margin: 0; color: var(--fc-muted, #46535f); font-size: 13.5px; line-height: 1.5; }

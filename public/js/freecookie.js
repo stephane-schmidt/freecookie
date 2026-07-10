@@ -162,6 +162,7 @@
 	function hide(el) { if (el) { el.hidden = true; } }
 
 	function aboutEl() { return root.querySelector('[data-fc-about]'); }
+	function eduEl() { return root.querySelector('[data-fc-edu]'); }
 	function announce(msg) { var l = root.querySelector('[data-fc-live]'); if (l) { l.textContent = msg || ''; } }
 
 	// Reflète l'état courant dans les cases (catégories + services).
@@ -191,7 +192,7 @@
 	}
 
 	function openBanner() {
-		show(root); hide(aboutEl());
+		show(root); hide(aboutEl()); hide(eduEl());
 		banner.setAttribute('data-fc-state', 'banner');
 		reflect();
 		if (badge) { badge.setAttribute('aria-expanded', 'true'); }
@@ -200,10 +201,18 @@
 		if (first) { first.focus(); }
 	}
 	function openAbout() {
-		show(root); show(aboutEl());
+		show(root); show(aboutEl()); hide(eduEl());
 		banner.setAttribute('data-fc-state', 'about');
 		var t = root.querySelector('.fc-about__title');
 		announce(t ? t.textContent : '');
+	}
+	function openEdu() {
+		show(root); show(eduEl()); hide(aboutEl());
+		banner.setAttribute('data-fc-state', 'edu');
+		var t = root.querySelector('.fc-edu__title');
+		announce(t ? t.textContent : '');
+		var back = eduEl() ? eduEl().querySelector('[data-fc="edu-back"]') : null;
+		if (back) { back.focus(); }
 	}
 	function closeAll() {
 		hide(root); show(badge);
@@ -229,6 +238,8 @@
 		else if (action === 'customize') { openBanner(); } // rétro-compat : tout est déjà visible.
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
+		else if (action === 'edu') { openEdu(); }
+		else if (action === 'edu-back') { openBanner(); }
 	}
 
 	/* ---------- Badge : estompé après inactivité, réveil à l'approche ---------- */

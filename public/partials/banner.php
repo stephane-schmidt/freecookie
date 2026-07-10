@@ -89,11 +89,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( $strings['accept_all'] ); ?></button>
 			</div>
 
-			<?php if ( ! empty( $about['enabled'] ) ) : ?>
-				<div class="fc-foot">
+			<div class="fc-foot">
+				<button type="button" class="fc-link" data-fc="edu"><?php echo esc_html( $strings['edu_open'] ); ?></button>
+				<?php if ( ! empty( $about['enabled'] ) ) : ?>
 					<button type="button" class="fc-link" data-fc="about"><?php echo esc_html( $alabels['about'] ); ?></button>
-				</div>
-			<?php endif; ?>
+				<?php endif; ?>
+			</div>
+		</div>
+
+		<div class="fc-edu" data-fc-edu hidden>
+			<h3 class="fc-edu__title"><?php echo esc_html( $strings['edu_title'] ); ?></h3>
+			<p class="fc-edu__intro"><?php echo esc_html( $strings['edu_intro'] ); ?></p>
+			<ul class="fc-edu__list">
+				<li class="fc-edu__item fc-edu__item--useful">
+					<span class="fc-edu__dot" aria-hidden="true"></span>
+					<div><strong><?php echo esc_html( $strings['edu_useful_t'] ); ?></strong>
+					<p><?php echo esc_html( $strings['edu_useful_d'] ); ?></p></div>
+				</li>
+				<li class="fc-edu__item fc-edu__item--mixed">
+					<span class="fc-edu__dot" aria-hidden="true"></span>
+					<div><strong><?php echo esc_html( $strings['edu_mixed_t'] ); ?></strong>
+					<p><?php echo esc_html( $strings['edu_mixed_d'] ); ?></p></div>
+				</li>
+				<li class="fc-edu__item fc-edu__item--danger">
+					<span class="fc-edu__dot" aria-hidden="true"></span>
+					<div><strong><?php echo esc_html( $strings['edu_danger_t'] ); ?></strong>
+					<p><?php echo esc_html( $strings['edu_danger_d'] ); ?></p></div>
+				</li>
+			</ul>
+			<div class="fc-edu__actions">
+				<button type="button" class="fc-btn fc-btn--secondary" data-fc="edu-back"><?php echo esc_html( $strings['edu_back'] ); ?></button>
+			</div>
 		</div>
 
 		<?php if ( ! empty( $about['enabled'] ) ) : ?>
