@@ -197,7 +197,8 @@ class FC_Plugin {
 			esc_html( number_format_i18n( $visits ) ),
 			esc_html( number_format_i18n( $threshold ) )
 		);
-		echo ' <a href="https://github.com/stephane-schmidt/freecookie" target="_blank" rel="noopener">' . esc_html__( 'En savoir plus', 'freecookie' ) . '</a>';
+		echo ' <a href="' . esc_url( FC_Pro::BUY_URL ) . '" target="_blank" rel="noopener">' . esc_html__( 'Soutenir (clé envoyée automatiquement par e-mail)', 'freecookie' ) . '</a>';
+		echo ' · <a href="https://github.com/stephane-schmidt/freecookie" target="_blank" rel="noopener">' . esc_html__( 'En savoir plus', 'freecookie' ) . '</a>';
 		echo ' — <a href="' . esc_url( admin_url( 'admin.php?page=freecookie' ) ) . '">' . esc_html__( 'masquer cet avis dans les réglages', 'freecookie' ) . '</a>.';
 		echo '</p></div>';
 	}

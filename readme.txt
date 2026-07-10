@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.10.3
+Stable tag: 0.11.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,9 +21,13 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 * Multilingue automatique (chaînes livrées avec le plugin, sélection selon la langue du visiteur).
 * Léger, compatible cache de page.
 
-Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
+Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.11.0 =
+* Achat Pro en ligne : bouton « Passer à Pro » vers la boutique (polar.sh/freeeconcept, 10 $/an ou 45 $ à vie) — la clé de licence est générée et envoyée AUTOMATIQUEMENT par e-mail à l'achat. Collez-la dans le champ Clé Pro, c'est tout : fidèle au « 100 % local », aucune vérification en ligne.
+* L'avis de soutien (au-delà du seuil de visites) pointe vers la boutique ; le don « Offrez-moi un café » reste distinct.
 
 = 0.10.3 =
 * Correctif iOS : l'ombre du badge est portée par le SVG interne et non plus par le bouton flottant — sur iOS, un filtre CSS posé sur un élément position:fixed casse son ancrage (bug WebKit) et faisait dériver le badge au milieu de l'écran.
@@ -129,6 +133,9 @@ Non. Tout est traité et stocké sur votre propre site. Le scanner et la détect
 
 = Quelles sont les limites du blocage ? =
 FreeCookie neutralise les scripts et iframes tiers connus avant consentement. Il ne bloque pas le localStorage/sessionStorage ni le fingerprinting réalisés par des scripts qu'il n'a pas neutralisés : vérifiez les traceurs de votre site (bouton « Lancer un scan ») et déclarez manuellement les scripts personnalisés si besoin. L'activation du plugin ne suffit pas à elle seule à rendre un site conforme.
+
+= Comment obtenir et activer une clé Pro ? =
+Achetez sur polar.sh/freeeconcept (10 $/an ou 45 $ à vie) : la clé de licence (FCPRO-…) vous est envoyée automatiquement par e-mail. Collez-la dans FreeCookie ▸ FreeCookie Pro ▸ Clé Pro, enregistrez — c'est tout. Fidèle au principe « 100 % local », le plugin ne contacte aucun serveur de licences : la clé reçue suffit (système de confiance).
 
 = Y a-t-il des prérequis techniques ? =
 La bibliothèque PHP GD est recommandée (détection de couleur depuis un logo PNG/JPG) ; sans elle, les autres sources de détection restent actives. Le blocage a priori réécrit le HTML des pages à la volée : coût mesuré inférieur à 1 ms par page.

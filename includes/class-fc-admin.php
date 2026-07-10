@@ -459,19 +459,22 @@ class FC_Admin {
 
 				<h2 class="title"><?php esc_html_e( 'FreeCookie Pro', 'freecookie' ); ?></h2>
 				<p class="description" style="max-width:820px">
-					<?php esc_html_e( 'Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. Système de confiance : la clé reçue après votre soutien (10 $/an ou 45 $ à vie) suffit, aucune vérification en ligne, aucune donnée envoyée.', 'freecookie' ); ?>
-					<a href="<?php echo esc_url( FC_Pro::SUPPORT_URL ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Soutenir le projet et recevoir une clé', 'freecookie' ); ?></a>
+					<?php esc_html_e( 'Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit.', 'freecookie' ); ?>
+				</p>
+				<p style="max-width:820px">
+					<a href="<?php echo esc_url( FC_Pro::BUY_URL ); ?>" target="_blank" rel="noopener" class="button button-primary"><?php esc_html_e( 'Passer à Pro — recevoir ma clé par e-mail', 'freecookie' ); ?></a>
 				</p>
 				<table class="form-table" role="presentation"><tbody>
 					<tr>
 						<th scope="row"><label for="fc-license"><?php esc_html_e( 'Clé Pro', 'freecookie' ); ?></label></th>
 						<td>
-							<input type="text" id="fc-license" class="regular-text" name="freecookie_settings[license_key]" value="<?php echo esc_attr( $s['license_key'] ?? '' ); ?>" autocomplete="off">
+							<input type="text" id="fc-license" class="regular-text" name="freecookie_settings[license_key]" value="<?php echo esc_attr( $s['license_key'] ?? '' ); ?>" autocomplete="off" placeholder="FCPRO-XXXX-XXXX-XXXX">
 							<?php if ( FC_Pro::active( $s ) ) : ?>
 								<span style="color:#1f9d55;font-weight:600;margin-left:8px"><?php esc_html_e( 'Pro actif — merci pour votre soutien.', 'freecookie' ); ?></span>
 							<?php else : ?>
 								<span style="color:#8c8f94;margin-left:8px"><?php esc_html_e( 'Aucune clé — formes Pro verrouillées.', 'freecookie' ); ?></span>
 							<?php endif; ?>
+							<p class="description"><?php esc_html_e( 'Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez.', 'freecookie' ); ?></p>
 						</td>
 					</tr>
 				</tbody></table>

@@ -16,7 +16,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class FC_Pro {
 
-	/** Lien de soutien (affiché côté administration uniquement). */
+	/**
+	 * Boutique Pro (Polar, merchant of record — TVA/taxes gérées) : l'achat
+	 * génère et envoie AUTOMATIQUEMENT une clé de licence par e-mail
+	 * (préfixe FCPRO). Affiché côté administration uniquement.
+	 */
+	const BUY_URL = 'https://polar.sh/freeeconcept';
+
+	/** Lien de don « Offrez-moi un café » (distinct de l'achat Pro). */
 	const SUPPORT_URL = 'https://revolut.me/stphanjt11';
 
 	/**
