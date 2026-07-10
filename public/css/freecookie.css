@@ -146,10 +146,12 @@
 	background: none;
 	cursor: pointer;
 	line-height: 0;
-	filter: drop-shadow(0 4px 10px rgba(20, 32, 45, .28));
+	/* PAS de filter ici : sur iOS, un filter posé sur un élément position:fixed
+	   casse son ancrage (bug WebKit) — l'ombre est portée par le SVG enfant. */
 	opacity: 1;
 	transition: transform .15s ease, opacity .3s ease;
 }
+.fc-badge .fc-cookie { filter: drop-shadow(0 4px 10px rgba(20, 32, 45, .28)); }
 .fc-badge:hover { transform: translateY(-2px) rotate(-5deg); }
 /* Estompé après un délai d'inactivité ; plein à l'approche / survol / focus. */
 .fc-badge--dim { opacity: .5; }

@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.10.2
+Stable tag: 0.10.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.10.3 =
+* Correctif iOS : l'ombre du badge est portée par le SVG interne et non plus par le bouton flottant — sur iOS, un filtre CSS posé sur un élément position:fixed casse son ancrage (bug WebKit) et faisait dériver le badge au milieu de l'écran.
+* Mode diagnostic embarqué : ajoutez ?fcdebug=1 à l'URL du site pour afficher les mesures en direct (viewport, zoom, position du badge) — utile pour le support mobile.
 
 = 0.10.2 =
 * Badge et bannière restent collés au bon coin sur Safari iOS même quand la page est zoomée (pincement, zoom de page, ou dézoom automatique d'une mise en page trop large) : ré-épinglage au viewport visuel, sans aucun effet quand le zoom est à 100 %.

@@ -296,6 +296,27 @@
 		apply();
 	}
 
+	/* ---------- Mode diagnostic (?fcdebug=1) : mesures en direct à l'écran ---------- */
+	function initDebugOverlay() {
+		if (!/[?&]fcdebug=1/.test(window.location.search)) { return; }
+		var p = document.createElement('div');
+		p.style.cssText = 'position:fixed;top:8px;left:8px;right:8px;z-index:2147483646;background:rgba(0,0,0,.82);color:#7CFC9A;font:11px/1.5 monospace;padding:8px 10px;border-radius:8px;pointer-events:none;white-space:pre-wrap;';
+		document.body.appendChild(p);
+		function tick() {
+			var vv = window.visualViewport;
+			var b = badge ? badge.getBoundingClientRect() : null;
+			var cs = badge ? getComputedStyle(badge) : null;
+			p.textContent = 'FreeCookie debug ' + (D.version || '')
+				+ '\ninner: ' + window.innerWidth + 'x' + window.innerHeight + '  scrollW: ' + document.documentElement.scrollWidth
+				+ (vv ? '\nvv: ' + Math.round(vv.width) + 'x' + Math.round(vv.height) + '  scale=' + (vv.scale || 1).toFixed(3) + '  off=' + Math.round(vv.offsetLeft) + ',' + Math.round(vv.offsetTop) : '\nvv: absent')
+				+ (b ? '\nbadge: left=' + Math.round(b.left) + '  bottom=' + Math.round(window.innerHeight - b.bottom) + '  (' + Math.round(b.left / window.innerWidth * 100) + '% gauche)  visible=' + ( ! badge.hidden ) : '\nbadge: absent')
+				+ (cs ? '\nposition=' + cs.position + '  filter=' + ( 'none' === cs.filter ? 'none' : 'PRESENT' ) + '  glue L/B=' + (badge.style.left || '-') + '/' + (badge.style.bottom || '-') : '')
+				+ '\nUA: ' + navigator.userAgent.slice(0, 90);
+		}
+		tick();
+		window.setInterval(tick, 600);
+	}
+
 	/* ---------- Badge : estompé après inactivité, réveil à l'approche ---------- */
 	function initBadgeProximity() {
 		if (!badge) { return; }
@@ -344,6 +365,7 @@
 		document.addEventListener('pointerdown', function () { usedKeyboard = false; }, true);
 		initBadgeProximity();
 		initViewportGlue();
+		initDebugOverlay();
 
 		// Synchro : (dé)cocher une catégorie (dé)coche et (dés)active ses services.
 		root.addEventListener('change', function (e) {
