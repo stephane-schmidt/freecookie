@@ -302,15 +302,37 @@
 		var p = document.createElement('div');
 		p.style.cssText = 'position:fixed;top:8px;left:8px;right:8px;z-index:2147483646;background:rgba(0,0,0,.82);color:#7CFC9A;font:11px/1.5 monospace;padding:8px 10px;border-radius:8px;pointer-events:none;white-space:pre-wrap;';
 		document.body.appendChild(p);
+		// Contour ROUGE sur notre badge + repère VERT au coin attendu : sur une
+		// capture d'écran, on voit immédiatement si un cookie SANS contour rouge
+		// est un intrus, ou si le badge est peint ailleurs que son repère.
+		if (badge) { badge.style.outline = '3px solid red'; badge.style.outlineOffset = '2px'; }
+		var mark = document.createElement('div');
+		mark.style.cssText = 'position:fixed;left:8px;bottom:8px;width:14px;height:14px;border-radius:50%;background:#19e04b;z-index:2147483645;pointer-events:none;box-shadow:0 0 0 2px #fff;';
+		document.body.appendChild(mark);
+		function traps() {
+			var out = [], el = badge ? badge.parentElement : null;
+			while (el && el !== document.documentElement) {
+				var s = getComputedStyle(el);
+				if ('none' !== s.transform || 'none' !== s.filter || ('' + s.backdropFilter && 'none' !== s.backdropFilter) || ('none' !== s.contain && '' !== s.contain) || -1 !== ('' + s.willChange).indexOf('transform')) {
+					out.push((el.id ? '#' + el.id : el.tagName.toLowerCase() + '.' + ('' + el.className).split(' ')[0]).slice(0, 40));
+				}
+				el = el.parentElement;
+			}
+			return out;
+		}
 		function tick() {
 			var vv = window.visualViewport;
 			var b = badge ? badge.getBoundingClientRect() : null;
 			var cs = badge ? getComputedStyle(badge) : null;
+			var tr = traps();
 			p.textContent = 'FreeCookie debug ' + (D.version || '')
 				+ '\ninner: ' + window.innerWidth + 'x' + window.innerHeight + '  scrollW: ' + document.documentElement.scrollWidth
 				+ (vv ? '\nvv: ' + Math.round(vv.width) + 'x' + Math.round(vv.height) + '  scale=' + (vv.scale || 1).toFixed(3) + '  off=' + Math.round(vv.offsetLeft) + ',' + Math.round(vv.offsetTop) : '\nvv: absent')
 				+ (b ? '\nbadge: left=' + Math.round(b.left) + '  bottom=' + Math.round(window.innerHeight - b.bottom) + '  (' + Math.round(b.left / window.innerWidth * 100) + '% gauche)  visible=' + ( ! badge.hidden ) : '\nbadge: absent')
 				+ (cs ? '\nposition=' + cs.position + '  filter=' + ( 'none' === cs.filter ? 'none' : 'PRESENT' ) + '  glue L/B=' + (badge.style.left || '-') + '/' + (badge.style.bottom || '-') : '')
+				+ '\nparent=' + (badge && badge.parentElement ? badge.parentElement.tagName : '?')
+				+ '  ancetres pieges: ' + (tr.length ? tr.join(' > ') : 'aucun')
+				+ '\nLe badge FreeCookie porte un CONTOUR ROUGE. Repere vert = coin attendu.'
 				+ '\nUA: ' + navigator.userAgent.slice(0, 90);
 		}
 		tick();
@@ -346,6 +368,14 @@
 		badge = document.getElementById('freecookie-badge');
 		if (!root) { return; }
 		banner = document.getElementById('freecookie-banner');
+
+		// Certains thèmes/gabarits (pieds de page Elementor à effets, etc.)
+		// enveloppent wp_footer dans un conteneur avec transform/filter/
+		// backdrop-filter/contain — qui devient « bloc conteneur » des éléments
+		// position:fixed et les fait dériver. On se re-parente donc directement
+		// dans <body> (sans effet quand on y est déjà).
+		if (root.parentElement !== document.body) { document.body.appendChild(root); }
+		if (badge && badge.parentElement !== document.body) { document.body.appendChild(badge); }
 
 		// Mode auto : le badge/bannière adopte la couleur dominante de CETTE page.
 		if ( D.autoColor ) {
