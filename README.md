@@ -8,7 +8,7 @@ Alternative libre et légère à CookieYes, Complianz, Cookiebot & co.
 
 > ## Version bêta
 >
-> FreeCookie est en **bêta (0.1.5)**. Le plugin est fonctionnel et déjà en production sur des sites réels, mais il est jeune et évolue vite.
+> FreeCookie est en **bêta (0.5.0)**. Le plugin est fonctionnel et déjà en production sur des sites réels, mais il est jeune et évolue vite.
 >
 > **Vos retours sont précieux.** Un bug, une idée, un site où la détection de couleur ou le blocage se comporte mal, une incompatibilité de thème ? Ouvrez une [issue](../../issues) — chaque retour fait avancer le projet et sa fiabilité sur la diversité des sites WordPress.
 
@@ -46,6 +46,12 @@ FreeCookie vise le socle commun exigé en **France (CNIL, art. 82)**, en **Suiss
 5. retrait du consentement possible à tout moment (badge/centre de préférences).
 
 > FreeCookie fournit les outils techniques de la conformité. Il ne remplace pas un conseil juridique adapté à votre situation.
+
+### Limites connues (transparence)
+
+- FreeCookie neutralise les **scripts et iframes tiers connus** avant consentement. Il ne bloque pas le **localStorage/sessionStorage** ni le **fingerprinting** effectués par des scripts qu'il n'a pas neutralisés — vérifiez votre site avec le scanner intégré et déclarez manuellement les scripts personnalisés.
+- Les **niveaux de risque** (faible/moyen/élevé) affichés par traceur sont une aide de lecture indicative, fondée sur la finalité du service (publicité inter-sites, mesure d'audience, contenu embarqué) — pas un jugement définitif.
+- L'activation du plugin **ne suffit pas** à rendre un site conforme : politique de cookies, mentions légales et registre restent de votre responsabilité. Si votre site s'adresse à des mineurs, des règles renforcées s'appliquent (RGPD art. 8).
 
 ## Installation
 

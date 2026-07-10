@@ -5,6 +5,9 @@
 .fc-prefs[hidden],
 .fc-about[hidden] { display: none !important; }
 
+/* Texte réservé aux lecteurs d'écran (annonces aria-live). */
+.fc-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 .fc-banner {
 	position: fixed;
 	left: 50%;
@@ -33,24 +36,26 @@
 
 .fc-btn {
 	appearance: none;
-	border: 1px solid transparent;
+	border: 1.5px solid transparent;
 	border-radius: 8px;
 	padding: 11px 18px;
 	font: inherit;
 	font-weight: 600;
-	cursor: pointer;
 	line-height: 1.2;
+	cursor: pointer;
+	text-transform: none;
+	letter-spacing: normal;
+	text-align: center;
 	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 .fc-btn:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 2px; }
 
-/* Parité stricte accepter / refuser : même forme, même poids, même taille. */
-.fc-btn--primary { background: var(--fc-accent, #1c7a6b); color: var(--fc-accent-text, #fff); }
-.fc-btn--primary:hover { background: var(--fc-accent-deep, #124c43); }
-.fc-btn--secondary { background: var(--fc-secondary-bg, #eef1f3); color: var(--fc-secondary-text, #1a2430); border-color: var(--fc-border, #dde2e6); }
-.fc-btn--secondary:hover { filter: brightness(0.96); }
-.fc-btn--ghost { background: transparent; color: var(--fc-muted, #46535f); border-color: transparent; flex: 0 1 auto; }
-.fc-btn--ghost:hover { color: var(--fc-text, #1a2430); text-decoration: underline; }
+/* Même forme pour les trois ; Accepter et Refuser IDENTIQUES (parité CNIL),
+   Personnaliser en contour. Id-scopé pour passer devant le style du thème. */
+#freecookie-banner .fc-btn--primary { background: var(--fc-accent, #1c7a6b); color: var(--fc-accent-text, #fff); border-color: var(--fc-accent, #1c7a6b); }
+#freecookie-banner .fc-btn--primary:hover { background: var(--fc-accent-deep, #124c43); border-color: var(--fc-accent-deep, #124c43); }
+#freecookie-banner .fc-btn--secondary, #freecookie-banner .fc-btn--ghost { background: transparent; color: var(--fc-accent-deep, #124c43); border-color: var(--fc-accent, #1c7a6b); }
+#freecookie-banner .fc-btn--secondary:hover, #freecookie-banner .fc-btn--ghost:hover { background: var(--fc-secondary-bg, #eef1f3); }
 
 /* Préférences */
 .fc-prefs { border-top: 1px solid var(--fc-border, #edf0f2); padding: 20px 24px 22px; display: flex; flex-direction: column; gap: 14px; }
@@ -86,6 +91,17 @@
 .fc-score--green { background: #1f9d55; }
 .fc-score--orange { background: #cf8500; }
 .fc-score--red { background: #d64545; }
+
+/* Fiches de détail par cookie (nom, durée, description) */
+.fc-ck-details { margin-top: 6px; }
+.fc-ck-details summary { cursor: pointer; font-size: 12.5px; font-weight: 600; color: var(--fc-accent-deep, #124c43); }
+.fc-ck-details summary:hover { text-decoration: underline; }
+.fc-ck { background: var(--fc-secondary-bg, #f3f5f7); border-radius: 8px; padding: 10px 12px; margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; }
+.fc-ck > div { display: grid; grid-template-columns: 92px 1fr; gap: 10px; padding: 2px 0; }
+.fc-ck dt { font-weight: 700; color: var(--fc-muted, #6b7784); margin: 0; }
+.fc-ck dd { margin: 0; }
+.fc-ck code { font-size: 12px; background: rgba(0, 0, 0, .06); padding: 0 5px; border-radius: 4px; }
+@media (max-width: 560px) { .fc-ck > div { grid-template-columns: 78px 1fr; } }
 .fc-prefs__actions { display: flex; gap: 10px; justify-content: flex-end; }
 
 /* Lien « À propos » (discret) + volet références / réseaux / don */
@@ -142,8 +158,12 @@ iframe.fc-blocked-embed {
 
 @media (max-width: 560px) {
 	.fc-banner { left: 8px; right: 8px; bottom: 8px; transform: none; width: auto; }
+	.fc-inner { padding: 18px; }
+	.fc-prefs, .fc-about { padding-left: 18px; padding-right: 18px; }
 	.fc-badge { left: 12px; bottom: 12px; }
-	.fc-actions .fc-btn--ghost { order: 3; flex: 1 1 100%; }
+	.fc-actions { flex-direction: column; }
+	.fc-actions .fc-btn { width: 100%; flex: 1 1 auto; }
+	.fc-svc__desc, .fc-cat__desc { font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

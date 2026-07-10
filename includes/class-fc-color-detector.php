@@ -334,9 +334,9 @@ class FC_Color_Detector {
 	protected static function frequency() {
 		$counts = array();
 
-		$home = wp_remote_get(
+		$home = wp_safe_remote_get(
 			home_url( '/' ),
-			array( 'timeout' => 10, 'sslverify' => false, 'user-agent' => 'FreeCookie-Colors/' . FREECOOKIE_VERSION )
+			array( 'timeout' => 5, 'redirection' => 2, 'sslverify' => false, 'user-agent' => 'FreeCookie-Colors/' . FREECOOKIE_VERSION )
 		);
 		if ( is_wp_error( $home ) ) {
 			return $counts;
@@ -366,7 +366,7 @@ class FC_Color_Detector {
 				if ( wp_parse_url( $url, PHP_URL_HOST ) !== $host ) {
 					continue;
 				}
-				$resp = wp_remote_get( $url, array( 'timeout' => 8, 'sslverify' => false ) );
+				$resp = wp_safe_remote_get( $url, array( 'timeout' => 5, 'redirection' => 2, 'sslverify' => false ) );
 				if ( is_wp_error( $resp ) ) {
 					continue;
 				}

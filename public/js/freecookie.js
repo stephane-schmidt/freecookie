@@ -9,7 +9,7 @@
 	var D = window.FreeCookieData;
 	if (!D) { return; }
 
-	var root, banner, badge, panel;
+	var root, banner, badge;
 
 	/* ---------- Couleur dominante de la page (mode auto) ---------- */
 	function rgbOf(h){ h = h.slice(1); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
@@ -162,24 +162,53 @@
 	function hide(el) { if (el) { el.hidden = true; } }
 
 	function aboutEl() { return root.querySelector('[data-fc-about]'); }
-	function openBanner() { show(root); banner.setAttribute('data-fc-state', 'banner'); hide(panel); hide(aboutEl()); }
-	function openAbout() { show(root); hide(panel); show(aboutEl()); banner.setAttribute('data-fc-state', 'about'); }
-	function openPanel() {
-		show(root); show(panel); hide(aboutEl()); banner.setAttribute('data-fc-state', 'prefs');
-		// Reflète l'état courant dans les cases (catégories + services).
+	function announce(msg) { var l = root.querySelector('[data-fc-live]'); if (l) { l.textContent = msg || ''; } }
+
+	// Reflète l'état courant dans les cases (catégories + services).
+	function reflect() {
 		var c = getConsent();
 		var granted = c ? c.c : [];
 		var off = c ? (c.off || []) : [];
-		Array.prototype.forEach.call(document.querySelectorAll('.fc-toggle'), function (t) {
+		Array.prototype.forEach.call(root.querySelectorAll('.fc-toggle'), function (t) {
 			t.checked = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 		});
-		Array.prototype.forEach.call(document.querySelectorAll('.fc-svc-toggle'), function (t) {
+		Array.prototype.forEach.call(root.querySelectorAll('.fc-svc-toggle'), function (t) {
 			var on = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 			t.checked = on && off.indexOf(t.getAttribute('data-fc-svc')) === -1;
 			t.disabled = !on;
 		});
 	}
-	function closeAll() { hide(root); show(badge); }
+
+	// Piège de focus : tant que le bandeau est ouvert, Tab reste dedans.
+	function trapTab(e) {
+		if (e.key !== 'Tab' || !root || root.hidden) { return; }
+		var all = root.querySelectorAll('button, a[href], input:not([disabled])');
+		var list = Array.prototype.filter.call(all, function (el) { return el.offsetParent !== null; });
+		if (!list.length) { return; }
+		var first = list[0], last = list[list.length - 1];
+		if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+		else if (!e.shiftKey && (document.activeElement === last || !root.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+	}
+
+	function openBanner() {
+		show(root); hide(aboutEl());
+		banner.setAttribute('data-fc-state', 'banner');
+		reflect();
+		if (badge) { badge.setAttribute('aria-expanded', 'true'); }
+		announce(D.strings.prefs_title || '');
+		var first = root.querySelector('button, input:not([disabled])');
+		if (first) { first.focus(); }
+	}
+	function openAbout() {
+		show(root); show(aboutEl());
+		banner.setAttribute('data-fc-state', 'about');
+		var t = root.querySelector('.fc-about__title');
+		announce(t ? t.textContent : '');
+	}
+	function closeAll() {
+		hide(root); show(badge);
+		if (badge) { badge.setAttribute('aria-expanded', 'false'); badge.focus(); }
+	}
 
 	function readToggles() {
 		var cats = [];
@@ -197,7 +226,7 @@
 		if (action === 'accept') { saveConsent(optionalKeys(), [], 'accept'); closeAll(); }
 		else if (action === 'reject') { saveConsent([], [], 'reject'); closeAll(); }
 		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save'); closeAll(); }
-		else if (action === 'customize') { openPanel(); }
+		else if (action === 'customize') { openBanner(); } // rétro-compat : tout est déjà visible.
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
 	}
@@ -231,7 +260,6 @@
 		badge = document.getElementById('freecookie-badge');
 		if (!root) { return; }
 		banner = document.getElementById('freecookie-banner');
-		panel = root.querySelector('[data-fc-panel]');
 
 		// Mode auto : le badge/bannière adopte la couleur dominante de CETTE page.
 		if ( D.autoColor ) {
@@ -243,7 +271,8 @@
 			var b = e.target.closest('[data-fc]');
 			if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
 		});
-		if (badge) { badge.addEventListener('click', openPanel); }
+		if (badge) { badge.addEventListener('click', openBanner); }
+		document.addEventListener('keydown', trapTab, true);
 		initBadgeProximity();
 
 		// Synchro : (dé)cocher une catégorie (dé)coche et (dés)active ses services.
@@ -270,7 +299,7 @@
 
 		// API publique.
 		window.FreeCookie = {
-			open: openPanel,
+			open: openBanner,
 			accept: function () { onClick('accept'); },
 			reject: function () { onClick('reject'); },
 			get: function () { var c = getConsent(); return c ? c.c : []; }

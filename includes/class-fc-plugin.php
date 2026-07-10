@@ -26,8 +26,10 @@ class FC_Plugin {
 		return array(
 			'blocking_enabled' => true,
 			'detect_browser'   => true,
-			'consent_days'     => 180,
+			'consent_days'     => 90, // Reco EDPB/CNIL : re-demander régulièrement (90 j par défaut).
 			'visit_threshold'  => 10000,
+			'hide_honor_notice' => false,
+			'scan_frequency'   => 'weekly', // never | daily | weekly — scan automatique des traceurs.
 			'position'         => 'bottom',
 			'badge_shape'      => 'croque-lateral',
 			'colors'           => array(
@@ -41,18 +43,16 @@ class FC_Plugin {
 			),
 			'text_overrides'   => array(), // [langue][clé] => texte
 			'about'            => array(
-				'enabled' => true,
-				'name'    => 'FreeCookie',
+				// Opt-in strict : rien n'est affiché aux visiteurs tant que
+				// l'administrateur du site n'active pas le volet et ne remplit
+				// pas SES propres informations.
+				'enabled' => false,
+				'name'    => '',
 				'tagline' => '',
 				'website' => '',
 				'email'   => '',
-				'donate'  => 'https://revolut.me/stphanjt11',
-				'social'  => array(
-					'facebook'  => 'https://www.facebook.com/free.stephane',
-					'instagram' => 'https://www.instagram.com/free.stephane',
-					'tiktok'    => 'https://www.tiktok.com/@freestephane',
-					'github'    => 'https://github.com/stephane-schmidt',
-				),
+				'donate'  => '',
+				'social'  => array(),
 			),
 		);
 	}
@@ -91,6 +91,16 @@ class FC_Plugin {
 		// Déclencheur de scan (bouton fourni par l'écran d'admin — couche C).
 		add_action( 'admin_post_freecookie_scan', array( $this, 'handle_scan' ) );
 
+		// Scan automatique planifié (WP-Cron) + auto-réparation du planning
+		// (une mise à jour du plugin ne repasse pas par l'activation).
+		add_action( 'freecookie_scan_event', array( __CLASS__, 'cron_scan' ) );
+		$freq = isset( $this->settings['scan_frequency'] ) ? $this->settings['scan_frequency'] : 'weekly';
+		if ( in_array( $freq, array( 'daily', 'weekly' ), true ) && ! wp_next_scheduled( 'freecookie_scan_event' ) ) {
+			self::sync_schedule( $freq );
+		} elseif ( 'never' === $freq && wp_next_scheduled( 'freecookie_scan_event' ) ) {
+			self::sync_schedule( 'never' );
+		}
+
 		// Front uniquement au-delà d'ici.
 		if ( ! is_admin() ) {
 			$counter = new FC_Visit_Counter();
@@ -117,6 +127,26 @@ class FC_Plugin {
 
 		// Avis honor system (administration).
 		add_action( 'admin_notices', array( $this, 'honor_notice' ) );
+	}
+
+	/**
+	 * (Re)programme le scan automatique selon la fréquence choisie.
+	 *
+	 * @param string $frequency never | daily | weekly.
+	 */
+	public static function sync_schedule( $frequency ) {
+		wp_clear_scheduled_hook( 'freecookie_scan_event' );
+		if ( in_array( $frequency, array( 'daily', 'weekly' ), true ) ) {
+			wp_schedule_event( time() + HOUR_IN_SECONDS, $frequency, 'freecookie_scan_event' );
+		}
+	}
+
+	/**
+	 * Tâche planifiée : scan des traceurs + rafraîchissement des couleurs.
+	 */
+	public static function cron_scan() {
+		FC_Scanner::scan();
+		FC_Color_Detector::detect( true );
 	}
 
 	/**
@@ -150,6 +180,9 @@ class FC_Plugin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
+		if ( ! empty( $this->settings['hide_honor_notice'] ) ) {
+			return; // L'admin a choisi de masquer l'avis : on respecte.
+		}
 		$threshold = (int) $this->settings['visit_threshold'];
 		$visits    = FC_Visit_Counter::current_month();
 		if ( $visits <= $threshold ) {
@@ -162,6 +195,8 @@ class FC_Plugin {
 			esc_html( number_format_i18n( $visits ) ),
 			esc_html( number_format_i18n( $threshold ) )
 		);
+		echo ' <a href="https://github.com/stephane-schmidt/freecookie" target="_blank" rel="noopener">' . esc_html__( 'En savoir plus', 'freecookie' ) . '</a>';
+		echo ' — <a href="' . esc_url( admin_url( 'admin.php?page=freecookie' ) ) . '">' . esc_html__( 'masquer cet avis dans les réglages', 'freecookie' ) . '</a>.';
 		echo '</p></div>';
 	}
 }

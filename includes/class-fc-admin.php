@@ -110,6 +110,10 @@ class FC_Admin {
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
 		$out['consent_days']     = max( 1, min( 3650, (int) ( $input['consent_days'] ?? 180 ) ) );
 		$out['visit_threshold']  = max( 0, (int) ( $input['visit_threshold'] ?? 10000 ) );
+		$out['hide_honor_notice'] = ! empty( $input['hide_honor_notice'] );
+		$freq = isset( $input['scan_frequency'] ) ? sanitize_text_field( $input['scan_frequency'] ) : 'weekly';
+		$out['scan_frequency'] = in_array( $freq, array( 'never', 'daily', 'weekly' ), true ) ? $freq : 'weekly';
+		FC_Plugin::sync_schedule( $out['scan_frequency'] );
 		$out['badge_shape']      = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
 
 		// Couleurs (vide autorisé = auto/dérivé).
@@ -182,6 +186,15 @@ class FC_Admin {
 		<div class="wrap">
 			<h1>FreeCookie</h1>
 			<?php settings_errors( 'freecookie' ); ?>
+
+			<?php if ( ! extension_loaded( 'gd' ) ) : ?>
+				<div class="notice notice-warning"><p><?php esc_html_e( 'La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives.', 'freecookie' ); ?></p></div>
+			<?php endif; ?>
+
+			<div class="notice notice-info" style="padding:10px 14px">
+				<p style="margin:0"><strong><?php esc_html_e( 'Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme.', 'freecookie' ); ?></strong><br>
+				<?php esc_html_e( 'Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8).', 'freecookie' ); ?></p>
+			</div>
 
 			<?php if ( isset( $_GET['fc_scanned'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
 				<div class="notice notice-success"><p><?php
@@ -291,16 +304,33 @@ class FC_Admin {
 					</tr>
 					<tr>
 						<th scope="row"><label for="fc-days"><?php esc_html_e( 'Validité du consentement (jours)', 'freecookie' ); ?></label></th>
-						<td><input type="number" id="fc-days" min="1" max="3650" name="freecookie_settings[consent_days]" value="<?php echo esc_attr( (int) $s['consent_days'] ); ?>"></td>
+						<td><input type="number" id="fc-days" min="1" max="3650" name="freecookie_settings[consent_days]" value="<?php echo esc_attr( (int) $s['consent_days'] ); ?>">
+						<p class="description"><?php esc_html_e( '90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé.', 'freecookie' ); ?></p></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="fc-thr"><?php esc_html_e( 'Seuil gratuit (visites/mois)', 'freecookie' ); ?></label></th>
 						<td><input type="number" id="fc-thr" min="0" step="500" name="freecookie_settings[visit_threshold]" value="<?php echo esc_attr( (int) $s['visit_threshold'] ); ?>"></td>
 					</tr>
+					<tr>
+						<th scope="row"><label for="fc-scanfreq"><?php esc_html_e( 'Scan automatique des traceurs', 'freecookie' ); ?></label></th>
+						<td>
+							<select id="fc-scanfreq" name="freecookie_settings[scan_frequency]">
+								<option value="weekly" <?php selected( $s['scan_frequency'] ?? 'weekly', 'weekly' ); ?>><?php esc_html_e( 'Une fois par semaine (recommandé)', 'freecookie' ); ?></option>
+								<option value="daily" <?php selected( $s['scan_frequency'] ?? '', 'daily' ); ?>><?php esc_html_e( 'Une fois par jour', 'freecookie' ); ?></option>
+								<option value="never" <?php selected( $s['scan_frequency'] ?? '', 'never' ); ?>><?php esc_html_e( 'Jamais (scan manuel uniquement)', 'freecookie' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs.', 'freecookie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Avis de soutien', 'freecookie' ); ?></th>
+						<td><label><input type="checkbox" name="freecookie_settings[hide_honor_notice]" value="1" <?php checked( ! empty( $s['hide_honor_notice'] ) ); ?>>
+							<?php esc_html_e( 'Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)', 'freecookie' ); ?></label></td>
+					</tr>
 				</tbody></table>
 
 				<h2 class="title"><?php esc_html_e( 'À propos / réseaux', 'freecookie' ); ?></h2>
-				<p class="description"><?php esc_html_e( 'Un petit lien « À propos » sur la bannière ouvre un volet avec vos références et vos réseaux. Les libellés sont traduits automatiquement.', 'freecookie' ); ?></p>
+				<p class="description"><?php esc_html_e( 'Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement.', 'freecookie' ); ?></p>
 				<?php $ab = is_array( $s['about'] ) ? $s['about'] : array(); ?>
 				<?php $abs = is_array( $ab['social'] ?? null ) ? $ab['social'] : array(); ?>
 				<table class="form-table" role="presentation"><tbody>
@@ -360,6 +390,56 @@ class FC_Admin {
 				<?php wp_nonce_field( 'freecookie_scan' ); ?>
 				<?php submit_button( __( 'Lancer un scan du site', 'freecookie' ), 'secondary', 'submit', false ); ?>
 			</form>
+
+			<?php
+			// Prochain scan automatique.
+			$fc_next = wp_next_scheduled( 'freecookie_scan_event' );
+			if ( $fc_next ) {
+				echo '<p class="description">' . sprintf(
+					/* translators: %s: date/heure. */
+					esc_html__( 'Prochain scan automatique : %s.', 'freecookie' ),
+					esc_html( wp_date( 'j M Y H:i', $fc_next ) )
+				) . '</p>';
+			}
+
+			// Résultats du dernier scan, directement sous le bouton.
+			if ( $scan ) :
+				$fc_services = ! empty( $scan['services'] ) ? $scan['services'] : array();
+				?>
+				<h3 style="margin:18px 0 6px"><?php esc_html_e( 'Résultats du dernier scan', 'freecookie' ); ?></h3>
+				<?php if ( empty( $fc_services ) ) : ?>
+					<div class="notice notice-success inline" style="margin:0;max-width:820px"><p>
+						<?php esc_html_e( 'Aucun traceur tiers connu détecté sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs.', 'freecookie' ); ?>
+					</p></div>
+				<?php else : ?>
+					<style>.fc-adm-score{font-size:11px;font-weight:700;padding:1px 8px;border-radius:100px;color:#fff;white-space:nowrap}.fc-adm-score--green{background:#1f9d55}.fc-adm-score--orange{background:#cf8500}.fc-adm-score--red{background:#d64545}</style>
+					<table class="widefat striped" style="max-width:820px">
+						<thead><tr>
+							<th><?php esc_html_e( 'Service', 'freecookie' ); ?></th>
+							<th><?php esc_html_e( 'Catégorie', 'freecookie' ); ?></th>
+							<th><?php esc_html_e( 'Risque', 'freecookie' ); ?></th>
+							<th><?php esc_html_e( 'Finalité', 'freecookie' ); ?></th>
+						</tr></thead>
+						<tbody>
+						<?php foreach ( $fc_services as $fc_key ) : ?>
+							<?php
+							$fc_meta  = FC_Categories::meta( $fc_key );
+							$fc_risk  = FC_Categories::risk_key( $fc_meta['score'] );
+							$fc_color = FC_Categories::score_color( $fc_meta['score'] );
+							$fc_rlbl  = isset( $bundle[ 'risk_' . $fc_risk ] ) ? $bundle[ 'risk_' . $fc_risk ] : $fc_risk;
+							$fc_clbl  = isset( $bundle[ $fc_meta['category'] ] ) ? $bundle[ $fc_meta['category'] ] : $fc_meta['category'];
+							?>
+							<tr>
+								<td><strong><?php echo esc_html( FC_Categories::service_label( $fc_key ) ); ?></strong></td>
+								<td><?php echo esc_html( $fc_clbl ); ?></td>
+								<td><span class="fc-adm-score fc-adm-score--<?php echo esc_attr( $fc_color ); ?>"><?php echo esc_html( $fc_rlbl ); ?></span></td>
+								<td><?php echo esc_html( $fc_meta['purpose'] ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 		<?php
 	}

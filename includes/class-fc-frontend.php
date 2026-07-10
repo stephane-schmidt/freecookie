@@ -98,23 +98,37 @@ class FC_Frontend {
 	/**
 	 * Services tiers détectés sur le site, groupés par catégorie, avec finalité + note.
 	 *
+	 * @param string $lang Langue des fiches cookies (durées + descriptions).
 	 * @return array<string,array<int,array<string,mixed>>>
 	 */
-	protected function detected_services() {
+	protected function detected_services( $lang = 'en' ) {
 		$scan = FC_Scanner::last();
 		$keys = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array();
 		$out  = array();
+		$db   = include FREECOOKIE_DIR . 'includes/data/known-cookies.php';
 		foreach ( $keys as $key ) {
 			$meta = FC_Categories::meta( $key );
 			if ( 'necessary' === $meta['category'] ) {
 				continue;
+			}
+			$cookies = array();
+			if ( ! empty( $db[ $key ] ) ) {
+				foreach ( $db[ $key ] as $ck ) {
+					$cookies[] = array(
+						'name'     => $ck['name'],
+						'duration' => FC_I18n::duration_label( $ck['duration'], $lang ),
+						'desc'     => FC_I18n::pick( $ck['desc'], $lang ),
+					);
+				}
 			}
 			$out[ $meta['category'] ][] = array(
 				'key'     => $key,
 				'label'   => FC_Categories::service_label( $key ),
 				'purpose' => $meta['purpose'],
 				'score'   => $meta['score'],
+				'risk'    => FC_Categories::risk_key( $meta['score'] ),
 				'color'   => FC_Categories::score_color( $meta['score'] ),
+				'cookies' => $cookies,
 			);
 		}
 		return $out;
@@ -124,7 +138,7 @@ class FC_Frontend {
 		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
 		$strings  = $this->strings( $lang );
 		$cats     = FC_Categories::all();
-		$services = $this->detected_services();
+		$services = $this->detected_services( $lang );
 		$defaults = FC_Plugin::default_settings();
 		$about    = isset( $this->settings['about'] ) && is_array( $this->settings['about'] )
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )

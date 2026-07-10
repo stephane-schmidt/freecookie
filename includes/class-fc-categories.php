@@ -127,9 +127,9 @@ class FC_Categories {
 	}
 
 	/**
-	 * Couleur de la note : green (>=7), orange (4-6), red (<=3).
+	 * Couleur du niveau : green (score >=7), orange (4-6), red (<=3).
 	 *
-	 * @param int $score Note.
+	 * @param int $score Score interne.
 	 * @return string
 	 */
 	public static function score_color( $score ) {
@@ -140,6 +140,23 @@ class FC_Categories {
 			return 'orange';
 		}
 		return 'red';
+	}
+
+	/**
+	 * Niveau de risque FACTUEL affiché au visiteur (pas de note chiffrée,
+	 * plus défendable et plus lisible) : low / medium / high.
+	 *
+	 * @param int $score Score interne.
+	 * @return string
+	 */
+	public static function risk_key( $score ) {
+		if ( $score >= 7 ) {
+			return 'low';
+		}
+		if ( $score >= 4 ) {
+			return 'medium';
+		}
+		return 'high';
 	}
 
 	/**

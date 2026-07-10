@@ -75,12 +75,13 @@ class FC_Scanner {
 		$scanned  = 0;
 
 		foreach ( $urls as $url ) {
-			$resp = wp_remote_get(
+			$resp = wp_safe_remote_get(
 				$url,
 				array(
-					'timeout'    => 10,
-					'sslverify'  => false, // boucle locale : le certificat local peut être auto-signé.
-					'user-agent' => 'FreeCookie-Scanner/' . FREECOOKIE_VERSION,
+					'timeout'     => 5,
+					'redirection' => 2,
+					'sslverify'   => false, // boucle locale : le certificat local peut être auto-signé.
+					'user-agent'  => 'FreeCookie-Scanner/' . FREECOOKIE_VERSION,
 				)
 			);
 			if ( is_wp_error( $resp ) ) {
@@ -118,9 +119,10 @@ class FC_Scanner {
 	 * Construit la liste de cookies par finalité (services détectés + base connue).
 	 * S'il n'y a pas encore de scan, part de tous les services connus.
 	 *
+	 * @param string $lang Langue des durées + descriptions.
 	 * @return array<string,array<int,array<string,string>>> category => cookies[]
 	 */
-	public static function report() {
+	public static function report( $lang = 'en' ) {
 		$db       = include FREECOOKIE_DIR . 'includes/data/known-cookies.php';
 		$scan     = self::last();
 		$services = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array_keys( FC_Categories::known_services() );
@@ -136,8 +138,8 @@ class FC_Scanner {
 				$out[ $cat ][] = array(
 					'service'  => $svc,
 					'name'     => $cookie['name'],
-					'duration' => $cookie['duration'],
-					'desc'     => $cookie['desc'],
+					'duration' => FC_I18n::duration_label( $cookie['duration'], $lang ),
+					'desc'     => FC_I18n::pick( $cookie['desc'], $lang ),
 				);
 			}
 		}

@@ -69,8 +69,10 @@ class FC_Script_Blocker {
 	 * @return string
 	 */
 	protected function rewrite_scripts( $html ) {
+		// Le motif d'attributs accepte les valeurs entre guillemets contenant « > »
+		// (sinon une balise piégée pourrait échapper à la neutralisation).
 		return (string) preg_replace_callback(
-			'#<script\b([^>]*)>(.*?)</script>#is',
+			'#<script\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>(.*?)</script>#is',
 			array( $this, 'cb_script' ),
 			$html
 		);
@@ -155,7 +157,7 @@ class FC_Script_Blocker {
 	 */
 	protected function rewrite_iframes( $html ) {
 		return (string) preg_replace_callback(
-			'#<iframe\b([^>]*)>#is',
+			'#<iframe\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>#is',
 			array( $this, 'cb_iframe' ),
 			$html
 		);

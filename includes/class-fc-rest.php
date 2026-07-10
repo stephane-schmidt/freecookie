@@ -42,10 +42,21 @@ class FC_Rest {
 	 */
 	public function log_consent( WP_REST_Request $req ) {
 		// Le nonce protège d'un abus trivial (le endpoint reste public).
+		// Réponse générique : ne pas révéler la raison du refus.
 		$nonce = $req->get_header( 'X-WP-Nonce' );
 		if ( ! $nonce || ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
-			return new WP_REST_Response( array( 'ok' => false, 'error' => 'bad_nonce' ), 403 );
+			return new WP_REST_Response( array( 'ok' => false ), 403 );
 		}
+
+		// Anti-abus : au plus 10 enregistrements par minute et par IP
+		// (protège la table de journal contre un remplissage malveillant).
+		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
+		$rlkey = 'fc_rl_' . md5( $ip );
+		$hits  = (int) get_transient( $rlkey );
+		if ( $hits >= 10 ) {
+			return new WP_REST_Response( array( 'ok' => false ), 429 );
+		}
+		set_transient( $rlkey, $hits + 1, MINUTE_IN_SECONDS );
 
 		$id = FC_Consent_Store::record(
 			array(

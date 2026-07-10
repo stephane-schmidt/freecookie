@@ -1,7 +1,10 @@
 <?php
 /**
- * Markup du bandeau + centre de préférences.
- * Variables disponibles : $strings (array), $cats (FC_Categories::all()).
+ * Markup du bandeau — vue UNIQUE : les catégories, les traceurs détectés
+ * (description + niveau de risque) et leurs interrupteurs sont visibles
+ * directement, sans étape « Personnaliser ».
+ *
+ * Variables : $strings, $cats, $services, $about, $alabels, $shape.
  * Masqué par défaut ; c'est le JS qui décide de l'afficher selon le cookie.
  *
  * @package FreeCookie
@@ -12,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <div id="freecookie-root" hidden>
-	<div id="freecookie-banner" class="fc-banner" role="dialog" aria-modal="false"
+	<div id="freecookie-banner" class="fc-banner" role="dialog" aria-modal="true"
 		aria-labelledby="fc-title" aria-describedby="fc-desc" data-fc-state="banner">
 		<div class="fc-inner">
 			<div class="fc-text">
@@ -20,25 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				<p id="fc-desc" class="fc-desc"><?php echo esc_html( $strings['body'] ); ?></p>
 			</div>
 
-			<div class="fc-actions">
-				<button type="button" class="fc-btn fc-btn--ghost" data-fc="customize"><?php echo esc_html( $strings['customize'] ); ?></button>
-				<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
-				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( $strings['accept_all'] ); ?></button>
-			</div>
-			<?php if ( ! empty( $about['enabled'] ) ) : ?>
-				<div class="fc-foot">
-					<button type="button" class="fc-link" data-fc="about"><?php echo esc_html( $alabels['about'] ); ?></button>
-				</div>
-			<?php endif; ?>
-		</div>
-
-		<div class="fc-prefs" data-fc-panel hidden>
-			<h3 class="fc-prefs__title"><?php echo esc_html( $strings['prefs_title'] ); ?></h3>
 			<ul class="fc-cats">
 				<?php foreach ( $cats as $key => $def ) : ?>
 					<?php
-					$label = isset( $strings[ $key ] ) ? $strings[ $key ] : $key;
-					$desc  = isset( $strings[ $key . '_d' ] ) ? $strings[ $key . '_d' ] : '';
+					$label  = isset( $strings[ $key ] ) ? $strings[ $key ] : $key;
+					$desc   = isset( $strings[ $key . '_d' ] ) ? $strings[ $key . '_d' ] : '';
 					$locked = ! empty( $def['locked'] );
 					?>
 					<li class="fc-cat">
@@ -57,16 +46,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php if ( ! $locked && ! empty( $services[ $key ] ) ) : ?>
 							<ul class="fc-svcs">
 								<?php foreach ( $services[ $key ] as $svc ) : ?>
+									<?php $fc_risk = isset( $strings[ 'risk_' . $svc['risk'] ] ) ? $strings[ 'risk_' . $svc['risk'] ] : ''; ?>
 									<li class="fc-svc">
 										<label class="fc-svc__row">
 											<span class="fc-svc__main">
 												<span class="fc-svc__name"><?php echo esc_html( $svc['label'] ); ?></span>
-												<span class="fc-score fc-score--<?php echo esc_attr( $svc['color'] ); ?>" title="<?php esc_attr_e( 'Respect de la vie privée', 'freecookie' ); ?>"><?php echo (int) $svc['score']; ?>/10</span>
+												<?php if ( $fc_risk ) : ?>
+													<span class="fc-score fc-score--<?php echo esc_attr( $svc['color'] ); ?>"><?php echo esc_html( $fc_risk ); ?></span>
+												<?php endif; ?>
 											</span>
-											<input type="checkbox" class="fc-svc-toggle" data-fc-svc="<?php echo esc_attr( $svc['key'] ); ?>" data-fc-cat="<?php echo esc_attr( $key ); ?>" aria-label="<?php echo esc_attr( $svc['label'] ); ?>">
+											<input type="checkbox" class="fc-svc-toggle" disabled
+												data-fc-svc="<?php echo esc_attr( $svc['key'] ); ?>"
+												data-fc-cat="<?php echo esc_attr( $key ); ?>"
+												aria-label="<?php echo esc_attr( $svc['label'] . ( $fc_risk ? ' — ' . $fc_risk : '' ) ); ?>">
 										</label>
 										<?php if ( ! empty( $svc['purpose'] ) ) : ?>
 											<p class="fc-svc__desc"><?php echo esc_html( $svc['purpose'] ); ?></p>
+										<?php endif; ?>
+										<?php if ( ! empty( $svc['cookies'] ) ) : ?>
+											<details class="fc-ck-details">
+												<summary><?php echo esc_html( $strings['ck_details'] . ' (' . count( $svc['cookies'] ) . ')' ); ?></summary>
+												<?php foreach ( $svc['cookies'] as $fc_ck ) : ?>
+													<dl class="fc-ck">
+														<div><dt><?php echo esc_html( $strings['ck_cookie'] ); ?></dt><dd><code><?php echo esc_html( $fc_ck['name'] ); ?></code></dd></div>
+														<div><dt><?php echo esc_html( $strings['ck_duration'] ); ?></dt><dd><?php echo esc_html( $fc_ck['duration'] ); ?></dd></div>
+														<div><dt><?php echo esc_html( $strings['ck_desc'] ); ?></dt><dd><?php echo esc_html( $fc_ck['desc'] ); ?></dd></div>
+													</dl>
+												<?php endforeach; ?>
+											</details>
 										<?php endif; ?>
 									</li>
 								<?php endforeach; ?>
@@ -75,10 +82,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			<div class="fc-prefs__actions">
-				<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
-				<button type="button" class="fc-btn fc-btn--primary" data-fc="save"><?php echo esc_html( $strings['save'] ); ?></button>
+
+			<div class="fc-actions">
+				<button type="button" class="fc-btn fc-btn--secondary" data-fc="save"><?php echo esc_html( $strings['save'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--primary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( $strings['accept_all'] ); ?></button>
 			</div>
+
+			<?php if ( ! empty( $about['enabled'] ) ) : ?>
+				<div class="fc-foot">
+					<button type="button" class="fc-link" data-fc="about"><?php echo esc_html( $alabels['about'] ); ?></button>
+				</div>
+			<?php endif; ?>
 		</div>
 
 		<?php if ( ! empty( $about['enabled'] ) ) : ?>
@@ -107,9 +122,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 			</div>
 		<?php endif; ?>
+
+		<span class="fc-sr" aria-live="polite" data-fc-live></span>
 	</div>
 </div>
 
-<button type="button" id="freecookie-badge" class="fc-badge" hidden aria-label="<?php echo esc_attr( $strings['manage'] ); ?>" title="<?php echo esc_attr( $strings['manage'] ); ?>">
+<button type="button" id="freecookie-badge" class="fc-badge" hidden aria-expanded="false" aria-label="<?php echo esc_attr( $strings['manage'] ); ?>" title="<?php echo esc_attr( $strings['manage'] ); ?>">
 	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><?php echo FC_Shapes::get( $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG interne statique de confiance. ?></svg>
 </button>

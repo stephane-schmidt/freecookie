@@ -15,10 +15,13 @@ class FC_Cookie_List {
 	/** En-têtes de colonnes par langue. */
 	protected static function headers( $lang ) {
 		$h = array(
-			'fr' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Note', 'duration' => 'Durée', 'desc' => 'Finalité' ),
-			'en' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Rating', 'duration' => 'Duration', 'desc' => 'Purpose' ),
-			'de' => array( 'name' => 'Cookie', 'service' => 'Dienst', 'score' => 'Note', 'duration' => 'Dauer', 'desc' => 'Zweck' ),
-			'it' => array( 'name' => 'Cookie', 'service' => 'Servizio', 'score' => 'Voto', 'duration' => 'Durata', 'desc' => 'Finalità' ),
+			'fr' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Risque', 'duration' => 'Durée', 'desc' => 'Finalité' ),
+			'en' => array( 'name' => 'Cookie', 'service' => 'Service', 'score' => 'Risk', 'duration' => 'Duration', 'desc' => 'Purpose' ),
+			'de' => array( 'name' => 'Cookie', 'service' => 'Dienst', 'score' => 'Risiko', 'duration' => 'Dauer', 'desc' => 'Zweck' ),
+			'it' => array( 'name' => 'Cookie', 'service' => 'Servizio', 'score' => 'Rischio', 'duration' => 'Durata', 'desc' => 'Finalità' ),
+			'es' => array( 'name' => 'Cookie', 'service' => 'Servicio', 'score' => 'Riesgo', 'duration' => 'Duración', 'desc' => 'Finalidad' ),
+			'nl' => array( 'name' => 'Cookie', 'service' => 'Dienst', 'score' => 'Risico', 'duration' => 'Duur', 'desc' => 'Doel' ),
+			'pt' => array( 'name' => 'Cookie', 'service' => 'Serviço', 'score' => 'Risco', 'duration' => 'Duração', 'desc' => 'Finalidade' ),
 		);
 		return isset( $h[ $lang ] ) ? $h[ $lang ] : $h['en'];
 	}
@@ -32,7 +35,7 @@ class FC_Cookie_List {
 		$lang    = FC_I18n::detect();
 		$strings = FC_I18n::get( $lang );
 		$head    = self::headers( $lang );
-		$report  = FC_Scanner::report();
+		$report  = FC_Scanner::report( $lang );
 
 		if ( empty( $report ) ) {
 			return '';
@@ -69,10 +72,12 @@ class FC_Cookie_List {
 			foreach ( $report[ $cat ] as $c ) {
 				$meta  = FC_Categories::meta( $c['service'] );
 				$color = FC_Categories::score_color( $meta['score'] );
+				$risk  = FC_Categories::risk_key( $meta['score'] );
+				$rlbl  = isset( $strings[ 'risk_' . $risk ] ) ? $strings[ 'risk_' . $risk ] : $risk;
 				$out  .= '<tr>'
 					. '<td><code>' . esc_html( $c['name'] ) . '</code></td>'
 					. '<td>' . esc_html( FC_Categories::service_label( $c['service'] ) ) . '</td>'
-					. '<td><span class="fc-score fc-score--' . esc_attr( $color ) . '">' . (int) $meta['score'] . '/10</span></td>'
+					. '<td><span class="fc-score fc-score--' . esc_attr( $color ) . '">' . esc_html( $rlbl ) . '</span></td>'
 					. '<td>' . esc_html( $c['duration'] ) . '</td>'
 					. '<td>' . esc_html( $c['desc'] ) . '</td>'
 					. '</tr>';

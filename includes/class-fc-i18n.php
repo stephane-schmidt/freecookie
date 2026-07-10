@@ -73,6 +73,57 @@ class FC_I18n {
 	}
 
 	/**
+	 * Sélectionne la variante d'une valeur multilingue (repli anglais puis première).
+	 *
+	 * @param string|array<string,string> $value Chaîne unique ou tableau lang => texte.
+	 * @param string                      $lang  Code court.
+	 * @return string
+	 */
+	public static function pick( $value, $lang ) {
+		if ( ! is_array( $value ) ) {
+			return (string) $value;
+		}
+		if ( isset( $value[ $lang ] ) ) {
+			return $value[ $lang ];
+		}
+		if ( isset( $value['en'] ) ) {
+			return $value['en'];
+		}
+		$first = reset( $value );
+		return is_string( $first ) ? $first : '';
+	}
+
+	/**
+	 * Libellé traduit d'une durée de cookie à partir d'un jeton neutre.
+	 * Jetons : session, persistent, 1min, 15min, 30min, 24h, 1d, 3mo, 6mo, 13mo, 1y, 2y, 10y.
+	 *
+	 * @param string $token Jeton de durée.
+	 * @param string $lang  Code court.
+	 * @return string
+	 */
+	public static function duration_label( $token, $lang ) {
+		$map = array(
+			'session'    => array( 'fr' => 'Session', 'en' => 'Session', 'de' => 'Sitzung', 'it' => 'Sessione', 'es' => 'Sesión', 'nl' => 'Sessie', 'pt' => 'Sessão' ),
+			'persistent' => array( 'fr' => 'Persistant', 'en' => 'Persistent', 'de' => 'Dauerhaft', 'it' => 'Persistente', 'es' => 'Persistente', 'nl' => 'Permanent', 'pt' => 'Persistente' ),
+			'1min'       => array( 'fr' => '1 minute', 'en' => '1 minute', 'de' => '1 Minute', 'it' => '1 minuto', 'es' => '1 minuto', 'nl' => '1 minuut', 'pt' => '1 minuto' ),
+			'15min'      => array( 'fr' => '15 minutes', 'en' => '15 minutes', 'de' => '15 Minuten', 'it' => '15 minuti', 'es' => '15 minutos', 'nl' => '15 minuten', 'pt' => '15 minutos' ),
+			'30min'      => array( 'fr' => '30 minutes', 'en' => '30 minutes', 'de' => '30 Minuten', 'it' => '30 minuti', 'es' => '30 minutos', 'nl' => '30 minuten', 'pt' => '30 minutos' ),
+			'24h'        => array( 'fr' => '24 heures', 'en' => '24 hours', 'de' => '24 Stunden', 'it' => '24 ore', 'es' => '24 horas', 'nl' => '24 uur', 'pt' => '24 horas' ),
+			'1d'         => array( 'fr' => '1 jour', 'en' => '1 day', 'de' => '1 Tag', 'it' => '1 giorno', 'es' => '1 día', 'nl' => '1 dag', 'pt' => '1 dia' ),
+			'3mo'        => array( 'fr' => '3 mois', 'en' => '3 months', 'de' => '3 Monate', 'it' => '3 mesi', 'es' => '3 meses', 'nl' => '3 maanden', 'pt' => '3 meses' ),
+			'6mo'        => array( 'fr' => '6 mois', 'en' => '6 months', 'de' => '6 Monate', 'it' => '6 mesi', 'es' => '6 meses', 'nl' => '6 maanden', 'pt' => '6 meses' ),
+			'13mo'       => array( 'fr' => '13 mois', 'en' => '13 months', 'de' => '13 Monate', 'it' => '13 mesi', 'es' => '13 meses', 'nl' => '13 maanden', 'pt' => '13 meses' ),
+			'1y'         => array( 'fr' => '1 an', 'en' => '1 year', 'de' => '1 Jahr', 'it' => '1 anno', 'es' => '1 año', 'nl' => '1 jaar', 'pt' => '1 ano' ),
+			'2y'         => array( 'fr' => '2 ans', 'en' => '2 years', 'de' => '2 Jahre', 'it' => '2 anni', 'es' => '2 años', 'nl' => '2 jaar', 'pt' => '2 anos' ),
+			'10y'        => array( 'fr' => '10 ans', 'en' => '10 years', 'de' => '10 Jahre', 'it' => '10 anni', 'es' => '10 años', 'nl' => '10 jaar', 'pt' => '10 anos' ),
+		);
+		if ( ! isset( $map[ $token ] ) ) {
+			return (string) $token;
+		}
+		return self::pick( $map[ $token ], $lang );
+	}
+
+	/**
 	 * Toutes les traductions livrées. À étendre langue par langue.
 	 *
 	 * @return array<string,array<string,string>>
@@ -97,6 +148,13 @@ class FC_I18n {
 				'marketing_d' => 'Servent à la publicité et au suivi entre sites.',
 				'always_on'   => 'Toujours actif',
 				'manage'      => 'Gérer mes cookies',
+				'risk_low'    => 'Risque faible',
+				'risk_medium' => 'Risque moyen',
+				'risk_high'   => 'Risque élevé',
+				'ck_details'  => 'Détails des cookies',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Durée',
+				'ck_desc'     => 'Description',
 			),
 			'en' => array(
 				'title'       => 'We value your privacy',
@@ -116,6 +174,13 @@ class FC_I18n {
 				'marketing_d' => 'Used for advertising and cross-site tracking.',
 				'always_on'   => 'Always on',
 				'manage'      => 'Manage cookies',
+				'risk_low'    => 'Low risk',
+				'risk_medium' => 'Medium risk',
+				'risk_high'   => 'High risk',
+				'ck_details'  => 'Cookie details',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Duration',
+				'ck_desc'     => 'Description',
 			),
 			'de' => array(
 				'title'       => 'Ihre Privatsphäre ist uns wichtig',
@@ -135,6 +200,13 @@ class FC_I18n {
 				'marketing_d' => 'Dienen der Werbung und dem seitenübergreifenden Tracking.',
 				'always_on'   => 'Immer aktiv',
 				'manage'      => 'Cookies verwalten',
+				'risk_low'    => 'Geringes Risiko',
+				'risk_medium' => 'Mittleres Risiko',
+				'risk_high'   => 'Hohes Risiko',
+				'ck_details'  => 'Cookie-Details',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Dauer',
+				'ck_desc'     => 'Beschreibung',
 			),
 			'it' => array(
 				'title'       => 'Teniamo alla tua privacy',
@@ -154,6 +226,13 @@ class FC_I18n {
 				'marketing_d' => 'Utilizzati per pubblicità e tracciamento tra siti.',
 				'always_on'   => 'Sempre attivo',
 				'manage'      => 'Gestisci i cookie',
+				'risk_low'    => 'Rischio basso',
+				'risk_medium' => 'Rischio medio',
+				'risk_high'   => 'Rischio alto',
+				'ck_details'  => 'Dettagli dei cookie',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Durata',
+				'ck_desc'     => 'Descrizione',
 			),
 			'es' => array(
 				'title'       => 'Respetamos tu privacidad',
@@ -173,6 +252,13 @@ class FC_I18n {
 				'marketing_d' => 'Se usan para publicidad y seguimiento entre sitios.',
 				'always_on'   => 'Siempre activo',
 				'manage'      => 'Gestionar cookies',
+				'risk_low'    => 'Riesgo bajo',
+				'risk_medium' => 'Riesgo medio',
+				'risk_high'   => 'Riesgo alto',
+				'ck_details'  => 'Detalles de las cookies',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Duración',
+				'ck_desc'     => 'Descripción',
 			),
 			'nl' => array(
 				'title'       => 'Wij respecteren uw privacy',
@@ -192,6 +278,13 @@ class FC_I18n {
 				'marketing_d' => 'Worden gebruikt voor advertenties en tracking tussen sites.',
 				'always_on'   => 'Altijd aan',
 				'manage'      => 'Cookies beheren',
+				'risk_low'    => 'Laag risico',
+				'risk_medium' => 'Gemiddeld risico',
+				'risk_high'   => 'Hoog risico',
+				'ck_details'  => 'Cookiedetails',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Duur',
+				'ck_desc'     => 'Beschrijving',
 			),
 			'pt' => array(
 				'title'       => 'Respeitamos a sua privacidade',
@@ -211,6 +304,13 @@ class FC_I18n {
 				'marketing_d' => 'Servem para publicidade e rastreamento entre sites.',
 				'always_on'   => 'Sempre ativo',
 				'manage'      => 'Gerir cookies',
+				'risk_low'    => 'Risco baixo',
+				'risk_medium' => 'Risco médio',
+				'risk_high'   => 'Risco alto',
+				'ck_details'  => 'Detalhes dos cookies',
+				'ck_cookie'   => 'Cookie',
+				'ck_duration' => 'Duração',
+				'ck_desc'     => 'Descrição',
 			),
 		);
 	}
