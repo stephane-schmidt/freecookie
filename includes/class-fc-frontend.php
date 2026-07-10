@@ -135,6 +135,10 @@ class FC_Frontend {
 	}
 
 	public function render_banner() {
+		// Aperçu d'observation du scan : pas de bannière dans l'iframe.
+		if ( FC_Scanner::is_sniff_request() ) {
+			return;
+		}
 		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
 		$strings  = $this->strings( $lang );
 		$cats     = FC_Categories::all();
@@ -145,6 +149,9 @@ class FC_Frontend {
 			: $defaults['about'];
 		$alabels  = FC_I18n::about_labels( $lang );
 		$shape    = FC_Shapes::valid( isset( $this->settings['badge_shape'] ) ? $this->settings['badge_shape'] : '' );
+		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $this->settings ) ) {
+			$shape = FC_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
+		}
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 	}
 }

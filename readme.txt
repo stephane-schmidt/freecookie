@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.8.0
+Stable tag: 0.9.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,12 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.9.0 =
+* FreeCookie Pro (système de confiance, aucune vérification en ligne) : 9 familles de formes supplémentaires pour le badge — 180 formes générées — dont deux familles EN COULEURS : « Pastilles du site » (pastilles aux couleurs détectées de votre site) et « Gourmandes » (couleurs naturelles de cookies : pâtes dorées, tout chocolat, trempé au chocolat blanc, caramel, marbré). Plus Cartoon, Fournée, Croqués & miettes, Nappés, Fêtes, Duo graphique et Emporte-pièce. Déverrouillées par la clé reçue après votre soutien ; la conformité de base reste toujours gratuite et complète.
+* Administration : sélecteur de formes regroupé par familles avec verrous PRO, section « FreeCookie Pro » (clé, statut, lien de soutien).
+* Scan fiable partout : le navigateur de l'administrateur fournit lui-même le HTML des pages à analyser — plus d'auto-requête du serveur, fonctionne en local et chez les hébergeurs qui bloquent le loopback (repli serveur conservé).
+* Langue : quand l'option est activée, la langue du navigateur du visiteur prime réellement sur celle du site.
 
 = 0.8.0 =
 * Le scan détecte maintenant les COOKIES RÉELS, pas seulement les scripts tiers connus : en-têtes Set-Cookie côté serveur + observation dans le navigateur (aperçu sans blocage, réservé à l'administrateur) — les cookies posés en JavaScript comme _ga sont vus, à la manière des scanners du marché.

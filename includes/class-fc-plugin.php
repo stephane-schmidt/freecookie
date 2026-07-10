@@ -32,6 +32,7 @@ class FC_Plugin {
 			'scan_frequency'   => 'weekly', // never | daily | weekly — scan automatique des traceurs.
 			'position'         => 'bottom',
 			'badge_shape'      => 'croque-lateral',
+			'license_key'      => '', // FreeCookie Pro (système de confiance).
 			'colors'           => array(
 				'accent'         => '', // vide = couleur principale du site (auto).
 				'accent_text'    => '',

@@ -70,9 +70,31 @@ class FC_Admin {
 			'manage_options',
 			self::PAGE,
 			array( $this, 'render' ),
-			'dashicons-shield-alt',
+			self::menu_icon(),
 			80
 		);
+	}
+
+	/**
+	 * Icône du menu : mini cookie blanc (mordu, pépites évidées), en data URI.
+	 * Masque SVG : la morsure et les pépites laissent transparaître le fond de
+	 * la barre d'administration, quel que soit son thème de couleurs.
+	 *
+	 * @return string data:image/svg+xml;base64,…
+	 */
+	protected static function menu_icon() {
+		$svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">'
+			. '<mask id="fcm">'
+			. '<rect width="20" height="20" fill="#fff"/>'
+			. '<circle cx="17.2" cy="7" r="3.6" fill="#000"/>'   // morsure latérale.
+			. '<circle cx="7" cy="8.6" r="1.4" fill="#000"/>'    // pépites.
+			. '<circle cx="11.6" cy="13.8" r="1.4" fill="#000"/>'
+			. '<circle cx="6.4" cy="13.3" r="1.1" fill="#000"/>'
+			. '<circle cx="12" cy="7" r="1.1" fill="#000"/>'
+			. '</mask>'
+			. '<circle cx="10" cy="10" r="8" fill="#ffffff" mask="url(#fcm)"/>'
+			. '</svg>';
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- format attendu par add_menu_page pour un SVG.
 	}
 
 	public function settings() {
@@ -133,7 +155,22 @@ class FC_Admin {
 		$freq = isset( $input['scan_frequency'] ) ? sanitize_text_field( $input['scan_frequency'] ) : 'weekly';
 		$out['scan_frequency'] = in_array( $freq, array( 'never', 'daily', 'weekly' ), true ) ? $freq : 'weekly';
 		FC_Plugin::sync_schedule( $out['scan_frequency'] );
-		$out['badge_shape']      = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
+		// Clé FreeCookie Pro (système de confiance : aucune vérification réseau).
+		$out['license_key'] = sanitize_text_field( $input['license_key'] ?? ( $out['license_key'] ?? '' ) );
+
+		// Forme du badge : les formes Pro exigent une clé active.
+		$shape = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
+		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $out ) ) {
+			$prev  = FC_Shapes::valid( $out['badge_shape'] ?? '' );
+			$shape = FC_Shapes::is_pro( $prev ) ? FC_Shapes::DEFAULT_ID : $prev;
+			add_settings_error(
+				'freecookie',
+				'shape_pro',
+				__( 'Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée.', 'freecookie' ),
+				'warning'
+			);
+		}
+		$out['badge_shape'] = $shape;
 
 		// Couleurs (vide autorisé = auto/dérivé).
 		$colors = array();
@@ -260,6 +297,7 @@ class FC_Admin {
 				<?php
 				$fc_bv    = FC_Colors::css_vars( $s );
 				$fc_shape = FC_Shapes::valid( $s['badge_shape'] ?? '' );
+				$fc_pro   = FC_Pro::active( $s );
 				?>
 				<style>
 					.fc-shapes{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;max-width:820px;margin:6px 0 4px}
@@ -273,14 +311,35 @@ class FC_Admin {
 					.fc-shapes .fc-cookie__hole{fill:var(--fc-badge-hole)}
 					.fc-shapes .fc-cookie__line{fill:none;stroke:var(--fc-badge-solid);stroke-width:3;stroke-linejoin:round}
 					.fc-shapes .fc-cookie__ring{fill:none;stroke:var(--fc-badge-hole);stroke-width:3;opacity:.6}
+					.fc-shapes .fc-cookie__c1{fill:var(--fc-c1)}
+					.fc-shapes .fc-cookie__c2{fill:var(--fc-c2)}
+					.fc-shapes .fc-cookie__c3{fill:var(--fc-c3)}
+					.fc-shapes .fc-cookie__c4{fill:var(--fc-c4)}
+					.fc-shape--locked{opacity:.45}
+					.fc-shape--locked input{cursor:not-allowed}
+					.fc-shape__pro{position:absolute;top:4px;right:4px;font-size:9px;font-weight:700;letter-spacing:.04em;color:#fff;background:#8c8f94;border-radius:3px;padding:1px 4px;pointer-events:none}
+					.fc-fam-title{margin:16px 0 2px;font-size:13px}
+					.fc-fam-title .fc-fam-pro{font-size:10px;font-weight:700;color:#8c8f94;vertical-align:middle;margin-left:6px}
 				</style>
-				<div class="fc-shapes" style="--fc-badge-solid:<?php echo esc_attr( $fc_bv['--fc-badge-solid'] ); ?>;--fc-badge-hole:<?php echo esc_attr( $fc_bv['--fc-badge-hole'] ); ?>">
-					<?php foreach ( FC_Shapes::all() as $fc_id => $fc_s ) : ?>
-						<label class="fc-shape">
-							<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?>>
-							<span class="fc-shape__ico"><svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true"><?php echo $fc_s['svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></svg></span>
-							<span class="fc-shape__lbl"><?php echo esc_html( $fc_s['label'] ); ?></span>
-						</label>
+				<div style="--fc-badge-solid:<?php echo esc_attr( $fc_bv['--fc-badge-solid'] ); ?>;--fc-badge-hole:<?php echo esc_attr( $fc_bv['--fc-badge-hole'] ); ?>;--fc-c1:<?php echo esc_attr( $fc_bv['--fc-c1'] ); ?>;--fc-c2:<?php echo esc_attr( $fc_bv['--fc-c2'] ); ?>;--fc-c3:<?php echo esc_attr( $fc_bv['--fc-c3'] ); ?>;--fc-c4:<?php echo esc_attr( $fc_bv['--fc-c4'] ); ?>;max-width:820px">
+					<?php foreach ( FC_Shapes::families() as $fc_fam => $fc_fdef ) : ?>
+						<?php $fc_locked = $fc_fdef['pro'] && ! $fc_pro; ?>
+						<h4 class="fc-fam-title">
+							<?php echo esc_html( $fc_fdef['label'] ); ?>
+							<?php if ( $fc_fdef['pro'] ) : ?>
+								<span class="fc-fam-pro"><?php echo $fc_locked ? esc_html__( 'PRO — clé requise', 'freecookie' ) : esc_html__( 'PRO', 'freecookie' ); ?></span>
+							<?php endif; ?>
+						</h4>
+						<div class="fc-shapes">
+							<?php foreach ( FC_Shapes::by_family( $fc_fam ) as $fc_id => $fc_s ) : ?>
+								<label class="fc-shape<?php echo $fc_locked ? ' fc-shape--locked' : ''; ?>">
+									<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?> <?php disabled( $fc_locked ); ?>>
+									<?php if ( $fc_locked ) : ?><span class="fc-shape__pro">PRO</span><?php endif; ?>
+									<span class="fc-shape__ico"><svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true"><?php echo $fc_s['svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></svg></span>
+									<span class="fc-shape__lbl"><?php echo esc_html( $fc_s['label'] ); ?></span>
+								</label>
+							<?php endforeach; ?>
+						</div>
 					<?php endforeach; ?>
 				</div>
 
@@ -383,6 +442,25 @@ class FC_Admin {
 							<td><input type="url" id="fc-soc-<?php echo esc_attr( $net ); ?>" class="regular-text" name="freecookie_settings[about][social][<?php echo esc_attr( $net ); ?>]" value="<?php echo esc_attr( $abs[ $net ] ?? '' ); ?>" placeholder="https://"></td>
 						</tr>
 					<?php endforeach; ?>
+				</tbody></table>
+
+				<h2 class="title"><?php esc_html_e( 'FreeCookie Pro', 'freecookie' ); ?></h2>
+				<p class="description" style="max-width:820px">
+					<?php esc_html_e( 'Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. Système de confiance : la clé reçue après votre soutien (10 $/an ou 45 $ à vie) suffit, aucune vérification en ligne, aucune donnée envoyée.', 'freecookie' ); ?>
+					<a href="<?php echo esc_url( FC_Pro::SUPPORT_URL ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Soutenir le projet et recevoir une clé', 'freecookie' ); ?></a>
+				</p>
+				<table class="form-table" role="presentation"><tbody>
+					<tr>
+						<th scope="row"><label for="fc-license"><?php esc_html_e( 'Clé Pro', 'freecookie' ); ?></label></th>
+						<td>
+							<input type="text" id="fc-license" class="regular-text" name="freecookie_settings[license_key]" value="<?php echo esc_attr( $s['license_key'] ?? '' ); ?>" autocomplete="off">
+							<?php if ( FC_Pro::active( $s ) ) : ?>
+								<span style="color:#1f9d55;font-weight:600;margin-left:8px"><?php esc_html_e( 'Pro actif — merci pour votre soutien.', 'freecookie' ); ?></span>
+							<?php else : ?>
+								<span style="color:#8c8f94;margin-left:8px"><?php esc_html_e( 'Aucune clé — formes Pro verrouillées.', 'freecookie' ); ?></span>
+							<?php endif; ?>
+						</td>
+					</tr>
 				</tbody></table>
 
 				<?php submit_button(); ?>

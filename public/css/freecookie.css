@@ -146,6 +146,11 @@
 .fc-badge .fc-cookie { width: 100%; height: 100%; display: block; }
 .fc-cookie__disc { fill: var(--fc-badge-solid, #1c7a6b); }
 .fc-cookie__hole { fill: var(--fc-badge-hole, #bfe0d9); }
+/* Pastilles multicolores : couleurs détectées du site (repli : dérivés de l'accent). */
+.fc-cookie__c1 { fill: var(--fc-c1, var(--fc-badge-solid, #1c7a6b)); }
+.fc-cookie__c2 { fill: var(--fc-c2, var(--fc-badge-hole, #bfe0d9)); }
+.fc-cookie__c3 { fill: var(--fc-c3, var(--fc-badge-solid, #1c7a6b)); }
+.fc-cookie__c4 { fill: var(--fc-c4, var(--fc-badge-hole, #bfe0d9)); }
 .fc-cookie__line { fill: none; stroke: var(--fc-badge-solid, #1c7a6b); stroke-width: 3; stroke-linejoin: round; }
 .fc-cookie__ring { fill: none; stroke: var(--fc-badge-hole, #bfe0d9); stroke-width: 3; opacity: .6; }
 

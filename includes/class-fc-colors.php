@@ -161,7 +161,26 @@ class FC_Colors {
 		$sec_text    = self::sanitize( $c['secondary_text'] ?? '' ) ?: $text;
 		$badge_solid = self::sanitize( $c['badge'] ?? '' ) ?: $accent;
 
+		// Palette multicolore : les couleurs détectées du site (jusqu'à 4),
+		// complétées par des dérivés de l'accent — pour les formes « Pastilles ».
+		$palette = class_exists( 'FC_Color_Detector' ) ? FC_Color_Detector::palette() : array();
+		$multi   = array();
+		foreach ( $palette as $p ) {
+			$p = self::sanitize( $p );
+			if ( '' !== $p && count( $multi ) < 4 ) {
+				$multi[] = $p;
+			}
+		}
+		$fill = array( $accent, self::shade( $accent, 0.3 ), self::tint( $accent, 0.4 ), self::mix( $accent, '#ffffff', 0.65 ) );
+		for ( $i = count( $multi ); $i < 4; $i++ ) {
+			$multi[] = $fill[ $i ];
+		}
+
 		return array(
+			'--fc-c1'             => $multi[0],
+			'--fc-c2'             => $multi[1],
+			'--fc-c3'             => $multi[2],
+			'--fc-c4'             => $multi[3],
 			'--fc-accent'         => $accent,
 			'--fc-accent-deep'    => self::shade( $accent, 0.18 ),
 			'--fc-accent-text'    => $accent_text,
