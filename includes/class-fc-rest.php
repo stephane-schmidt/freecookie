@@ -154,9 +154,12 @@ class FC_Rest {
 		$cookies = array();
 		foreach ( array_slice( $names, 0, 100 ) as $name ) {
 			$name = preg_replace( '/[^A-Za-z0-9_\-\.%]/', '', $name );
-			if ( '' !== $name ) {
-				$cookies[ $name ] = FC_Scanner::classify_cookie( $name, 'js' );
+			// Cookies de session de l'ADMINISTRATEUR connecté : jamais posés aux
+			// visiteurs anonymes → on ne pollue pas la liste avec.
+			if ( '' === $name || preg_match( '/^(wordpress_|wp-settings-|wp_postpass_)/i', $name ) ) {
+				continue;
 			}
+			$cookies[ $name ] = FC_Scanner::classify_cookie( $name, 'js' );
 		}
 		FC_Scanner::run_merge( array(), $cookies, 0 );
 
