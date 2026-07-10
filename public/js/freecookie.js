@@ -253,6 +253,49 @@
 		else if (action === 'edu-back') { openBanner(); }
 	}
 
+	/* ---------- Épinglage au viewport VISUEL (Safari iOS zoomé) ----------
+	   Sur iOS, quand la page est zoomée (pincement, zoom de page, ou dézoom
+	   automatique d'une mise en page trop large), les éléments position:fixed
+	   restent accrochés au viewport de MISE EN PAGE et semblent dériver au
+	   milieu de l'écran. On les ré-épingle au viewport visuel — et on remet
+	   les styles de la feuille dès que le zoom revient à 1 (aucun effet
+	   ailleurs). Technique standard des widgets flottants. */
+	function initViewportGlue() {
+		var vv = window.visualViewport;
+		if (!vv) { return; }
+		var raf = false;
+		function apply() {
+			raf = false;
+			// Uniquement le scale et les décalages : la largeur est trompeuse
+			// (une simple barre de défilement desktop réduit vv.width).
+			var zoomed = ( vv.scale && Math.abs(vv.scale - 1) > 0.02 ) || vv.offsetLeft > 1 || vv.offsetTop > 1;
+			if (!zoomed) {
+				if (badge) { badge.style.left = ''; badge.style.bottom = ''; }
+				if (banner) { banner.style.left = ''; banner.style.bottom = ''; banner.style.width = ''; banner.style.transform = ''; }
+				return;
+			}
+			var s = vv.scale || 1;
+			var m = ( vv.width <= 560 ? 12 : 20 ) / s;
+			var bottomBase = window.innerHeight - vv.offsetTop - vv.height;
+			if (badge) {
+				badge.style.left = ( vv.offsetLeft + m ) + 'px';
+				badge.style.bottom = ( bottomBase + m ) + 'px';
+			}
+			if (banner) {
+				var bm = 8 / s;
+				banner.style.left = ( vv.offsetLeft + bm ) + 'px';
+				banner.style.bottom = ( bottomBase + bm ) + 'px';
+				banner.style.width = ( vv.width - 2 * bm ) + 'px';
+				banner.style.transform = 'none';
+			}
+		}
+		function onchange() { if (!raf) { raf = true; requestAnimationFrame(apply); } }
+		vv.addEventListener('resize', onchange);
+		vv.addEventListener('scroll', onchange);
+		window.addEventListener('scroll', onchange, { passive: true });
+		apply();
+	}
+
 	/* ---------- Badge : estompé après inactivité, réveil à l'approche ---------- */
 	function initBadgeProximity() {
 		if (!badge) { return; }
@@ -300,6 +343,7 @@
 		}, true);
 		document.addEventListener('pointerdown', function () { usedKeyboard = false; }, true);
 		initBadgeProximity();
+		initViewportGlue();
 
 		// Synchro : (dé)cocher une catégorie (dé)coche et (dés)active ses services.
 		root.addEventListener('change', function (e) {
