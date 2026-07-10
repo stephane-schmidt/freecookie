@@ -39,6 +39,10 @@ class FC_Script_Blocker {
 		if ( is_embed() ) {
 			return;
 		}
+		// Aperçu d'observation du scan (admin seulement) : laisser tout s'exécuter.
+		if ( FC_Scanner::is_sniff_request() ) {
+			return;
+		}
 		ob_start( array( $this, 'process_html' ) );
 	}
 

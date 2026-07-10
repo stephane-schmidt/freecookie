@@ -26,6 +26,12 @@ class FC_Cookie_List {
 		return isset( $h[ $lang ] ) ? $h[ $lang ] : $h['en'];
 	}
 
+	/** « Ce site » dans la langue servie (cookies internes, sans service tiers). */
+	protected static function site_label( $lang ) {
+		$l = array( 'fr' => 'Ce site', 'en' => 'This site', 'de' => 'Diese Website', 'it' => 'Questo sito', 'es' => 'Este sitio', 'nl' => 'Deze site', 'pt' => 'Este site' );
+		return isset( $l[ $lang ] ) ? $l[ $lang ] : $l['en'];
+	}
+
 	/**
 	 * Rendu du shortcode.
 	 *
@@ -70,13 +76,20 @@ class FC_Cookie_List {
 				. '</tr></thead><tbody>';
 
 			foreach ( $report[ $cat ] as $c ) {
-				$meta  = FC_Categories::meta( $c['service'] );
+				if ( '' === $c['service'] ) {
+					// Cookie interne du site : risque faible par définition.
+					$meta = array( 'score' => 9 );
+					$svc  = self::site_label( $lang );
+				} else {
+					$meta = FC_Categories::meta( $c['service'] );
+					$svc  = FC_Categories::service_label( $c['service'] );
+				}
 				$color = FC_Categories::score_color( $meta['score'] );
 				$risk  = FC_Categories::risk_key( $meta['score'] );
 				$rlbl  = isset( $strings[ 'risk_' . $risk ] ) ? $strings[ 'risk_' . $risk ] : $risk;
 				$out  .= '<tr>'
 					. '<td><code>' . esc_html( $c['name'] ) . '</code></td>'
-					. '<td>' . esc_html( FC_Categories::service_label( $c['service'] ) ) . '</td>'
+					. '<td>' . esc_html( $svc ) . '</td>'
 					. '<td><span class="fc-score fc-score--' . esc_attr( $color ) . '">' . esc_html( $rlbl ) . '</span></td>'
 					. '<td>' . esc_html( $c['duration'] ) . '</td>'
 					. '<td>' . esc_html( $c['desc'] ) . '</td>'

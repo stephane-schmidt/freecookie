@@ -94,6 +94,25 @@ class FC_Admin {
 		}
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_script( 'freecookie-admin', FREECOOKIE_URL . 'admin/admin.js', array( 'wp-color-picker', 'jquery' ), FREECOOKIE_VERSION, true );
+		wp_localize_script(
+			'freecookie-admin',
+			'fcScan',
+			array(
+				'rest'     => esc_url_raw( rest_url( 'freecookie/v1/scan/' ) ),
+				'nonce'    => wp_create_nonce( 'wp_rest' ),
+				'sniffUrl' => add_query_arg( 'fc_sniff', wp_create_nonce( 'fc_sniff' ), home_url( '/' ) ),
+				'strings'  => array(
+					'scanning'   => __( 'Analyse de la page %1$d sur %2$d…', 'freecookie' ),
+					'sniffing'   => __( 'Observation des cookies dans le navigateur…', 'freecookie' ),
+					'finishing'  => __( 'Consolidation des résultats…', 'freecookie' ),
+					'done'       => __( 'Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…', 'freecookie' ),
+					'error'      => __( 'Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous.', 'freecookie' ),
+					'service'    => __( 'Service détecté : %s', 'freecookie' ),
+					'cookieHttp' => __( 'Cookie observé (serveur) : %s', 'freecookie' ),
+					'cookieJs'   => __( 'Cookie observé (navigateur) : %s', 'freecookie' ),
+				),
+			)
+		);
 	}
 
 	/**
@@ -385,11 +404,29 @@ class FC_Admin {
 				}
 				?>
 			</p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="freecookie_scan">
-				<?php wp_nonce_field( 'freecookie_scan' ); ?>
-				<?php submit_button( __( 'Lancer un scan du site', 'freecookie' ), 'secondary', 'submit', false ); ?>
-			</form>
+			<p><button type="button" class="button button-secondary" id="fc-scan-btn"><?php esc_html_e( 'Lancer un scan du site', 'freecookie' ); ?></button></p>
+
+			<div id="fc-scan-ui" hidden style="max-width:820px">
+				<style>
+					#fc-scan-track{height:14px;background:#dcdcde;border-radius:100px;overflow:hidden}
+					#fc-scan-bar{height:100%;width:0;background:#2271b1;border-radius:100px;transition:width .3s ease}
+					#fc-scan-status{margin:6px 0 10px;font-weight:600}
+					#fc-scan-log{margin:0;max-height:220px;overflow:auto;border:1px solid #dcdcde;border-radius:4px;padding:8px 12px;background:#fff;font-size:12px}
+					#fc-scan-log li{margin:2px 0;list-style:none}
+					#fc-scan-log .fc-found{color:#1f9d55;font-weight:600}
+				</style>
+				<div id="fc-scan-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fc-scan-bar"></div></div>
+				<p id="fc-scan-status" aria-live="polite"></p>
+				<ul id="fc-scan-log"></ul>
+			</div>
+
+			<noscript>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+					<input type="hidden" name="action" value="freecookie_scan">
+					<?php wp_nonce_field( 'freecookie_scan' ); ?>
+					<?php submit_button( __( 'Lancer un scan du site (sans JavaScript)', 'freecookie' ), 'secondary', 'submit', false ); ?>
+				</form>
+			</noscript>
 
 			<?php
 			// Prochain scan automatique.
@@ -405,13 +442,15 @@ class FC_Admin {
 			// Résultats du dernier scan, directement sous le bouton.
 			if ( $scan ) :
 				$fc_services = ! empty( $scan['services'] ) ? $scan['services'] : array();
+				$fc_cookies  = ( ! empty( $scan['cookies'] ) && is_array( $scan['cookies'] ) ) ? $scan['cookies'] : array();
 				?>
 				<h3 style="margin:18px 0 6px"><?php esc_html_e( 'Résultats du dernier scan', 'freecookie' ); ?></h3>
-				<?php if ( empty( $fc_services ) ) : ?>
+				<?php if ( empty( $fc_services ) && empty( $fc_cookies ) ) : ?>
 					<div class="notice notice-success inline" style="margin:0;max-width:820px"><p>
-						<?php esc_html_e( 'Aucun traceur tiers connu détecté sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs.', 'freecookie' ); ?>
+						<?php esc_html_e( 'Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs.', 'freecookie' ); ?>
 					</p></div>
-				<?php else : ?>
+				<?php endif; ?>
+				<?php if ( ! empty( $fc_services ) ) : ?>
 					<style>.fc-adm-score{font-size:11px;font-weight:700;padding:1px 8px;border-radius:100px;color:#fff;white-space:nowrap}.fc-adm-score--green{background:#1f9d55}.fc-adm-score--orange{background:#cf8500}.fc-adm-score--red{background:#d64545}</style>
 					<table class="widefat striped" style="max-width:820px">
 						<thead><tr>
@@ -439,6 +478,30 @@ class FC_Admin {
 						</tbody>
 					</table>
 				<?php endif; ?>
+			<?php if ( ! empty( $fc_cookies ) ) : ?>
+				<h4 style="margin:16px 0 6px"><?php printf( /* translators: %d: nombre de cookies. */ esc_html__( 'Cookies observés (%d)', 'freecookie' ), count( $fc_cookies ) ); ?></h4>
+				<table class="widefat striped" style="max-width:820px">
+					<thead><tr>
+						<th><?php esc_html_e( 'Cookie', 'freecookie' ); ?></th>
+						<th><?php esc_html_e( 'Origine', 'freecookie' ); ?></th>
+						<th><?php esc_html_e( 'Service', 'freecookie' ); ?></th>
+						<th><?php esc_html_e( 'Catégorie', 'freecookie' ); ?></th>
+						<th><?php esc_html_e( 'Description', 'freecookie' ); ?></th>
+					</tr></thead>
+					<tbody>
+					<?php foreach ( $fc_cookies as $fc_ck_name => $fc_ck ) : ?>
+						<?php $fc_ck_clbl = isset( $bundle[ $fc_ck['cat'] ] ) ? $bundle[ $fc_ck['cat'] ] : $fc_ck['cat']; ?>
+						<tr>
+							<td><code><?php echo esc_html( $fc_ck_name ); ?></code></td>
+							<td><?php echo ( 'js' === ( $fc_ck['src'] ?? 'http' ) ) ? esc_html__( 'Navigateur', 'freecookie' ) : esc_html__( 'Serveur (HTTP)', 'freecookie' ); ?></td>
+							<td><?php echo ! empty( $fc_ck['service'] ) ? esc_html( FC_Categories::service_label( $fc_ck['service'] ) ) : esc_html__( 'Ce site', 'freecookie' ); ?></td>
+							<td><?php echo esc_html( $fc_ck_clbl ); ?></td>
+							<td><?php echo esc_html( FC_I18n::pick( $fc_ck['desc'], $lang ) ); ?></td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		<?php

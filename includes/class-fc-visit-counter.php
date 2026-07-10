@@ -30,9 +30,13 @@ class FC_Visit_Counter {
 		if ( ! empty( $_COOKIE[ self::SEEN_COOKIE ] ) ) {
 			return;
 		}
+		// L'aperçu d'observation du scan (admin) n'est pas une visite.
+		if ( FC_Scanner::is_sniff_request() ) {
+			return;
+		}
 		// Ne pas compter les robots évidents.
 		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ) : '';
-		if ( $ua && preg_match( '/bot|crawl|spider|slurp|preview|headless|lighthouse/', $ua ) ) {
+		if ( $ua && preg_match( '/bot|crawl|spider|slurp|preview|headless|lighthouse|freecookie-scanner/', $ua ) ) {
 			return;
 		}
 

@@ -32,6 +32,155 @@ class FC_Rest {
 				),
 			)
 		);
+
+		// Scan interactif (administration uniquement).
+		$admin_only = function () {
+			return current_user_can( 'manage_options' );
+		};
+		register_rest_route(
+			'freecookie/v1',
+			'/scan/start',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'scan_start' ),
+				'permission_callback' => $admin_only,
+			)
+		);
+		register_rest_route(
+			'freecookie/v1',
+			'/scan/step',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'scan_step' ),
+				'permission_callback' => $admin_only,
+				'args'                => array(
+					'url' => array( 'type' => 'string', 'required' => true ),
+				),
+			)
+		);
+		register_rest_route(
+			'freecookie/v1',
+			'/scan/client-cookies',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'scan_client_cookies' ),
+				'permission_callback' => $admin_only,
+				'args'                => array(
+					'names' => array( 'type' => 'string', 'required' => true ),
+				),
+			)
+		);
+		register_rest_route(
+			'freecookie/v1',
+			'/scan/finish',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'scan_finish' ),
+				'permission_callback' => $admin_only,
+			)
+		);
+	}
+
+	/**
+	 * Démarre un scan interactif : renvoie la liste d'URLs à examiner.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function scan_start() {
+		FC_Scanner::run_start();
+		return new WP_REST_Response( array( 'ok' => true, 'urls' => FC_Scanner::gather_urls() ), 200 );
+	}
+
+	/**
+	 * Analyse une URL du site et renvoie ce qui a été trouvé (pour l'affichage en direct).
+	 *
+	 * @param WP_REST_Request $req Requête.
+	 * @return WP_REST_Response
+	 */
+	public function scan_step( WP_REST_Request $req ) {
+		$url  = esc_url_raw( (string) $req->get_param( 'url' ) );
+		$home = home_url();
+		if ( '' === $url || 0 !== strpos( $url, $home ) ) {
+			return new WP_REST_Response( array( 'ok' => false ), 400 );
+		}
+
+		$r = FC_Scanner::scan_url( $url );
+		FC_Scanner::run_merge( $r['services'], $r['cookies'], $r['ok'] ? 1 : 0 );
+
+		return new WP_REST_Response(
+			array(
+				'ok'       => $r['ok'],
+				'services' => $this->describe_services( $r['services'] ),
+				'cookies'  => $this->describe_cookies( $r['cookies'] ),
+			),
+			200
+		);
+	}
+
+	/**
+	 * Reçoit les cookies observés dans le navigateur (document.cookie de l'aperçu).
+	 *
+	 * @param WP_REST_Request $req Requête.
+	 * @return WP_REST_Response
+	 */
+	public function scan_client_cookies( WP_REST_Request $req ) {
+		$raw     = (string) $req->get_param( 'names' );
+		$names   = array_filter( array_map( 'trim', explode( ',', $raw ) ) );
+		$cookies = array();
+		foreach ( array_slice( $names, 0, 100 ) as $name ) {
+			$name = preg_replace( '/[^A-Za-z0-9_\-\.%]/', '', $name );
+			if ( '' !== $name ) {
+				$cookies[ $name ] = FC_Scanner::classify_cookie( $name, 'js' );
+			}
+		}
+		FC_Scanner::run_merge( array(), $cookies, 0 );
+
+		return new WP_REST_Response( array( 'ok' => true, 'cookies' => $this->describe_cookies( $cookies ) ), 200 );
+	}
+
+	/**
+	 * Termine le scan interactif : consolide, sauvegarde, rafraîchit les couleurs.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function scan_finish() {
+		$result = FC_Scanner::run_finish();
+		if ( class_exists( 'FC_Color_Detector' ) ) {
+			FC_Color_Detector::detect( true );
+		}
+		return new WP_REST_Response(
+			array(
+				'ok'       => true,
+				'scanned'  => $result['scanned'],
+				'services' => count( $result['services'] ),
+				'cookies'  => count( $result['cookies'] ),
+			),
+			200
+		);
+	}
+
+	/** Étiquettes lisibles des services, pour le journal en direct. */
+	protected function describe_services( $services ) {
+		$out = array();
+		foreach ( $services as $key ) {
+			$out[] = array( 'key' => $key, 'label' => FC_Categories::service_label( $key ) );
+		}
+		return $out;
+	}
+
+	/** Étiquettes lisibles des cookies, pour le journal en direct. */
+	protected function describe_cookies( $cookies ) {
+		$lang = FC_I18n::detect( false );
+		$out  = array();
+		foreach ( $cookies as $name => $meta ) {
+			$out[] = array(
+				'name'    => $name,
+				'service' => ! empty( $meta['service'] ) ? FC_Categories::service_label( $meta['service'] ) : '',
+				'desc'    => FC_I18n::pick( $meta['desc'], $lang ),
+				'src'     => $meta['src'],
+			);
+		}
+		return $out;
 	}
 
 	/**

@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.7.1
+Stable tag: 0.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,14 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.8.0 =
+* Le scan détecte maintenant les COOKIES RÉELS, pas seulement les scripts tiers connus : en-têtes Set-Cookie côté serveur + observation dans le navigateur (aperçu sans blocage, réservé à l'administrateur) — les cookies posés en JavaScript comme _ga sont vus, à la manière des scanners du marché.
+* Un cookie de service tiers observé (_ga, _pk_id…) révèle automatiquement le service correspondant.
+* Base de cookies internes connus (WordPress, WooCommerce, outils de consentement, Polylang/WPML, Jetpack…) traduite en 7 langues ; les cookies inconnus sont listés comme « Cookie interne du site ».
+* Barre de progression pendant le scan, avec journal en direct des services et cookies trouvés.
+* Résultats : nouveau tableau « Cookies observés » (origine serveur/navigateur, service, catégorie, description) ; la liste publique [freecookie_cookies] inclut les cookies internes observés (« Ce site »).
+* Les passages du scanner ne comptent plus comme des visites.
 
 = 0.7.1 =
 * Fiches par cookie entièrement traduites dans les 7 langues (descriptions + durées, base de cookies neutre en jetons). Auparavant, ces textes restaient en français.
