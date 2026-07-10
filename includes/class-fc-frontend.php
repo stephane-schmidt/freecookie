@@ -134,6 +134,51 @@ class FC_Frontend {
 		return $out;
 	}
 
+	/**
+	 * Cookies STRICTEMENT NÉCESSAIRES à montrer aux visiteurs : celui de
+	 * FreeCookie lui-même (transparence) + les cookies internes réellement
+	 * observés par le scan.
+	 *
+	 * @param string $lang Langue des fiches.
+	 * @return array<int,array{name:string,duration:string,desc:string}>
+	 */
+	protected function necessary_cookies( $lang ) {
+		$out   = array();
+		$out[] = array(
+			'name'     => FREECOOKIE_COOKIE,
+			'duration' => FC_I18n::days_label( (int) $this->settings['consent_days'], $lang ),
+			'desc'     => FC_I18n::pick(
+				array(
+					'fr' => 'Mémorise vos choix de consentement pour ce bandeau.',
+					'en' => 'Stores your consent choices for this banner.',
+					'de' => 'Speichert Ihre Einwilligungsauswahl für dieses Banner.',
+					'it' => 'Memorizza le tue scelte di consenso per questo banner.',
+					'es' => 'Guarda sus opciones de consentimiento para este banner.',
+					'nl' => 'Bewaart uw toestemmingskeuzes voor deze banner.',
+					'pt' => 'Guarda as suas escolhas de consentimento para este banner.',
+				),
+				$lang
+			),
+		);
+		$scan = FC_Scanner::last();
+		if ( $scan && ! empty( $scan['cookies'] ) && is_array( $scan['cookies'] ) ) {
+			foreach ( $scan['cookies'] as $name => $meta ) {
+				if ( ! is_array( $meta ) || 'necessary' !== ( $meta['cat'] ?? '' ) ) {
+					continue;
+				}
+				if ( FREECOOKIE_COOKIE === $name || 'fc_v' === $name ) {
+					continue; // déjà couvert par l'entrée FreeCookie.
+				}
+				$out[] = array(
+					'name'     => $name,
+					'duration' => ! empty( $meta['duration'] ) ? FC_I18n::duration_label( $meta['duration'], $lang ) : '',
+					'desc'     => FC_I18n::pick( $meta['desc'] ?? '', $lang ),
+				);
+			}
+		}
+		return $out;
+	}
+
 	public function render_banner() {
 		// Aperçu d'observation du scan : pas de bannière dans l'iframe.
 		if ( FC_Scanner::is_sniff_request() ) {
@@ -143,6 +188,11 @@ class FC_Frontend {
 		$strings  = $this->strings( $lang );
 		$cats     = FC_Categories::all();
 		$services = $this->detected_services( $lang );
+		$necessary_cookies = $this->necessary_cookies( $lang );
+		$fc_scan  = FC_Scanner::last();
+		// Le scan a tourné et n'a trouvé AUCUN traceur tiers : on le DIT aux
+		// visiteurs (bonne nouvelle) au lieu de laisser un silence ambigu.
+		$no_trackers = ( $fc_scan && empty( $services ) );
 		$defaults = FC_Plugin::default_settings();
 		$about    = isset( $this->settings['about'] ) && is_array( $this->settings['about'] )
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )

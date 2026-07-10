@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.11.1
+Stable tag: 0.12.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.0 =
+* Le résultat du scan est toujours visible côté visiteurs : quand aucun traceur tiers n'est détecté, la bannière l'affiche fièrement (« Bonne nouvelle : aucun traceur tiers n'a été détecté sur ce site ») au lieu de rester muette — traduit dans les 7 langues.
+* Transparence totale : la catégorie « Strictement nécessaires » liste désormais ses cookies réels en fiches dépliables — le cookie de consentement de FreeCookie lui-même (avec sa durée réglée) et les cookies internes observés par le scan.
 
 = 0.11.1 =
 * Les pastilles des traceurs parlent le même langage que le volet pédagogique : « Utile / À nuancer / À surveiller » (au lieu de « Risque faible/moyen/élevé », jugé inquiétant), dans les 7 langues.

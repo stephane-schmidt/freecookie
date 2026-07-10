@@ -43,6 +43,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 						<?php if ( $desc ) : ?>
 							<p class="fc-cat__desc"><?php echo esc_html( $desc ); ?></p>
 						<?php endif; ?>
+						<?php if ( $locked && 'necessary' === $key && ! empty( $necessary_cookies ) ) : ?>
+							<details class="fc-ck-details">
+								<summary><?php echo esc_html( $strings['ck_details'] . ' (' . count( $necessary_cookies ) . ')' ); ?></summary>
+								<?php foreach ( $necessary_cookies as $fc_nk ) : ?>
+									<dl class="fc-ck">
+										<div><dt><?php echo esc_html( $strings['ck_cookie'] ); ?></dt><dd><code><?php echo esc_html( $fc_nk['name'] ); ?></code></dd></div>
+										<?php if ( '' !== $fc_nk['duration'] ) : ?>
+											<div><dt><?php echo esc_html( $strings['ck_duration'] ); ?></dt><dd><?php echo esc_html( $fc_nk['duration'] ); ?></dd></div>
+										<?php endif; ?>
+										<?php if ( '' !== $fc_nk['desc'] ) : ?>
+											<div><dt><?php echo esc_html( $strings['ck_desc'] ); ?></dt><dd><?php echo esc_html( $fc_nk['desc'] ); ?></dd></div>
+										<?php endif; ?>
+									</dl>
+								<?php endforeach; ?>
+							</details>
+						<?php endif; ?>
 						<?php if ( ! $locked && ! empty( $services[ $key ] ) ) : ?>
 							<ul class="fc-svcs">
 								<?php foreach ( $services[ $key ] as $svc ) : ?>
@@ -84,6 +100,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 					</li>
 				<?php endforeach; ?>
 			</ul>
+
+			<?php if ( ! empty( $no_trackers ) ) : ?>
+				<p class="fc-note"><span class="fc-note__dot" aria-hidden="true"></span><?php echo esc_html( $strings['no_trackers'] ); ?></p>
+			<?php endif; ?>
 
 			<div class="fc-actions">
 				<button type="button" class="fc-btn fc-btn--secondary" data-fc="save"><?php echo esc_html( $strings['save'] ); ?></button>

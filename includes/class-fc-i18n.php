@@ -150,6 +150,18 @@ class FC_I18n {
 	}
 
 	/**
+	 * Libellé « N jours » traduit (durée configurable du cookie de consentement).
+	 *
+	 * @param int    $days Nombre de jours.
+	 * @param string $lang Code court.
+	 * @return string
+	 */
+	public static function days_label( $days, $lang ) {
+		$word = array( 'fr' => 'jours', 'en' => 'days', 'de' => 'Tage', 'it' => 'giorni', 'es' => 'días', 'nl' => 'dagen', 'pt' => 'dias' );
+		return (int) $days . ' ' . ( $word[ $lang ] ?? $word['en'] );
+	}
+
+	/**
 	 * Toutes les traductions livrées. À étendre langue par langue.
 	 *
 	 * @return array<string,array<string,string>>
@@ -190,6 +202,7 @@ class FC_I18n {
 				'ck_details'  => 'Détails des cookies',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Durée',
+				'no_trackers' => 'Bonne nouvelle : aucun traceur tiers n’a été détecté sur ce site.',
 				'ck_desc'     => 'Description',
 			),
 			'en' => array(
@@ -226,6 +239,7 @@ class FC_I18n {
 				'ck_details'  => 'Cookie details',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Duration',
+				'no_trackers' => 'Good news: no third-party trackers were detected on this site.',
 				'ck_desc'     => 'Description',
 			),
 			'de' => array(
@@ -262,6 +276,7 @@ class FC_I18n {
 				'ck_details'  => 'Cookie-Details',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Dauer',
+				'no_trackers' => 'Gute Nachricht: Auf dieser Website wurden keine Dritt-Tracker gefunden.',
 				'ck_desc'     => 'Beschreibung',
 			),
 			'it' => array(
@@ -298,6 +313,7 @@ class FC_I18n {
 				'ck_details'  => 'Dettagli dei cookie',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Durata',
+				'no_trackers' => 'Buone notizie: su questo sito non sono stati rilevati tracker di terze parti.',
 				'ck_desc'     => 'Descrizione',
 			),
 			'es' => array(
@@ -334,6 +350,7 @@ class FC_I18n {
 				'ck_details'  => 'Detalles de las cookies',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Duración',
+				'no_trackers' => 'Buenas noticias: no se detectaron rastreadores de terceros en este sitio.',
 				'ck_desc'     => 'Descripción',
 			),
 			'nl' => array(
@@ -370,6 +387,7 @@ class FC_I18n {
 				'ck_details'  => 'Cookiedetails',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Duur',
+				'no_trackers' => 'Goed nieuws: er zijn geen trackers van derden op deze site gevonden.',
 				'ck_desc'     => 'Beschrijving',
 			),
 			'pt' => array(
@@ -406,6 +424,7 @@ class FC_I18n {
 				'ck_details'  => 'Detalhes dos cookies',
 				'ck_cookie'   => 'Cookie',
 				'ck_duration' => 'Duração',
+				'no_trackers' => 'Boas notícias: não foram detetados rastreadores de terceiros neste site.',
 				'ck_desc'     => 'Descrição',
 			),
 		);
