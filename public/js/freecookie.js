@@ -328,7 +328,7 @@
 			p.textContent = 'FreeCookie debug ' + (D.version || '')
 				+ '\ninner: ' + window.innerWidth + 'x' + window.innerHeight + '  scrollW: ' + document.documentElement.scrollWidth
 				+ (vv ? '\nvv: ' + Math.round(vv.width) + 'x' + Math.round(vv.height) + '  scale=' + (vv.scale || 1).toFixed(3) + '  off=' + Math.round(vv.offsetLeft) + ',' + Math.round(vv.offsetTop) : '\nvv: absent')
-				+ (b ? '\nbadge: left=' + Math.round(b.left) + '  bottom=' + Math.round(window.innerHeight - b.bottom) + '  (' + Math.round(b.left / window.innerWidth * 100) + '% gauche)  visible=' + ( ! badge.hidden ) : '\nbadge: absent')
+				+ (b ? '\nbadge: left=' + Math.round(b.left) + '  bottom=' + Math.round(window.innerHeight - b.bottom) + '  TAILLE=' + Math.round(b.width) + 'x' + Math.round(b.height) + '  (' + Math.round(b.left / window.innerWidth * 100) + '% gauche)  visible=' + ( ! badge.hidden ) : '\nbadge: absent')
 				+ (cs ? '\nposition=' + cs.position + '  filter=' + ( 'none' === cs.filter ? 'none' : 'PRESENT' ) + '  glue L/B=' + (badge.style.left || '-') + '/' + (badge.style.bottom || '-') : '')
 				+ '\nparent=' + (badge && badge.parentElement ? badge.parentElement.tagName : '?')
 				+ '  ancetres pieges: ' + (tr.length ? tr.join(' > ') : 'aucun')

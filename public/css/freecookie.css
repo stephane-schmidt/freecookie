@@ -171,6 +171,20 @@ button.fc-score:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); ou
 /* On neutralise toute bordure/fond/outline que le thème appliquerait aux <button>,
    sans supprimer l'anneau de focus clavier (accessibilité). */
 #freecookie-badge { border: none !important; background: none !important; padding: 0 !important; box-shadow: none; -webkit-tap-highlight-color: transparent; }
+/* …et on blinde AUSSI les dimensions : les styles globaux de boutons de
+   certains kits (Elementor « Boutons » : largeur/hauteur minimales, width 100%)
+   gonflaient le badge en un grand rectangle — le cookie semblait alors flotter
+   au milieu de l'écran. */
+#freecookie-badge {
+	width: 35px !important;
+	height: 35px !important;
+	min-width: 0 !important;
+	min-height: 0 !important;
+	max-width: 35px !important;
+	max-height: 35px !important;
+	display: block !important;
+	box-sizing: border-box !important;
+}
 #freecookie-badge:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; border: none !important; }
 #freecookie-badge:focus { box-shadow: none !important; }
 #freecookie-badge:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 3px; border-radius: 50%; }
