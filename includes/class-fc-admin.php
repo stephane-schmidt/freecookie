@@ -155,6 +155,8 @@ class FC_Admin {
 		$freq = isset( $input['scan_frequency'] ) ? sanitize_text_field( $input['scan_frequency'] ) : 'weekly';
 		$out['scan_frequency'] = in_array( $freq, array( 'never', 'daily', 'weekly' ), true ) ? $freq : 'weekly';
 		FC_Plugin::sync_schedule( $out['scan_frequency'] );
+		$pages = (int) ( $input['scan_pages'] ?? 10 );
+		$out['scan_pages'] = in_array( $pages, array( 10, 25, 50, 100 ), true ) ? $pages : 10;
 		// Clé FreeCookie Pro (système de confiance : aucune vérification réseau).
 		$out['license_key'] = sanitize_text_field( $input['license_key'] ?? ( $out['license_key'] ?? '' ) );
 
@@ -398,6 +400,17 @@ class FC_Admin {
 								<option value="never" <?php selected( $s['scan_frequency'] ?? '', 'never' ); ?>><?php esc_html_e( 'Jamais (scan manuel uniquement)', 'freecookie' ); ?></option>
 							</select>
 							<p class="description"><?php esc_html_e( 'Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs.', 'freecookie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-scanpages"><?php esc_html_e( 'Pages analysées par scan', 'freecookie' ); ?></label></th>
+						<td>
+							<select id="fc-scanpages" name="freecookie_settings[scan_pages]">
+								<?php foreach ( array( 10 => __( '10 pages (rapide, recommandé)', 'freecookie' ), 25 => __( '25 pages', 'freecookie' ), 50 => __( '50 pages', 'freecookie' ), 100 => __( '100 pages (approfondi)', 'freecookie' ) ) as $fc_np => $fc_lb ) : ?>
+									<option value="<?php echo (int) $fc_np; ?>" <?php selected( (int) ( $s['scan_pages'] ?? 10 ), $fc_np ); ?>><?php echo esc_html( $fc_lb ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<p class="description"><?php esc_html_e( 'Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…).', 'freecookie' ); ?></p>
 						</td>
 					</tr>
 					<tr>

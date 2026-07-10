@@ -66,12 +66,23 @@ class FC_Scanner {
 	 * @param int $max Nombre max d'URLs.
 	 * @return string[]
 	 */
-	public static function gather_urls( $max = 10 ) {
+	public static function gather_urls( $max = 0 ) {
+		if ( $max <= 0 ) {
+			// Réglage « Pages analysées » (10/25/50/100). Inutile de crawler TOUT
+			// le site : les traceurs sont posés par le thème/les extensions et se
+			// retrouvent partout — un échantillon représentatif suffit.
+			$s   = wp_parse_args( get_option( 'freecookie_settings', array() ), FC_Plugin::default_settings() );
+			$max = max( 5, min( 100, (int) ( $s['scan_pages'] ?? 10 ) ) );
+		}
 		$urls = array( home_url( '/' ) );
+
+		// Tous les types de contenus publics (articles, pages, produits, CPT…).
+		$types = get_post_types( array( 'public' => true ) );
+		unset( $types['attachment'] );
 
 		$posts = get_posts(
 			array(
-				'post_type'      => array( 'post', 'page' ),
+				'post_type'      => array_values( $types ),
 				'post_status'    => 'publish',
 				'posts_per_page' => $max - 1,
 				'orderby'        => 'modified',
@@ -267,8 +278,15 @@ class FC_Scanner {
 		$services = array();
 		$cookies  = array();
 		$scanned  = 0;
+		$t0       = microtime( true );
 
 		foreach ( $urls as $url ) {
+			// Garde-fou pour le scan planifié côté serveur : arrêt propre après
+			// 20 s (hébergements à temps d'exécution limité), en sauvegardant
+			// ce qui a déjà été trouvé.
+			if ( microtime( true ) - $t0 > 20 ) {
+				break;
+			}
 			$r = self::scan_url( $url );
 			if ( ! $r['ok'] ) {
 				continue;

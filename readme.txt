@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.9.0
+Stable tag: 0.9.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,12 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.9.1 =
+* Nombre de pages analysées par scan au choix : 10 (recommandé), 25, 50 ou 100 — les traceurs étant posés par le thème et les extensions, un échantillon représentatif suffit ; crawler tout le site n'apporte rien de plus.
+* Le scan échantillonne désormais tous les types de contenus publics (articles, pages, produits, contenus personnalisés…).
+* Le scan planifié s'interrompt proprement après 20 secondes sur les hébergements limités, en conservant ce qui a déjà été trouvé.
+* Le scan n'affiche plus les cookies de session de l'administrateur (wordpress_*, wp-settings-*) : ils n'existent jamais pour les visiteurs.
 
 = 0.9.0 =
 * FreeCookie Pro (système de confiance, aucune vérification en ligne) : 9 familles de formes supplémentaires pour le badge — 180 formes générées — dont deux familles EN COULEURS : « Pastilles du site » (pastilles aux couleurs détectées de votre site) et « Gourmandes » (couleurs naturelles de cookies : pâtes dorées, tout chocolat, trempé au chocolat blanc, caramel, marbré). Plus Cartoon, Fournée, Croqués & miettes, Nappés, Fêtes, Duo graphique et Emporte-pièce. Déverrouillées par la clé reçue après votre soutien ; la conformité de base reste toujours gratuite et complète.

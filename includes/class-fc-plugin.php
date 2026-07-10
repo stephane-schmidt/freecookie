@@ -30,6 +30,7 @@ class FC_Plugin {
 			'visit_threshold'  => 10000,
 			'hide_honor_notice' => false,
 			'scan_frequency'   => 'weekly', // never | daily | weekly — scan automatique des traceurs.
+			'scan_pages'       => 10, // pages échantillonnées par scan : 10, 25, 50 ou 100.
 			'position'         => 'bottom',
 			'badge_shape'      => 'croque-lateral',
 			'license_key'      => '', // FreeCookie Pro (système de confiance).
