@@ -10,6 +10,7 @@
 	if (!D) { return; }
 
 	var root, banner, badge;
+	var usedKeyboard = false; // dernier mode d'interaction : clavier ou pointeur.
 
 	/* ---------- Couleur dominante de la page (mode auto) ---------- */
 	function rgbOf(h){ h = h.slice(1); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
@@ -216,7 +217,17 @@
 	}
 	function closeAll() {
 		hide(root); show(badge);
-		if (badge) { badge.setAttribute('aria-expanded', 'false'); badge.focus(); }
+		if (badge) {
+			badge.setAttribute('aria-expanded', 'false');
+			// On ne rend le focus au badge qu'aux utilisateurs CLAVIER : à la
+			// souris, un focus programmatique fait apparaître l'anneau de focus
+			// du thème (ou le nôtre) autour du badge — le fameux « cadre rouge ».
+			if (usedKeyboard) {
+				badge.focus();
+			} else if (document.activeElement && document.activeElement.blur) {
+				document.activeElement.blur();
+			}
+		}
 	}
 
 	function readToggles() {
@@ -284,6 +295,10 @@
 		});
 		if (badge) { badge.addEventListener('click', openBanner); }
 		document.addEventListener('keydown', trapTab, true);
+		document.addEventListener('keydown', function (e) {
+			if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ') { usedKeyboard = true; }
+		}, true);
+		document.addEventListener('pointerdown', function () { usedKeyboard = false; }, true);
 		initBadgeProximity();
 
 		// Synchro : (dé)cocher une catégorie (dé)coche et (dés)active ses services.
