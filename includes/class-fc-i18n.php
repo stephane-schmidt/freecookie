@@ -17,9 +17,11 @@ class FC_I18n {
 	/**
 	 * Détermine la langue à servir (cascade).
 	 *
-	 * 1) langue active WPML/Polylang → 2) locale du site → 3) (option) navigateur.
+	 * 1) langue active WPML/Polylang (langue réelle de la PAGE affichée)
+	 * → 2) (option) langue du NAVIGATEUR du visiteur, si prise en charge
+	 * → 3) locale du site → 4) anglais.
 	 *
-	 * @param bool $use_browser Autoriser le repli sur Accept-Language.
+	 * @param bool $use_browser La langue du navigateur prime sur celle du site.
 	 * @return string Code court : fr, en, de, it…
 	 */
 	public static function detect( $use_browser = false ) {
@@ -34,17 +36,41 @@ class FC_I18n {
 		if ( defined( 'ICL_LANGUAGE_CODE' ) && ICL_LANGUAGE_CODE ) {
 			return self::normalize( ICL_LANGUAGE_CODE );
 		}
+		// Navigateur du visiteur : première langue de sa liste que l'on parle.
+		if ( $use_browser ) {
+			$bl = self::browser_lang();
+			if ( '' !== $bl ) {
+				return $bl;
+			}
+		}
 		// Locale du site.
 		$locale = get_locale();
 		if ( $locale ) {
 			return self::normalize( $locale );
 		}
-		// Repli navigateur (optionnel).
-		if ( $use_browser && ! empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
-			$al = sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) );
-			return self::normalize( substr( $al, 0, 5 ) );
-		}
 		return 'en';
+	}
+
+	/**
+	 * Première langue PRISE EN CHARGE de la liste Accept-Language du visiteur
+	 * (parcourue dans l'ordre de préférence), ou '' si aucune.
+	 *
+	 * @return string Code court ou ''.
+	 */
+	public static function browser_lang() {
+		if ( empty( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+			return '';
+		}
+		$al    = strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) );
+		$avail = array_keys( self::strings() );
+		foreach ( explode( ',', $al ) as $part ) {
+			$code  = trim( explode( ';', $part )[0] );
+			$short = substr( str_replace( '_', '-', $code ), 0, 2 );
+			if ( in_array( $short, $avail, true ) ) {
+				return $short;
+			}
+		}
+		return '';
 	}
 
 	/**
