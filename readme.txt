@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.11.0
+Stable tag: 0.11.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.11.1 =
+* Les pastilles des traceurs parlent le même langage que le volet pédagogique : « Utile / À nuancer / À surveiller » (au lieu de « Risque faible/moyen/élevé », jugé inquiétant), dans les 7 langues.
+* La pastille est cliquable : elle ouvre « Comprendre les cookies » pour expliquer le code couleur.
 
 = 0.11.0 =
 * Achat Pro en ligne : bouton « Passer à Pro » vers la boutique (polar.sh/freeeconcept, 10 $/an ou 45 $ à vie) — la clé de licence est générée et envoyée AUTOMATIQUEMENT par e-mail à l'achat. Collez-la dans le champ Clé Pro, c'est tout : fidèle au « 100 % local », aucune vérification en ligne.

@@ -52,7 +52,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 											<span class="fc-svc__main">
 												<span class="fc-svc__name"><?php echo esc_html( $svc['label'] ); ?></span>
 												<?php if ( $fc_risk ) : ?>
-													<span class="fc-score fc-score--<?php echo esc_attr( $svc['color'] ); ?>"><?php echo esc_html( $fc_risk ); ?></span>
+													<button type="button" class="fc-score fc-score--<?php echo esc_attr( $svc['color'] ); ?>" data-fc="edu"
+														title="<?php echo esc_attr( $strings['edu_open'] ); ?>"
+														aria-label="<?php echo esc_attr( $fc_risk . ' — ' . $strings['edu_open'] ); ?>"><?php echo esc_html( $fc_risk ); ?></button>
 												<?php endif; ?>
 											</span>
 											<input type="checkbox" class="fc-svc-toggle" disabled
