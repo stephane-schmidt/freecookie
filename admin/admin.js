@@ -71,6 +71,18 @@
 		} );
 	}
 
+	/* Le NAVIGATEUR va chercher la page (même origine, sans cookies) : le site
+	   n'a jamais à s'appeler lui-même — indispensable sur serveur mono-processus
+	   (wp server local) et sur les hébergements qui bloquent le loopback. */
+	function fetchPageHtml( url ) {
+		return fetch( url, { credentials: 'omit', cache: 'no-store' } ).then( function ( r ) {
+			if ( ! r.ok ) {
+				throw new Error( 'HTTP ' + r.status );
+			}
+			return r.text();
+		} );
+	}
+
 	function logFindings( data ) {
 		( data.services || [] ).forEach( function ( s ) {
 			addLog( fmt( fcScan.strings.service, s.label ), true );
@@ -125,7 +137,13 @@
 			urls.forEach( function ( url, idx ) {
 				chain = chain.then( function () {
 					status.textContent = fmt( fcScan.strings.scanning, idx + 1, urls.length );
-					return post( 'step', { url: url } ).then( function ( r ) {
+					return fetchPageHtml( url ).then( function ( html ) {
+						// Sonde Set-Cookie serveur sur la 1re page seulement.
+						return post( 'step', { url: url, html: html, probe: 0 === idx ? '1' : '' } );
+					} ).catch( function () {
+						// Repli : le serveur ira chercher la page lui-même.
+						return post( 'step', { url: url } );
+					} ).then( function ( r ) {
 						logFindings( r );
 						setProgress( ( ( idx + 1 ) / urls.length ) * 80 );
 					} );

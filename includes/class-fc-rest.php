@@ -54,7 +54,9 @@ class FC_Rest {
 				'callback'            => array( $this, 'scan_step' ),
 				'permission_callback' => $admin_only,
 				'args'                => array(
-					'url' => array( 'type' => 'string', 'required' => true ),
+					'url'   => array( 'type' => 'string', 'required' => true ),
+					'html'  => array( 'type' => 'string', 'required' => false ),
+					'probe' => array( 'type' => 'string', 'required' => false ),
 				),
 			)
 		);
@@ -104,6 +106,29 @@ class FC_Rest {
 			return new WP_REST_Response( array( 'ok' => false ), 400 );
 		}
 
+		// Chemin principal : le HTML est fourni par le NAVIGATEUR de l'admin
+		// (fetch même origine dans admin.js). Aucune requête du site vers
+		// lui-même → fonctionne sur serveur mono-processus (wp server) et sur
+		// les hébergements qui bloquent le loopback. Le HTML n'est jamais
+		// stocké ni affiché : uniquement balayé par stripos() puis jeté.
+		$html = (string) $req->get_param( 'html' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- analysé, jamais persisté/rendu.
+		if ( '' !== $html ) {
+			$services = FC_Scanner::detect_services( substr( $html, 0, 2 * MB_IN_BYTES ) );
+			// Sonde Set-Cookie serveur : une seule fois par scan (1re page), jamais bloquante.
+			$cookies = $req->get_param( 'probe' ) ? FC_Scanner::probe_set_cookie( $url ) : array();
+			FC_Scanner::run_merge( $services, $cookies, 1 );
+
+			return new WP_REST_Response(
+				array(
+					'ok'       => true,
+					'services' => $this->describe_services( $services ),
+					'cookies'  => $this->describe_cookies( $cookies ),
+				),
+				200
+			);
+		}
+
+		// Repli historique (sans HTML) : le serveur va chercher la page lui-même.
 		$r = FC_Scanner::scan_url( $url );
 		FC_Scanner::run_merge( $r['services'], $r['cookies'], $r['ok'] ? 1 : 0 );
 

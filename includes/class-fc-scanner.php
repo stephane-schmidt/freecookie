@@ -124,6 +124,43 @@ class FC_Scanner {
 	}
 
 	/**
+	 * Observation Set-Cookie BEST-EFFORT (jamais bloquante).
+	 *
+	 * Contrairement à scan_url(), cette sonde ne conditionne pas la réussite d'une
+	 * étape : elle tente une requête locale courte uniquement pour capter les
+	 * cookies posés côté serveur (souvent HttpOnly, invisibles à document.cookie).
+	 * Elle est SAUTÉE sous le serveur PHP intégré (mono-processus : le site ne
+	 * peut pas se répondre à lui-même pendant la requête → blocage garanti).
+	 *
+	 * @param string $url URL locale à sonder.
+	 * @return array<string,array> name => classification (vide si sonde impossible).
+	 */
+	public static function probe_set_cookie( $url ) {
+		if ( 'cli-server' === php_sapi_name() ) {
+			return array();
+		}
+		$resp = wp_safe_remote_get(
+			$url,
+			array(
+				'timeout'     => 3,
+				'redirection' => 1,
+				'sslverify'   => false,
+				'user-agent'  => 'FreeCookie-Scanner/' . FREECOOKIE_VERSION,
+			)
+		);
+		if ( is_wp_error( $resp ) ) {
+			return array();
+		}
+		$cookies = array();
+		foreach ( wp_remote_retrieve_cookies( $resp ) as $ck ) {
+			if ( $ck instanceof WP_Http_Cookie && '' !== $ck->name ) {
+				$cookies[ $ck->name ] = self::classify_cookie( $ck->name, 'http' );
+			}
+		}
+		return $cookies;
+	}
+
+	/**
 	 * Classe un cookie observé : service tiers connu, cookie interne connu, ou inconnu.
 	 *
 	 * @param string $name Nom du cookie.
