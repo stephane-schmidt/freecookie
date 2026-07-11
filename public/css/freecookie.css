@@ -206,6 +206,39 @@ iframe.fc-blocked-embed {
 	border: 1px dashed #cfd6dc;
 }
 
+/* Façade d'un embed bloqué : jamais de lecteur cul-de-sac.
+   Posée en absolu PAR-DESSUS l'iframe neutralisée (position calculée en JS). */
+.fc-embed-veil {
+	position: absolute;
+	z-index: 5;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 16px;
+	box-sizing: border-box;
+	text-align: center;
+	background: rgba(18, 24, 32, 0.72);
+	color: #fff;
+	font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	border-radius: inherit;
+}
+.fc-embed-veil__msg { margin: 0; max-width: 34em; font-size: 14px; color: #fff; }
+.fc-embed-veil__btn {
+	appearance: none;
+	border: 1px solid var(--fc-accent, #1c7a6b);
+	background: var(--fc-accent, #1c7a6b);
+	color: var(--fc-accent-text, #fff);
+	font: 600 14px/1 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+	padding: 10px 18px;
+	border-radius: 999px;
+	cursor: pointer;
+}
+.fc-embed-veil__btn:hover { background: var(--fc-accent-deep, #124c43); border-color: var(--fc-accent-deep, #124c43); }
+.fc-embed-veil__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.fc-embed-veil__note { font-size: 11px; opacity: .75; color: #fff; }
+
 @media (max-width: 560px) {
 	.fc-banner { left: 8px; right: 8px; bottom: 8px; transform: none; width: auto; }
 	.fc-inner { padding: 18px; }

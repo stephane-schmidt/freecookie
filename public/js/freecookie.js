@@ -88,12 +88,14 @@
 		} catch (e) { return null; }
 	}
 
-	function saveConsent(granted, off, action) {
+	function saveConsent(granted, off, action, on) {
 		off = off || [];
-		var obj = { v: D.version, c: granted, off: off, id: uuid(), t: Math.floor(Date.now() / 1000) };
+		on = on || []; // allow-list PAR SERVICE (accepté individuellement, ex. depuis la façade d'un lecteur)
+		var obj = { v: D.version, c: granted, off: off, on: on, id: uuid(), t: Math.floor(Date.now() / 1000) };
 		writeCookie(D.cookie, JSON.stringify(obj), D.consentExpiry || 180);
 		applyConsentMode(granted);
-		unblock(granted, off);
+		unblock(granted, off, on);
+		buildVeils();
 		logConsent(obj, action);
 		return obj;
 	}
@@ -113,9 +115,11 @@
 	}
 
 	/* ---------- Déblocage ---------- */
-	function unblock(granted, off) {
+	function unblock(granted, off, on) {
 		off = off || [];
+		on = on || [];
 		function allowed(cat, svc) {
+			if (svc && on.indexOf(svc) !== -1) { return true; } // service accepté individuellement
 			return granted.indexOf(cat) !== -1 && (!svc || off.indexOf(svc) === -1);
 		}
 		// Scripts neutralisés.
@@ -139,8 +143,68 @@
 			f.setAttribute('src', f.getAttribute('data-fc-src'));
 			f.removeAttribute('data-fc-src');
 			f.classList.remove('fc-blocked-embed');
+			removeVeil(f);
 		});
 	}
+
+	/* ---------- Façade des embeds bloqués ----------
+	   Un lecteur bloqué ne doit JAMAIS être un cul-de-sac : chaque iframe
+	   neutralisée reçoit une façade avec un bouton qui accepte UNIQUEMENT le
+	   service concerné (consentement granulaire), sans rouvrir la bannière. */
+	function removeVeil(f) {
+		if (f._fcVeil && f._fcVeil.parentNode) { f._fcVeil.parentNode.removeChild(f._fcVeil); }
+		f._fcVeil = null;
+	}
+
+	function placeVeil(f, veil) {
+		veil.style.left = f.offsetLeft + 'px';
+		veil.style.top = f.offsetTop + 'px';
+		veil.style.width = f.offsetWidth + 'px';
+		veil.style.height = f.offsetHeight + 'px';
+	}
+
+	function allowService(svc) {
+		var c = getConsent() || { c: [], off: [], on: [] };
+		var on = c.on || [];
+		if (on.indexOf(svc) === -1) { on.push(svc); }
+		var off = (c.off || []).filter(function (s) { return s !== svc; });
+		saveConsent(c.c || [], off, 'embed-allow', on);
+	}
+
+	function buildVeils() {
+		var frames = document.querySelectorAll('iframe.fc-blocked-embed[data-fc-src]');
+		Array.prototype.forEach.call(frames, function (f) {
+			if (f._fcVeil) { placeVeil(f, f._fcVeil); return; }
+			if (!f.offsetWidth || !f.offsetHeight) { return; } // invisible : re-tenté au resize
+			var svc = f.getAttribute('data-fc-service') || '';
+			var label = (D.serviceLabels && D.serviceLabels[svc]) || svc || f.getAttribute('data-fc-category') || '';
+			var veil = document.createElement('div');
+			veil.className = 'fc-embed-veil';
+			var msg = document.createElement('p');
+			msg.className = 'fc-embed-veil__msg';
+			msg.textContent = D.strings.embed_blocked || 'This content is blocked by your cookie choices.';
+			var btn = document.createElement('button');
+			btn.type = 'button';
+			btn.className = 'fc-embed-veil__btn';
+			btn.textContent = (D.strings.embed_load || 'Load the player') + (label ? ' (' + label + ')' : '');
+			var note = document.createElement('span');
+			note.className = 'fc-embed-veil__note';
+			note.textContent = (D.strings.embed_note || 'Accepts only {service}').replace('{service}', label);
+			btn.addEventListener('click', function () { if (svc) { allowService(svc); } });
+			veil.appendChild(msg); veil.appendChild(btn); if (svc) { veil.appendChild(note); }
+			var parent = f.parentNode;
+			if (parent && getComputedStyle(parent).position === 'static') { parent.style.position = 'relative'; }
+			placeVeil(f, veil);
+			parent.insertBefore(veil, f.nextSibling);
+			f._fcVeil = veil;
+		});
+	}
+
+	var veilResizeTimer = null;
+	window.addEventListener('resize', function () {
+		clearTimeout(veilResizeTimer);
+		veilResizeTimer = setTimeout(buildVeils, 150);
+	});
 
 	/* ---------- Journal (REST) ---------- */
 	function logConsent(obj, action) {
@@ -171,13 +235,17 @@
 		var c = getConsent();
 		var granted = c ? c.c : [];
 		var off = c ? (c.off || []) : [];
+		var on = c ? (c.on || []) : [];
 		Array.prototype.forEach.call(root.querySelectorAll('.fc-toggle'), function (t) {
 			t.checked = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 		});
 		Array.prototype.forEach.call(root.querySelectorAll('.fc-svc-toggle'), function (t) {
-			var on = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
-			t.checked = on && off.indexOf(t.getAttribute('data-fc-svc')) === -1;
-			t.disabled = !on;
+			var catOn = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
+			var svc = t.getAttribute('data-fc-svc');
+			// Un service peut être accepté individuellement (façade) : la case
+			// reste donc UTILISABLE même quand sa catégorie est refusée.
+			t.checked = (catOn && off.indexOf(svc) === -1) || on.indexOf(svc) !== -1;
+			t.disabled = false;
 		});
 	}
 
@@ -235,17 +303,19 @@
 		Array.prototype.forEach.call(document.querySelectorAll('.fc-toggle'), function (t) {
 			if (t.checked) { cats.push(t.getAttribute('data-fc-cat')); }
 		});
-		var off = [];
+		var off = [], on = [];
 		Array.prototype.forEach.call(document.querySelectorAll('.fc-svc-toggle'), function (t) {
+			var catOn = cats.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 			if (!t.checked) { off.push(t.getAttribute('data-fc-svc')); }
+			else if (!catOn) { on.push(t.getAttribute('data-fc-svc')); } // service seul, catégorie refusée
 		});
-		return { cats: cats, off: off };
+		return { cats: cats, off: off, on: on };
 	}
 
 	function onClick(action) {
 		if (action === 'accept') { saveConsent(optionalKeys(), [], 'accept'); closeAll(); }
-		else if (action === 'reject') { saveConsent([], [], 'reject'); closeAll(); }
-		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save'); closeAll(); }
+		else if (action === 'reject') { saveConsent([], [], 'reject', []); closeAll(); }
+		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save', t.on); closeAll(); }
 		else if (action === 'customize') { openBanner(); } // rétro-compat : tout est déjà visible.
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
@@ -413,11 +483,12 @@
 		if (consent) {
 			// Visiteur déjà décidé : on applique et on montre juste le badge.
 			applyConsentMode(consent.c);
-			unblock(consent.c, consent.off || []);
+			unblock(consent.c, consent.off || [], consent.on || []);
 			show(badge);
 		} else {
 			openBanner();
 		}
+		buildVeils(); // façade sur tout embed resté bloqué (jamais de lecteur cul-de-sac)
 
 		// API publique.
 		window.FreeCookie = {

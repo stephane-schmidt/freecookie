@@ -50,6 +50,19 @@ class FC_Frontend {
 	}
 
 	/**
+	 * Libellés lisibles de tous les services connus (clé → nom).
+	 *
+	 * @return array<string,string>
+	 */
+	protected static function service_labels() {
+		$out = array();
+		foreach ( FC_Categories::known_services() as $key => $svc ) {
+			$out[ $key ] = FC_Categories::service_label( $key );
+		}
+		return $out;
+	}
+
+	/**
 	 * Enfile CSS + JS et transmet la configuration.
 	 */
 	public function enqueue() {
@@ -85,6 +98,8 @@ class FC_Frontend {
 				'restUrl'        => esc_url_raw( rest_url( 'freecookie/v1/consent' ) ),
 				'nonce'          => wp_create_nonce( 'wp_rest' ),
 				'strings'        => $strings,
+				// Libellés des services connus (façade des embeds bloqués).
+				'serviceLabels'  => self::service_labels(),
 				// Mode auto : aucune couleur principale fixée dans les réglages
 				// → le badge/bannière suit la couleur dominante de CHAQUE page.
 				'autoColor'      => ( '' === FC_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),

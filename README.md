@@ -24,6 +24,7 @@ La plupart des solutions du marché chargent la bannière, la logique de consent
 
 ## Fonctionnalités
 
+- **Jamais de lecteur cul-de-sac.** Un embed bloqué (YouTube, Vimeo…) affiche une façade « Charger le lecteur » qui accepte **uniquement le service concerné** (consentement granulaire par service), sans rouvrir la bannière — le visiteur qui refuse tout peut quand même choisir de regarder une vidéo, en connaissance de cause.
 - **Blocage a priori réel.** Les scripts et iframes tiers connus (Google Analytics, GTM, Meta Pixel, YouTube, Maps, Matomo, Hotjar, TikTok, LinkedIn…) sont neutralisés (`type="text/plain"`, `src` mis de côté) **tant que le visiteur n'a pas consenti**, puis débloqués au clic. **Compatible avec le cache de page** (le HTML mis en cache est identique pour tous ; la décision vit dans un cookie first-party lu en JavaScript).
 - **Bannière accessible et conforme.** « Tout accepter » / « Tout refuser » / « Personnaliser » à parité stricte (mêmes styles, un seul clic pour refuser), navigation clavier, focus visible, aucune case cochée par défaut.
 - **Google Consent Mode v2 natif.** Émission de `gtag('consent','default', … denied)` avant tout tag Google, puis `update` selon les finalités acceptées. Mapping automatique finalités → signaux (`analytics_storage`, `ad_storage`, `ad_user_data`, `ad_personalization`).
