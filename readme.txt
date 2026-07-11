@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.6
+Stable tag: 0.12.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.7 =
+* Reconnaissance des cookies fonctionnels du chat auto-hébergé Wise Chat (session de pseudo, préférences d'affichage) : classés strictement nécessaires, décrits en 7 langues. Le scan les montre honnêtement comme fonctionnels, pas comme traceurs.
 
 = 0.12.6 =
 * Descriptions des services entièrement traduites dans les 7 langues : la finalité de chaque traceur (Google Analytics, AdSense, YouTube, Meta, Maps…) s'affiche désormais dans la langue du visiteur, au lieu du français. La bannière est enfin 100 % cohérente sur les sites non francophones.

@@ -114,4 +114,18 @@ return array(
 		'duration' => 'session',
 		'desc'     => array( 'fr' => 'Mémorise la langue d’affichage que vous avez choisie (traduction).', 'en' => 'Remembers the display language you selected (translation).', 'de' => 'Speichert die von Ihnen gewählte Anzeigesprache (Übersetzung).', 'it' => 'Memorizza la lingua di visualizzazione scelta (traduzione).', 'es' => 'Recuerda el idioma de visualización que elegiste (traducción).', 'nl' => 'Onthoudt de door u gekozen weergavetaal (vertaling).', 'pt' => 'Guarda o idioma de exibição que escolheu (tradução).' ),
 	),
+	array(
+		// Chat Wise Chat (auto-hébergé) : session d'un participant au chat, choisie
+		// via un pseudo (sans compte). Première partie, aucun suivi tiers.
+		'match'    => 'wc_auth_*',
+		'cat'      => 'necessary',
+		'duration' => 'session',
+		'desc'     => array( 'fr' => 'Session du chat (votre pseudo), pour participer sans compte.', 'en' => 'Chat session (your nickname), to take part without an account.', 'de' => 'Chat-Sitzung (Ihr Spitzname), zur Teilnahme ohne Konto.', 'it' => 'Sessione della chat (il tuo nickname), per partecipare senza account.', 'es' => 'Sesión del chat (tu apodo), para participar sin cuenta.', 'nl' => 'Chatsessie (uw bijnaam), om zonder account deel te nemen.', 'pt' => 'Sessão do chat (o seu apelido), para participar sem conta.' ),
+	),
+	array(
+		'match'    => 'wcUserSettings',
+		'cat'      => 'necessary',
+		'duration' => 'persistent',
+		'desc'     => array( 'fr' => 'Préférences d’affichage du chat (Wise Chat).', 'en' => 'Chat display preferences (Wise Chat).', 'de' => 'Chat-Anzeigeeinstellungen (Wise Chat).', 'it' => 'Preferenze di visualizzazione della chat (Wise Chat).', 'es' => 'Preferencias de visualización del chat (Wise Chat).', 'nl' => 'Weergavevoorkeuren van de chat (Wise Chat).', 'pt' => 'Preferências de exibição do chat (Wise Chat).' ),
+	),
 );
