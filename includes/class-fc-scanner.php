@@ -296,6 +296,19 @@ class FC_Scanner {
 			$cookies  = array_merge( $cookies, $r['cookies'] );
 		}
 
+		// Garde-fou anti-écrasement : si AUCUNE page n'a pu être récupérée
+		// (serveur mono-worker incapable de se requêter, loopback bloqué par
+		// l'hébergeur, panne réseau transitoire…), le résultat est ININTERPRÉTABLE.
+		// On NE remplace PAS un scan précédent valide par ce vide trompeur — sinon
+		// la bannière afficherait « aucun traceur » à tort. Le scan interactif
+		// (HTML fourni par le navigateur de l'admin) reste la voie fiable.
+		if ( 0 === $scanned ) {
+			$previous = self::last();
+			if ( is_array( $previous ) ) {
+				return $previous;
+			}
+		}
+
 		return self::save( $services, $cookies, $scanned );
 	}
 
