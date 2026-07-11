@@ -124,7 +124,7 @@ class FC_Frontend {
 			$out[ $meta['category'] ][] = array(
 				'key'     => $key,
 				'label'   => FC_Categories::service_label( $key ),
-				'purpose' => $meta['purpose'],
+				'purpose' => FC_I18n::pick( $meta['purpose'], $lang ),
 				'score'   => $meta['score'],
 				'risk'    => FC_Categories::risk_key( $meta['score'] ),
 				'color'   => FC_Categories::score_color( $meta['score'] ),

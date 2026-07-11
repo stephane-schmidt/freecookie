@@ -566,7 +566,7 @@ class FC_Admin {
 								<td><strong><?php echo esc_html( FC_Categories::service_label( $fc_key ) ); ?></strong></td>
 								<td><?php echo esc_html( $fc_clbl ); ?></td>
 								<td><span class="fc-adm-score fc-adm-score--<?php echo esc_attr( $fc_color ); ?>"><?php echo esc_html( $fc_rlbl ); ?></span></td>
-								<td><?php echo esc_html( $fc_meta['purpose'] ); ?></td>
+								<td><?php echo esc_html( FC_I18n::pick( $fc_meta['purpose'], $lang ) ); ?></td>
 							</tr>
 						<?php endforeach; ?>
 						</tbody>
