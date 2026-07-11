@@ -154,6 +154,7 @@
 	function removeVeil(f) {
 		if (f._fcVeil && f._fcVeil.parentNode) { f._fcVeil.parentNode.removeChild(f._fcVeil); }
 		f._fcVeil = null;
+		if (f._fcRo) { f._fcRo.disconnect(); f._fcRo = null; }
 	}
 
 	function placeVeil(f, veil) {
@@ -175,7 +176,9 @@
 		var frames = document.querySelectorAll('iframe.fc-blocked-embed[data-fc-src]');
 		Array.prototype.forEach.call(frames, function (f) {
 			if (f._fcVeil) { placeVeil(f, f._fcVeil); return; }
-			if (!f.offsetWidth || !f.offsetHeight) { return; } // invisible : re-tenté au resize
+			// Une iframe encore invisible (onglet masqué, lazy layout) reçoit quand
+			// même son voile (0 px, inoffensif) : le ResizeObserver le dimensionnera
+			// dès qu'elle apparaît. Sans ResizeObserver, repli sur le resize fenêtre.
 			var svc = f.getAttribute('data-fc-service') || '';
 			var label = (D.serviceLabels && D.serviceLabels[svc]) || svc || f.getAttribute('data-fc-category') || '';
 			var veil = document.createElement('div');
@@ -197,6 +200,15 @@
 			placeVeil(f, veil);
 			parent.insertBefore(veil, f.nextSibling);
 			f._fcVeil = veil;
+			// L'iframe peut être layoutée APRÈS la pose (onglet, aspect-ratio, fonts) :
+			// on re-mesure à chaque changement de taille de l'iframe ou de son parent.
+			if (window.ResizeObserver && !f._fcRo) {
+				f._fcRo = new ResizeObserver(function () {
+					if (f._fcVeil) { placeVeil(f, f._fcVeil); }
+				});
+				f._fcRo.observe(f);
+				if (parent) { f._fcRo.observe(parent); }
+			}
 		});
 	}
 

@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.9
+Stable tag: 0.12.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.10 =
+* Façade des embeds bloqués : dimensionnement fiabilisé. Le voile suit désormais la taille réelle du lecteur via ResizeObserver (iframe + parent) au lieu d'une mesure unique au chargement — corrige la petite boîte rognée quand le lecteur est layouté tardivement (onglet, aspect-ratio, polices). Les embeds cachés au chargement (onglet masqué) reçoivent aussi leur façade, dimensionnée à l'apparition.
 
 = 0.12.9 =
 * Un lecteur bloqué n'est plus jamais un cul-de-sac : chaque embed neutralisé (YouTube, Vimeo…) affiche une façade « Charger le lecteur » qui accepte UNIQUEMENT le service concerné (consentement granulaire, la bannière ne se rouvre pas). Nouvelle allow-list par service dans le cookie de consentement (`on`), reflétée dans le panneau : la case d'un service reste utilisable même quand sa famille est refusée. Textes traduits en 7 langues, boutons aux couleurs du site.
