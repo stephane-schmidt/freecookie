@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.7
+Stable tag: 0.12.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.8 =
+* Blocage a priori de Google Funding Choices (fenêtre de consentement publicitaire de Google) : le script `fundingchoicesmessages.google.com` et ses amorces inline (`googlefc`) sont neutralisés avant consentement, comme les autres traceurs marketing. Évite la double bannière quand un site colle le tag Funding Choices en dur. Nouveau service « Google Funding Choices » dans le scan, décrit en 7 langues.
 
 = 0.12.7 =
 * Reconnaissance des cookies fonctionnels du chat auto-hébergé Wise Chat (session de pseudo, préférences d'affichage) : classés strictement nécessaires, décrits en 7 langues. Le scan les montre honnêtement comme fonctionnels, pas comme traceurs.

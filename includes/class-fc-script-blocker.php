@@ -25,7 +25,7 @@ class FC_Script_Blocker {
 	protected function inline_signatures() {
 		return array(
 			'statistics' => '(gtag\(\s*[\'"]config[\'"]\s*,\s*[\'"]G-|ga\(\s*[\'"]create[\'"]|_gaq\.push|googletagmanager)',
-			'marketing'  => '(fbq\(\s*[\'"]init[\'"]|connect\.facebook\.net|_linkedin_partner_id|ttq\.load)',
+			'marketing'  => '(fbq\(\s*[\'"]init[\'"]|connect\.facebook\.net|_linkedin_partner_id|ttq\.load|fundingchoicesmessages\.google\.com|googlefc\.callbackQueue|signalGooglefcPresent)',
 		);
 	}
 

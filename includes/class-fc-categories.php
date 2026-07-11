@@ -77,6 +77,7 @@ class FC_Categories {
 			'google-analytics' => array( 'purpose' => array( 'fr' => 'Statistiques de visite (Google Analytics) : pages vues, comportement.', 'en' => 'Visit statistics (Google Analytics): page views, behaviour.', 'de' => 'Besuchsstatistik (Google Analytics): Seitenaufrufe, Verhalten.', 'it' => 'Statistiche di visita (Google Analytics): pagine viste, comportamento.', 'es' => 'Estadísticas de visita (Google Analytics): páginas vistas, comportamiento.', 'nl' => 'Bezoekstatistieken (Google Analytics): paginaweergaven, gedrag.', 'pt' => 'Estatísticas de visita (Google Analytics): páginas vistas, comportamento.' ), 'score' => 4 ),
 			'google-tag-manager' => array( 'purpose' => array( 'fr' => 'Gestionnaire de balises Google : charge d’autres traceurs.', 'en' => 'Google Tag Manager: loads other trackers.', 'de' => 'Google Tag Manager: lädt weitere Tracker.', 'it' => 'Google Tag Manager: carica altri tracker.', 'es' => 'Google Tag Manager: carga otros rastreadores.', 'nl' => 'Google Tag Manager: laadt andere trackers.', 'pt' => 'Google Tag Manager: carrega outros rastreadores.' ), 'score' => 4 ),
 			'google-ads' => array( 'purpose' => array( 'fr' => 'Publicité et remarketing Google.', 'en' => 'Google advertising and remarketing.', 'de' => 'Google-Werbung und Remarketing.', 'it' => 'Pubblicità e remarketing di Google.', 'es' => 'Publicidad y remarketing de Google.', 'nl' => 'Google-advertenties en remarketing.', 'pt' => 'Publicidade e remarketing da Google.' ), 'score' => 1 ),
+			'google-funding-choices' => array( 'purpose' => array( 'fr' => 'Fenêtre de consentement publicitaire de Google (Funding Choices) : charge des scripts Google et peut afficher une seconde bannière.', 'en' => 'Google ad-consent window (Funding Choices): loads Google scripts and may display a second banner.', 'de' => 'Google-Werbeeinwilligungsfenster (Funding Choices): lädt Google-Skripte und kann ein zweites Banner anzeigen.', 'it' => 'Finestra di consenso pubblicitario di Google (Funding Choices): carica script di Google e può mostrare un secondo banner.', 'es' => 'Ventana de consentimiento publicitario de Google (Funding Choices): carga scripts de Google y puede mostrar un segundo banner.', 'nl' => 'Google-advertentietoestemmingsvenster (Funding Choices): laadt Google-scripts en kan een tweede banner tonen.', 'pt' => 'Janela de consentimento publicitário da Google (Funding Choices): carrega scripts da Google e pode exibir um segundo banner.' ), 'score' => 1 ),
 			'meta-pixel' => array( 'purpose' => array( 'fr' => 'Suivi publicitaire de Meta (Facebook / Instagram).', 'en' => 'Meta advertising tracking (Facebook / Instagram).', 'de' => 'Werbe-Tracking von Meta (Facebook / Instagram).', 'it' => 'Tracciamento pubblicitario di Meta (Facebook / Instagram).', 'es' => 'Seguimiento publicitario de Meta (Facebook / Instagram).', 'nl' => 'Advertentietracking van Meta (Facebook / Instagram).', 'pt' => 'Rastreamento publicitário da Meta (Facebook / Instagram).' ), 'score' => 1 ),
 			'youtube' => array( 'purpose' => array( 'fr' => 'Lecteur vidéo YouTube (dépose des cookies de suivi Google).', 'en' => 'YouTube video player (sets Google tracking cookies).', 'de' => 'YouTube-Videoplayer (setzt Google-Tracking-Cookies).', 'it' => 'Lettore video YouTube (imposta cookie di tracciamento Google).', 'es' => 'Reproductor de vídeo de YouTube (coloca cookies de seguimiento de Google).', 'nl' => 'YouTube-videospeler (plaatst Google-trackingcookies).', 'pt' => 'Leitor de vídeo do YouTube (coloca cookies de rastreamento da Google).' ), 'score' => 4 ),
 			'vimeo' => array( 'purpose' => array( 'fr' => 'Lecteur vidéo Vimeo intégré.', 'en' => 'Embedded Vimeo video player.', 'de' => 'Eingebetteter Vimeo-Videoplayer.', 'it' => 'Lettore video Vimeo incorporato.', 'es' => 'Reproductor de vídeo de Vimeo integrado.', 'nl' => 'Ingesloten Vimeo-videospeler.', 'pt' => 'Leitor de vídeo Vimeo incorporado.' ), 'score' => 7 ),
@@ -168,7 +169,8 @@ class FC_Categories {
 	public static function service_label( $key ) {
 		$labels = array(
 			'google-analytics' => 'Google Analytics', 'google-tag-manager' => 'Google Tag Manager',
-			'google-ads' => 'Google Ads', 'meta-pixel' => 'Meta Pixel', 'youtube' => 'YouTube',
+			'google-ads' => 'Google Ads', 'google-funding-choices' => 'Google Funding Choices',
+			'meta-pixel' => 'Meta Pixel', 'youtube' => 'YouTube',
 			'vimeo' => 'Vimeo', 'google-maps' => 'Google Maps', 'hotjar' => 'Hotjar',
 			'linkedin' => 'LinkedIn', 'twitter' => 'X (Twitter)', 'tiktok' => 'TikTok',
 			'instagram' => 'Instagram', 'snapchat' => 'Snapchat', 'spotify' => 'Spotify',
@@ -215,6 +217,10 @@ class FC_Categories {
 			),
 			'google-ads' => array(
 				'patterns'  => array( 'googleadservices.com', 'googlesyndication.com', 'doubleclick.net' ),
+				'category'  => 'marketing',
+			),
+			'google-funding-choices' => array(
+				'patterns'  => array( 'fundingchoicesmessages.google.com' ),
 				'category'  => 'marketing',
 			),
 			'meta-pixel' => array(
