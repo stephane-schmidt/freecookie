@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.3
+Stable tag: 0.12.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.4 =
+* Prise en charge de GTranslate : le cookie fonctionnel « googtrans » (langue d'affichage choisie) est reconnu et classé comme strictement nécessaire, décrit en 7 langues. Le sélecteur de langue reste fonctionnel — ses scripts ne sont pas neutralisés avant consentement, car changer de langue est une action explicite du visiteur.
 
 = 0.12.3 =
 * Correctif du « cookie au milieu de l'écran » : les styles globaux de boutons de certains thèmes/kits (largeur ou hauteur minimales, width 100 %) gonflaient le bouton du badge en un grand rectangle invisible — le cookie semblait flotter au tiers de l'écran. Les dimensions du badge sont désormais blindées (35×35, insensible aux kits).

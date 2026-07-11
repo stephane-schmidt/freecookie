@@ -105,4 +105,13 @@ return array(
 		'duration' => 'session',
 		'desc'     => array( 'fr' => 'Mesure d’audience (Jetpack).', 'en' => 'Audience measurement (Jetpack).', 'de' => 'Reichweitenmessung (Jetpack).', 'it' => 'Misurazione del pubblico (Jetpack).', 'es' => 'Medición de audiencia (Jetpack).', 'nl' => 'Publieksmeting (Jetpack).', 'pt' => 'Medição de audiência (Jetpack).' ),
 	),
+	array(
+		// Cookie fonctionnel de GTranslate : mémorise la langue d'affichage
+		// choisie par le visiteur. Première partie, aucun suivi — le changement
+		// de langue est une action explicite de l'utilisateur (fonctionnel).
+		'match'    => 'googtrans',
+		'cat'      => 'necessary',
+		'duration' => 'session',
+		'desc'     => array( 'fr' => 'Mémorise la langue d’affichage que vous avez choisie (traduction).', 'en' => 'Remembers the display language you selected (translation).', 'de' => 'Speichert die von Ihnen gewählte Anzeigesprache (Übersetzung).', 'it' => 'Memorizza la lingua di visualizzazione scelta (traduzione).', 'es' => 'Recuerda el idioma de visualización que elegiste (traducción).', 'nl' => 'Onthoudt de door u gekozen weergavetaal (vertaling).', 'pt' => 'Guarda o idioma de exibição que escolheu (tradução).' ),
+	),
 );
