@@ -13,8 +13,12 @@
 	left: 50%;
 	bottom: 20px;
 	transform: translateX(-50%);
-	width: min(680px, calc(100% - 32px));
-	max-height: calc(100vh - 40px);
+	/* Jamais plus de 70 % de la largeur ni 60 % de la hauteur de l'écran
+	   (demande Stéphane 12/07 : bannière trop envahissante sur mobile),
+	   avec des planchers d'accessibilité : 280px de large (toggles/boutons
+	   utilisables) et 340px de haut (paysage mobile). */
+	width: min(680px, max(280px, 70vw));
+	max-height: max(60vh, 340px);
 	/* Les boutons Accepter/Refuser restent TOUJOURS visibles : c'est la liste
 	   des catégories qui défile à l'intérieur si l'écran est bas. */
 	display: flex;
@@ -240,7 +244,9 @@ iframe.fc-blocked-embed {
 .fc-embed-veil__note { font-size: 11px; opacity: .75; color: #fff; }
 
 @media (max-width: 560px) {
-	.fc-banner { left: 8px; right: 8px; bottom: 8px; transform: none; width: auto; }
+	/* Mobile : on garde le centrage + la contrainte 70vw de la règle de base
+	   (avant : pleine largeur moins 16px = bannière envahissante). */
+	.fc-banner { bottom: 8px; }
 	.fc-inner { padding: 18px; }
 	.fc-prefs, .fc-about { padding-left: 18px; padding-right: 18px; }
 	.fc-badge { left: 12px; bottom: 12px; }
@@ -266,7 +272,8 @@ iframe.fc-blocked-embed {
 	.fc-edu, .fc-about { padding: 14px 20px 16px; gap: 9px; }
 }
 @media (max-height: 700px) {
-	.fc-banner { bottom: 12px; max-height: calc(100vh - 24px); font-size: 13px; }
+	/* Écran bas : la hauteur reste bornée par la règle de base (60vh/340px). */
+	.fc-banner { bottom: 12px; font-size: 13px; }
 	.fc-inner { padding: 12px 16px; gap: 9px; }
 	.fc-title { font-size: 15px; }
 	.fc-desc { font-size: 12.5px; line-height: 1.45; }
