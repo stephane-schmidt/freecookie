@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.0
+Stable tag: 0.13.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,11 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.13.1 =
+* Le bandeau visiteur parle désormais 26 langues (parité avec l'admin) : ajout de l'arabe, hébreu, tchèque, danois, grec, finnois, hongrois, indonésien, japonais, coréen, norvégien, polonais, portugais (Portugal ET Brésil, distincts), roumain, russe, suédois, turc, ukrainien, chinois simplifié ET traditionnel. Détection région-consciente pour le portugais et le chinois (variantes non interchangeables).
+* Prise en charge des langues écrites de droite à gauche (arabe, hébreu) : le bandeau bascule automatiquement en RTL.
+* Nouveau filtre `freecookie_known_first_party` : un thème/site peut déclarer ses propres cookies internes (préférences, langue…) sans modifier le plugin.
 
 = 0.13.0 =
 * Interface d'administration désormais traduisible et livrée traduite dans 26 langues (les mêmes que SwitchMyBar), plus l'anglais : fichiers gettext `.pot` / `.po` / `.mo` dans `/languages/` (source française). Jusqu'ici l'UI d'admin n'avait aucun fichier de langue.

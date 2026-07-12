@@ -200,6 +200,7 @@ class FC_Frontend {
 			return;
 		}
 		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		$fc_rtl   = FC_I18n::is_rtl( $lang ); // arabe/hébreu : bandeau en droite-à-gauche.
 		$strings  = $this->strings( $lang );
 		$cats     = FC_Categories::all();
 		$services = $this->detected_services( $lang );

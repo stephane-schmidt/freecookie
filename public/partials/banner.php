@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div id="freecookie-root" hidden>
+<div id="freecookie-root"<?php echo ! empty( $fc_rtl ) ? ' dir="rtl"' : ''; ?> hidden>
 	<div id="freecookie-banner" class="fc-banner" role="dialog" aria-modal="true"
 		aria-labelledby="fc-title" aria-describedby="fc-desc" data-fc-state="banner">
 		<div class="fc-inner">

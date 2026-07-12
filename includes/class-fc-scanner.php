@@ -264,6 +264,17 @@ class FC_Scanner {
 		static $db = null;
 		if ( null === $db ) {
 			$db = include FREECOOKIE_DIR . 'includes/data/known-first-party.php';
+			/**
+			 * Permet à un thème/site de déclarer SES propres cookies first-party
+			 * (préférences, langue…) sans modifier le plugin — indispensable pour
+			 * un plugin distribué. Chaque entrée : match, cat, duration, desc[].
+			 *
+			 * @param array $db Liste des cookies internes connus.
+			 */
+			$db = apply_filters( 'freecookie_known_first_party', $db );
+			if ( ! is_array( $db ) ) {
+				$db = array();
+			}
 		}
 		return $db;
 	}

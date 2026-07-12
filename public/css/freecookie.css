@@ -243,6 +243,13 @@ iframe.fc-blocked-embed {
 .fc-embed-veil__btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .fc-embed-veil__note { font-size: 11px; opacity: .75; color: #fff; }
 
+/* Langues droite-à-gauche (arabe, hébreu) : le bandeau porte dir="rtl", la plupart
+   des flexbox se retournent seules ; on ne corrige que les marges/bordures posées
+   à gauche en dur. Spécificité [dir="rtl"] > sélecteur simple → l'ordre n'importe pas. */
+[dir="rtl"] .fc-cat__lock { margin-right: auto; margin-left: 10px; }
+[dir="rtl"] .fc-svcs { padding-left: 0; padding-right: 12px; border-left: 0; border-right: 2px solid var(--fc-border, #edf0f2); }
+[dir="rtl"] .fc-svc__desc { text-align: right; }
+
 @media (max-width: 560px) {
 	/* Mobile : on garde le centrage + la contrainte 70vw de la règle de base
 	   (avant : pleine largeur moins 16px = bannière envahissante). */
