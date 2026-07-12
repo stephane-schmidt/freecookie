@@ -111,5 +111,8 @@ return array(
 	'wistia' => array(
 		array( 'name' => 'wistia', 'duration' => 'persistent', 'desc' => $fc_d['wistia_stats'] ),
 	),
+	'google-signin' => array(
+		array( 'name' => 'g_state', 'duration' => '6mo', 'desc' => array( 'fr' => 'État de l\'invite de connexion Google.', 'en' => 'Google sign-in prompt state.', 'de' => 'Status der Google-Anmeldeaufforderung.', 'it' => 'Stato del prompt di accesso Google.', 'es' => 'Estado del aviso de inicio de sesión de Google.', 'nl' => 'Status van de Google-inlogprompt.', 'pt' => 'Estado do aviso de início de sessão Google.' ) ),
+	),
 	'google-fonts' => array(),
 );

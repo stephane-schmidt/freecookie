@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.11
+Stable tag: 0.12.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.12.12 =
+* Nouveau service reconnu et bloqué a priori : « Google Sign-In » (`accounts.google.com/gsi/client`, souvent injecté par Google Site Kit). Le bouton « Se connecter avec Google » ne charge qu'après consentement de la famille Préférences ; cookie `g_state` documenté dans les fiches (7 langues).
 
 = 0.12.11 =
 * Bannière plus discrète : jamais plus de 70 % de la largeur ni 60 % de la hauteur de l'écran (elle occupait quasi tout l'écran sur mobile). Planchers d'accessibilité conservés : 280 px de large minimum (interrupteurs et boutons utilisables), 340 px de haut minimum (paysage mobile). Desktop inchangé (680 px).
