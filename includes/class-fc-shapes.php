@@ -126,6 +126,7 @@ class FC_Shapes {
 			'decoupe'    => array( 'label' => __( 'Emporte-pièce', 'freecookie' ), 'pro' => true ),
 			'consent'    => array( 'label' => __( 'Consentement', 'freecookie' ), 'pro' => true ),
 			'reglages'   => array( 'label' => __( 'Réglages', 'freecookie' ), 'pro' => true ),
+			'verre'      => array( 'label' => __( 'Verre', 'freecookie' ), 'pro' => true ),
 		);
 	}
 
@@ -136,7 +137,7 @@ class FC_Shapes {
 	 * @return string
 	 */
 	public static function family_of( $id ) {
-		foreach ( array( 'cartoon', 'fournee', 'croques', 'nappes', 'pastilles', 'gourmandes', 'fetes', 'duo', 'decoupe', 'consent', 'reglages' ) as $fam ) {
+		foreach ( array( 'cartoon', 'fournee', 'croques', 'nappes', 'pastilles', 'gourmandes', 'fetes', 'duo', 'decoupe', 'consent', 'reglages', 'verre' ) as $fam ) {
 			if ( 0 === strpos( (string) $id, 'pro-' . $fam . '-' ) ) {
 				return $fam;
 			}
@@ -220,7 +221,85 @@ class FC_Shapes {
 			/* translators: %d: variant number. */
 			$cache[ 'pro-reglages-' . $n ] = array( 'label' => sprintf( __( 'Réglage %d', 'freecookie' ), $n ), 'svg' => self::gen_reglages( $n ) );
 		}
+		// Famille « Verre » : plus fournie (40 variantes, demande Stéphane).
+		for ( $n = 1; $n <= 40; $n++ ) {
+			/* translators: %d: variant number. */
+			$cache[ 'pro-verre-' . $n ] = array( 'label' => sprintf( __( 'Verre %d', 'freecookie' ), $n ), 'svg' => self::gen_verre( $n ) );
+		}
 		return $cache;
+	}
+
+	/**
+	 * Famille « Verre » : cookie translucide façon verre dépoli — corps teinté à
+	 * faible opacité, liseré clair, reflet lumineux en arc, bulles à éclat blanc.
+	 * Reste teinté par la couleur du site (classes .fc-cookie__disc/__hole) ;
+	 * les éclats blancs/ombres sont neutres (opacité) donc valables sur toute teinte.
+	 *
+	 * @param int $n Numéro de variante (1-20).
+	 * @return string
+	 */
+	protected static function gen_verre( $n ) {
+		$k      = $n - 1;
+		$sub    = $k % 5;
+		$v      = (int) floor( $k / 5 ); // intensité (0-7 pour 40 formes)
+		$vb     = $v % 4;                // borne les décalages/opacités pour rester propre
+		$op     = array( '.48', '.4', '.32', '.6' );
+		$discop = $op[ $vb ];
+		// Reflet de verre commun : corps translucide + liseré clair + arc lumineux.
+		$gloss  = '<circle class="fc-cookie__disc" cx="32" cy="32" r="27" fill-opacity="' . $discop . '"/>'
+			. '<circle cx="32" cy="32" r="27" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="1.5"/>'
+			. '<path d="M13 30 A20.5 20.5 0 0 1 33 10.5" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>'
+			. '<ellipse cx="23" cy="20" rx="7" ry="3.4" fill="#fff" opacity=".22" transform="rotate(-35 23 20)"/>';
+		$bubble = function ( $cx, $cy, $r ) {
+			return '<circle class="fc-cookie__hole" cx="' . $cx . '" cy="' . $cy . '" r="' . $r . '" fill-opacity=".55"/>'
+				. '<circle cx="' . round( $cx - $r * 0.35, 1 ) . '" cy="' . round( $cy - $r * 0.35, 1 ) . '" r="' . round( $r * 0.32, 1 ) . '" fill="#fff" opacity=".7"/>';
+		};
+
+		if ( 0 === $sub ) { // Bulles éparpillées.
+			$svg = $gloss;
+			$c   = 5 + $vb;
+			for ( $i = 0; $i < $c; $i++ ) {
+				$a    = deg2rad( fmod( $n * 47 + $i * 137.5, 360 ) );
+				$d    = 6 + fmod( $i * 6.1 + $n * 2.0, 15 );
+				$svg .= $bubble( round( 32 + $d * cos( $a ), 1 ), round( 34 + $d * sin( $a ), 1 ), 2.4 + ( $i % 3 ) * 0.9 );
+			}
+			return $svg;
+		}
+		if ( 1 === $sub ) { // Couronne de bulles + bulle centrale.
+			$svg = $gloss;
+			$c   = 6 + $vb;
+			for ( $i = 0; $i < $c; $i++ ) {
+				$a    = deg2rad( $i * 360 / $c + $v * 15 + 90 );
+				$svg .= $bubble( round( 32 + 15 * cos( $a ), 1 ), round( 34 + 15 * sin( $a ), 1 ), 3 );
+			}
+			return $svg . $bubble( 32, 34, 3.6 );
+		}
+		if ( 2 === $sub ) { // Verre croqué (mordu latéral).
+			$mid = 'fcm-vr' . $n;
+			$svg = '<defs><mask id="' . $mid . '"><rect width="64" height="64" fill="#fff"/><g fill="#000">'
+				. '<circle cx="58" cy="' . ( 16 + $vb * 5 ) . '" r="13"/><circle cx="46" cy="' . ( 11 + $vb * 5 ) . '" r="4.6"/><circle cx="50" cy="' . ( 25 + $vb * 5 ) . '" r="4.6"/>'
+				. '</g></mask></defs><g mask="url(#' . $mid . ')">' . $gloss;
+			for ( $i = 0; $i < 3 + $v; $i++ ) {
+				$svg .= $bubble( 22 + $i * 6, 38 - ( $i % 2 ) * 8, 2.8 );
+			}
+			return $svg . '</g>';
+		}
+		if ( 3 === $sub ) { // Grosse bulle centrale + satellites.
+			$svg = $gloss . $bubble( 33, 33, 9 + $vb );
+			for ( $i = 0; $i < 4; $i++ ) {
+				$a    = deg2rad( $i * 90 + 45 + $v * 20 );
+				$svg .= $bubble( round( 32 + 18 * cos( $a ), 1 ), round( 34 + 18 * sin( $a ), 1 ), 2.6 );
+			}
+			return $svg;
+		}
+		// 4 : givré minimal (reflet net + fines bulles), varié selon la variante.
+		$svg = $gloss;
+		$cnt = 3 + ( $v % 3 );
+		for ( $i = 0; $i < $cnt; $i++ ) {
+			$svg .= $bubble( 22 + $i * 7 + ( $v % 2 ) * 3, 40 - ( ( $i + $v ) % 2 ) * 6, 2 + ( $i % 2 ) );
+		}
+		$ex = 38 + ( $v % 3 ) * 3;
+		return $svg . '<ellipse cx="' . $ex . '" cy="26" rx="4" ry="2.2" fill="#fff" opacity=".2" transform="rotate(-30 ' . $ex . ' 26)"/>';
 	}
 
 	/**

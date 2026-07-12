@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.2
+Stable tag: 0.13.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.13.3 =
+* Nouvelle famille de formes de badge « Verre » (Pro) : 40 cookies translucides façon verre dépoli — corps transparent, reflet lumineux, bulles à éclat. Comme toutes les formes, elles suivent automatiquement la couleur principale du site.
 
 = 0.13.2 =
 * Correctifs d'affichage du bandeau (signalés en production) : le lien « À quoi servent les cookies ? » est désormais un lien discret aligné à gauche (avant : pastille flottant à droite, à cheval sur le séparateur) ; l'ouverture du volet « Comprendre les cookies » remplace proprement le contenu (fini le chevauchement) ; les boutons n'affichent plus de double bordure quand le thème du site ajoute son propre contour (l'anneau de focus n'apparaît qu'au clavier).
