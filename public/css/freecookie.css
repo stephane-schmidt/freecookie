@@ -56,6 +56,12 @@
 	text-align: center;
 	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
+/* Au repos et au clic souris : AUCUN cadre parasite. Certains thèmes ajoutent
+   un outline/box-shadow permanent aux <button> — on le neutralise pour ne pas
+   empiler une 2e bordure sur la nôtre. L'anneau de focus n'apparaît qu'au clavier. */
+#freecookie-banner .fc-btn { outline: none; box-shadow: none; }
+#freecookie-banner .fc-btn:focus:not(:focus-visible) { outline: none !important; box-shadow: none !important; }
+#freecookie-banner .fc-btn:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 2px; box-shadow: none; }
 .fc-btn:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 2px; }
 
 /* Même forme pour les trois ; Accepter et Refuser IDENTIQUES (parité CNIL),
@@ -121,9 +127,27 @@ button.fc-score:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); ou
 .fc-prefs__actions { display: flex; gap: 10px; justify-content: flex-end; }
 
 /* Lien « À propos » (discret) + volet références / réseaux / don */
-.fc-foot { margin-top: 4px; display: flex; gap: 16px; justify-content: flex-end; }
+/* Lien(s) discret(s) alignés à GAUCHE sous la rangée de boutons (avant : collés à
+   droite, ils chevauchaient le séparateur du panneau). Masqués quand un sous-panneau
+   (éducatif / à propos) est ouvert : son propre bouton « Retour » gère le retour —
+   éviter deux contrôles pour le même état. */
+.fc-foot { margin-top: 4px; display: flex; gap: 16px; justify-content: flex-start; flex-wrap: wrap; }
+/* Un sous-panneau (éducatif / à propos) REMPLACE le contenu principal : on masque
+   .fc-inner pour éviter le chevauchement + le lien « à quoi servent les cookies »
+   en doublon (le bouton « Retour » du panneau gère le retour). */
+#freecookie-banner[data-fc-state="edu"] .fc-inner,
+#freecookie-banner[data-fc-state="about"] .fc-inner { display: none; }
 .fc-link { background: none; border: none; padding: 0; font: inherit; font-size: 11px; color: var(--fc-muted, #6b7784); opacity: .6; text-decoration: none; cursor: pointer; }
 .fc-link:hover { opacity: 1; text-decoration: underline; text-underline-offset: 2px; }
+/* Insularité : un « lien texte discret », jamais la pastille de bouton du thème
+   (certains thèmes imposent bordure/fond/padding à tous les <button>). */
+#freecookie-banner .fc-link {
+	background: none; border: 0; box-shadow: none; padding: 0; margin: 0; min-height: 0; width: auto;
+	font: inherit; font-size: 11px; font-weight: 400; line-height: 1.4; letter-spacing: normal;
+	text-transform: none; border-radius: 0; color: var(--fc-muted, #6b7784); opacity: .6;
+	text-decoration: none; cursor: pointer;
+}
+#freecookie-banner .fc-link:hover { background: none; opacity: 1; text-decoration: underline; text-underline-offset: 2px; }
 
 /* Volet pédagogique « À quoi servent les cookies ? » (utile / mitigé / dangereux) */
 .fc-edu[hidden] { display: none !important; }
