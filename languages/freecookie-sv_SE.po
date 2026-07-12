@@ -1,0 +1,625 @@
+# FreeCookie — sv_SE translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: sv_SE\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100% lokal cookie-samtyckesbanner, i enlighet med GDPR / ePrivacy / CNIL / nLPD. Verklig blockering av spårare före samtycke, bevislogg i din databas, Google Consent Mode v2, automatiskt flerspråkig. Inga anrop till tredje part."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Primärfärg (knappar, märke)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Text på primärfärgen"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Bannerns bakgrund"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Bannerns text"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Sekundärknappens bakgrund"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Sekundärknappens text"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Cookie-märkets färg"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Titel"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Meddelande"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Knappen ”Godkänn alla”"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Knappen ”Avvisa alla”"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Knappen ”Anpassa”"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Knappen ”Spara”"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Titel på inställningspanelen"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Analyserar sida %1$d av %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Observerar cookies i webbläsaren…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Konsoliderar resultaten…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Skanning slutförd: %1$d sidor, %2$d tjänster, %3$d cookies. Laddar om…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "Skanningen misslyckades. Försök igen eller använd nödknappen nedan."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Tjänst upptäckt: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Cookie observerad (server): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Cookie observerad (webbläsare): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Den här formen är en del av FreeCookie Pro: ange din nyckel i avsnittet ”FreeCookie Pro” för att använda den. Den föregående formen behålls."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Inställningar sparade."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "PHP-biblioteket GD saknas: färgigenkänning från logotypen (PNG/JPG) är inaktiverad. De övriga igenkänningskällorna är fortfarande aktiva."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Viktigt — att aktivera FreeCookie räcker inte i sig för att göra din webbplats laglig."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Du måste fortfarande: skriva en cookie-/integritetspolicy, kontrollera de spårare som inte upptäcks automatiskt och anpassa dina juridiska meddelanden. FreeCookie neutraliserar kända skript och iframes från tredje part före samtycke; den blockerar varken localStorage eller fingerprinting som utförs av skript den inte har neutraliserat. Om din webbplats riktar sig till minderåriga gäller strängare regler (GDPR art. 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Skanning slutförd: %1$s sidor analyserade, %2$s tjänster upptäckta."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Utseende — färger"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Lämna tomt för att automatiskt använda webbplatsens dominerande färg (eller en härledd nyans)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Färger upptäckta på din webbplats — klicka för att tillämpa som primärfärg:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Cookie-form"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Välj formen på det flytande märket (det antar webbplatsens färg)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — nyckel krävs"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Bannertexter (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Lämna tomt för att behålla den medföljande översatta texten. Dessa texter gäller för språket som visas ovan."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Alternativ"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Förhandsblockering"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Blockera tredjepartsspårare före samtycke"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Språkigenkänning"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Använd webbläsarens språk som sista utväg"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Samtyckets giltighet (dagar)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "90 dagar rekommenderas (EDPB/CNIL-riktlinjer). Utöver 365 dagar kan samtycket anses föråldrat."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Gratis tröskel (besök/månad)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Automatisk skanning av spårare"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "En gång i veckan (rekommenderas)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "En gång om dagen"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Aldrig (endast manuell skanning)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "Webbplatsen skannar sig själv i bakgrunden för att hålla spårarlistan och färgerna uppdaterade."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Sidor analyserade per skanning"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 sidor (snabbt, rekommenderas)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 sidor"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 sidor"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 sidor (grundligt)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Spårare placeras av temat och tilläggen: de är identiska på hela webbplatsen, så ett stickprov räcker. Alla offentliga innehållstyper stickprovtas (inlägg, sidor, produkter…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Stödmeddelande"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Dölj stödmeddelandet som visas utöver tröskeln (tillägget förblir fullt funktionellt)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "Om / sociala medier"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Inaktiverat som standard. Om du aktiverar det öppnar en liten ”Om”-länk på bannern en panel med DINA uppgifter och DINA sociala medier — denna information kommer att synas för din webbplats besökare. Etiketterna översätts automatiskt."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "”Om”-länk"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Visa länken på bannern"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Namn"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Underrubrik"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Webbplats"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "E-post"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Donations-/kafflänk"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro lägger till komfort (ytterligare formfamiljer, och mer på väg) — den grundläggande efterlevnaden förblir alltid gratis och komplett. Ditt köp ($10/år eller $45 för livstid) skickar automatiskt en licensnyckel via e-post. Ingen onlineverifiering, ingen data skickad: nyckeln räcker."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Uppgradera till Pro — få min nyckel via e-post"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Pro-nyckel"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro aktiv — tack för ditt stöd."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Ingen nyckel — Pro-former låsta."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Klistra in här nyckeln du fick via e-post direkt efter ditt köp (format FCPRO-…), och spara sedan."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Cookie-skanner"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Senaste skanning: %1$s kända tjänster upptäckta (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Ingen skanning har utförts ännu."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Starta en skanning av webbplatsen"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Starta en skanning av webbplatsen (utan JavaScript)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Nästa automatiska skanning: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Resultat av senaste skanning"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "Inga kända tredjepartsspårare upptäckta och inga cookies observerade på de analyserade sidorna — din webbplats är ren. Bannern visar endast kategorierna, utan spårarrader."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Tjänst"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Kategori"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Risk"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Syfte"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Observerade cookies (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Ursprung"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Beskrivning"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Webbläsare"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Server (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Denna webbplats"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Åtgärd inte tillåten."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: den här webbplatsen har överskridit %1$s besök denna månad (gratis tröskel: %2$s). Tillägget förblir fullt funktionellt — om FreeCookie är användbart för dig kan du stödja projektet ($10/år eller $45 för livstid). Tack!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Stöd (nyckel skickas automatiskt via e-post)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Läs mer"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "dölj detta meddelande i inställningarna"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Klassisk"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Biten (sida)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Biten (topp)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Stort bett"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Dubbelt bett"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Tandmärken"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Rund"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Minimal"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Linje"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Biten linje"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Mjuk"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Kex"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Hjärta"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Stjärna"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Blomma"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Vågig"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Sandwich"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Stora bitar"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Halv"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Frestande"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Klassiker"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Tecknad"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Sats"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Bett & smulor"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Glaserade"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Webbplatsens prickar"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Frestande"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Fester"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Grafisk duo"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Kakform"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Samtycke"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Inställningar"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Tecknad %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Sats %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Biten %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Glaserad %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Prickar %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Frestande %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Fest %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Duo %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Utstickare %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Samtycke %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Inställning %d"

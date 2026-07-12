@@ -1,0 +1,625 @@
+# FreeCookie — zh_CN translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: zh_CN\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100% 本地 Cookie 同意横幅，符合 GDPR / ePrivacy / CNIL / nLPD。在同意前真正拦截跟踪器，在您的数据库中保留证明日志，Google Consent Mode v2，自动多语言。不向第三方发起任何网络调用。"
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "主色（按钮、徽章）"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "主色上的文字"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "横幅背景"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "横幅文字"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "次要按钮背景"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "次要按钮文字"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Cookie 徽章颜色"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "标题"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "消息"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "“全部接受”按钮"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "“全部拒绝”按钮"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "“自定义”按钮"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "“保存”按钮"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "偏好设置面板标题"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "正在分析第 %1$d 页，共 %2$d 页…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "正在浏览器中观察 Cookie…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "正在整合结果…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "扫描完成：%1$d 个页面、%2$d 项服务、%3$d 个 Cookie。正在重新加载…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "扫描失败。请重试，或使用下方的备用按钮。"
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "检测到服务：%s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "观察到的 Cookie（服务器）：%s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "观察到的 Cookie（浏览器）：%s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "此形状是 FreeCookie Pro 的一部分：在“FreeCookie Pro”部分输入您的密钥即可使用。上一个形状将被保留。"
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "设置已保存。"
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "缺少 PHP GD 库：从徽标（PNG/JPG）检测颜色的功能已禁用。其他检测来源仍然有效。"
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "重要 — 仅启用 FreeCookie 不足以使您的网站合规。"
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "您还需要：撰写 Cookie/隐私政策，检查未被自动检测到的跟踪器，并调整您的法律声明。FreeCookie 在同意前会使已知的第三方脚本和 iframe 失效；但它不会拦截其未使其失效的脚本所执行的 localStorage 或指纹识别。如果您的网站面向未成年人，则适用更严格的规则（GDPR 第 8 条）。"
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "扫描完成：已分析 %1$s 个页面，检测到 %2$s 项服务。"
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "外观 — 颜色"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "留空则自动使用网站的主色（或其衍生色调）。"
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "在您的网站上检测到的颜色 — 点击以将其应用为主色："
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Cookie 形状"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "选择浮动徽章的形状（采用网站的颜色）。"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — 需要密钥"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "横幅文字（%s）"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "留空以保留所提供的翻译文本。这些文本适用于上方显示的语言。"
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "选项"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "预先拦截"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "在同意前拦截第三方跟踪器"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "语言检测"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "作为最后手段使用浏览器语言"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "同意有效期（天）"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "建议 90 天（EDPB/CNIL 指南）。超过 365 天，同意可能被视为过期。"
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "免费阈值（访问量/月）"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "自动扫描跟踪器"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "每周一次（推荐）"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "每天一次"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "从不（仅手动扫描）"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "网站会在后台扫描自身，以保持跟踪器列表和颜色为最新。"
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "每次扫描分析的页面数"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 个页面（快速，推荐）"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 个页面"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 个页面"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 个页面（深入）"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "跟踪器由主题和插件放置：它们在整个网站上是相同的，因此抽样即可。所有公开内容类型都会被抽样（文章、页面、产品…）。"
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "支持提示"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "隐藏超过阈值后显示的支持提示（插件仍完全可用）"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "关于 / 社交网络"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "默认禁用。如果启用，横幅上的一个小“关于”链接会打开一个面板，其中包含您的信息和您的社交网络 — 这些信息将对您网站的访问者可见。标签会自动翻译。"
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "“关于”链接"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "在横幅上显示链接"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "名称"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "副标题"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "网站"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "电子邮件"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "捐赠 / 咖啡链接"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro 增添便利（额外的形状系列，以及未来更多）— 基本合规始终免费且完整。您的购买（每年 10 美元或终身 45 美元）会自动通过电子邮件向您发送许可证密钥。无需在线验证，不发送任何数据：密钥即可。"
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "升级到 Pro — 通过电子邮件接收我的密钥"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Pro 密钥"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro 已激活 — 感谢您的支持。"
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "无密钥 — Pro 形状已锁定。"
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "在此粘贴您购买后立即通过电子邮件收到的密钥（格式 FCPRO-…），然后保存。"
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Cookie 扫描器"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "上次扫描：检测到 %1$s 项已知服务（%2$s）。"
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "尚未执行任何扫描。"
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "开始扫描网站"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "开始扫描网站（不使用 JavaScript）"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "下次自动扫描：%s。"
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "上次扫描结果"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "在分析的页面上未检测到已知的第三方跟踪器，也未观察到 Cookie — 您的网站是干净的。横幅将仅显示类别，而不显示跟踪器行。"
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "服务"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "类别"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "风险"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "目的"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "观察到的 Cookie（%d）"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "来源"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "描述"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "浏览器"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "服务器（HTTP）"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "本网站"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "不允许此操作。"
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie：本网站本月已超过 %1$s 次访问（免费阈值：%2$s）。插件仍完全可用 — 如果 FreeCookie 对您有用，您可以支持该项目（每年 10 美元或终身 45 美元）。谢谢！"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "支持（密钥会自动通过电子邮件发送）"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "了解更多"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "在设置中隐藏此提示"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "经典"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "咬一口（侧）"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "咬一口（顶）"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "大咬一口"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "双咬"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "牙印"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "圆形"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "极简"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "线条"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "咬过的线条"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "柔和"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "饼干"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "心形"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "星形"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "花形"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "扇贝边"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "三明治"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "大颗粒"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "半个"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "美味"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "经典款"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "卡通"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "一炉"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "咬痕与碎屑"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "糖霜"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "网站圆点"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "美味款"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "节日"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "图形双件"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "饼干模"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "同意"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "设置"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "卡通 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "一炉 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "咬过 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "糖霜 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "圆点 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "美味 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "节日 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "双件 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "切模 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "同意 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "设置 %d"

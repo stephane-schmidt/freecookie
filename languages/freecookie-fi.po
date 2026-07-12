@@ -1,0 +1,625 @@
+# FreeCookie — fi translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: fi\n"
+"Language: fi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100% paikallinen evästesuostumusbanneri, GDPR- / ePrivacy- / CNIL- / nLPD-yhteensopiva. Todellinen seurantojen esto ennen suostumusta, todisteloki tietokannassasi, Google Consent Mode v2, automaattisesti monikielinen. Ei verkkokutsuja kolmansille osapuolille."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Pääväri (painikkeet, merkki)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Teksti päävärin päällä"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Bannerin tausta"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Bannerin teksti"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Toissijaisen painikkeen tausta"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Toissijaisen painikkeen teksti"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Evästemerkin väri"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Otsikko"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Viesti"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Painike ”Hyväksy kaikki”"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Painike ”Hylkää kaikki”"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Painike ”Mukauta”"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Painike ”Tallenna”"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Asetuspaneelin otsikko"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Analysoidaan sivua %1$d / %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Tarkkaillaan evästeitä selaimessa…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Yhdistetään tuloksia…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Skannaus valmis: %1$d sivua, %2$d palvelua, %3$d evästettä. Ladataan uudelleen…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "Skannaus epäonnistui. Yritä uudelleen tai käytä alla olevaa varapainiketta."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Palvelu havaittu: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Eväste havaittu (palvelin): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Eväste havaittu (selain): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Tämä muoto on osa FreeCookie Pro -versiota: syötä avaimesi osiossa ”FreeCookie Pro” käyttääksesi sitä. Edellinen muoto säilytetään."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Asetukset tallennettu."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "PHP GD -kirjasto puuttuu: värin tunnistus logosta (PNG/JPG) on poistettu käytöstä. Muut tunnistuslähteet pysyvät aktiivisina."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Tärkeää — pelkkä FreeCookien aktivointi ei riitä tekemään sivustostasi vaatimustenmukaista."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Sinun on vielä: laadittava eväste-/tietosuojakäytäntö, tarkistettava seurannat, joita ei havaittu automaattisesti, ja mukautettava lakisääteiset tietosi. FreeCookie neutraloi tunnetut kolmannen osapuolen skriptit ja iframet ennen suostumusta; se ei estä localStoragea eikä sormenjälkien keräämistä skripteillä, joita se ei ole neutraloinut. Jos sivustosi on suunnattu alaikäisille, sovelletaan tiukempia sääntöjä (GDPR art. 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Skannaus valmis: %1$s sivua analysoitu, %2$s palvelua havaittu."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Ulkoasu — värit"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Jätä tyhjäksi käyttääksesi automaattisesti sivuston hallitsevaa väriä (tai siitä johdettua sävyä)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Sivustollasi havaitut värit — napsauta ottaaksesi käyttöön pääväriksi:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Evästeen muoto"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Valitse kelluvan merkin muoto (se ottaa sivuston värin)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — avain vaaditaan"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Bannerin tekstit (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Jätä tyhjäksi säilyttääksesi toimitetun käännetyn tekstin. Nämä tekstit koskevat yllä näytettyä kieltä."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Asetukset"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Ennakkoesto"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Estä kolmannen osapuolen seurannat ennen suostumusta"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Kielen tunnistus"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Käytä selaimen kieltä viimeisenä keinona"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Suostumuksen voimassaolo (päivää)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "90 päivää suositellaan (EDPB/CNIL-ohjeet). Yli 365 päivän jälkeen suostumus voidaan katsoa vanhentuneeksi."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Ilmainen kynnys (käyntiä/kuukausi)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Automaattinen seurantojen skannaus"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "Kerran viikossa (suositellaan)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "Kerran päivässä"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Ei koskaan (vain manuaalinen skannaus)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "Sivusto skannaa itseään taustalla pitääkseen seurantaluettelon ja värit ajan tasalla."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Sivuja analysoitu skannausta kohden"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 sivua (nopea, suositellaan)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 sivua"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 sivua"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 sivua (perusteellinen)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Seurannat asettaa teema ja lisäosat: ne ovat samat koko sivustolla, joten otos riittää. Kaikista julkisista sisältötyypeistä otetaan otos (artikkelit, sivut, tuotteet…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Tuki-ilmoitus"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Piilota kynnyksen yli näytettävä tuki-ilmoitus (lisäosa pysyy täysin toimivana)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "Tietoja / sosiaalinen media"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Oletuksena pois käytöstä. Jos otat sen käyttöön, pieni ”Tietoja”-linkki bannerissa avaa paneelin, jossa on SINUN tietosi ja SINUN sosiaalisen mediasi — nämä tiedot näkyvät sivustosi kävijöille. Nimikkeet käännetään automaattisesti."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "”Tietoja”-linkki"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Näytä linkki bannerissa"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Nimi"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Alaotsikko"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Verkkosivusto"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "Sähköposti"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Lahjoitus-/kahvilinkki"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro lisää mukavuutta (lisää muotoperheitä ja lisää tulossa) — perusvaatimustenmukaisuus pysyy aina ilmaisena ja täydellisenä. Ostoksesi (10 $/vuosi tai 45 $ elinikäinen) lähettää sinulle automaattisesti lisenssiavaimen sähköpostitse. Ei online-vahvistusta, ei lähetettyjä tietoja: avain riittää."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Päivitä Pro-versioon — vastaanota avaimeni sähköpostitse"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Pro-avain"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro aktiivinen — kiitos tuestasi."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Ei avainta — Pro-muodot lukittu."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Liitä tähän avain, jonka sait sähköpostitse heti ostoksesi jälkeen (muoto FCPRO-…), ja tallenna sitten."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Evästeskanneri"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Viimeisin skannaus: %1$s tunnettua palvelua havaittu (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Skannausta ei ole vielä tehty."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Käynnistä sivuston skannaus"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Käynnistä sivuston skannaus (ilman JavaScriptiä)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Seuraava automaattinen skannaus: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Viimeisimmän skannauksen tulokset"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "Tunnettuja kolmannen osapuolen seurantoja ei havaittu eikä analysoiduilla sivuilla havaittu evästeitä — sivustosi on puhdas. Banneri näyttää vain kategoriat ilman seurantarivejä."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Palvelu"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Kategoria"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Riski"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Tarkoitus"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Havaitut evästeet (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Eväste"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Alkuperä"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Kuvaus"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Selain"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Palvelin (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Tämä sivusto"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Toimintoa ei sallita."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: tämä sivusto ylitti %1$s käyntiä tässä kuussa (ilmainen kynnys: %2$s). Lisäosa pysyy täysin toimivana — jos FreeCookiesta on sinulle hyötyä, voit tukea projektia (10 $/vuosi tai 45 $ elinikäinen). Kiitos!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Tue (avain lähetetään automaattisesti sähköpostitse)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Lue lisää"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "piilota tämä ilmoitus asetuksissa"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Klassinen"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Purtu (sivu)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Purtu (ylä)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Iso purenta"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Kaksoispurenta"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Hammasjäljet"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Pyöreä"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Minimaalinen"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Viiva"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Purtu viiva"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Pehmeä"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Krakkeri"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Sydän"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Tähti"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Kukka"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Aaltoreunainen"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Voileipä"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Isot palat"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Puolikas"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Herkullinen"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Klassiset"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Sarjakuva"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Erä"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Purennat & murut"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Kuorrutetut"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Sivuston pisteet"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Herkulliset"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Juhlat"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Graafinen kaksikko"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Piparimuotti"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Suostumus"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Asetukset"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Sarjakuva %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Erä %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Purtu %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Kuorrutettu %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Pisteet %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Herkullinen %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Juhla %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Kaksikko %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Leikkaus %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Suostumus %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Asetus %d"

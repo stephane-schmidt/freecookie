@@ -1,0 +1,625 @@
+# FreeCookie — ja translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: ja\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100%ローカルのCookie同意バナー、GDPR / ePrivacy / CNIL / nLPD準拠。同意前のトラッカーの実際のブロック、データベース内の証拠ログ、Google Consent Mode v2、自動多言語対応。第三者へのネットワーク呼び出しなし。"
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "メインカラー（ボタン、バッジ）"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "メインカラー上のテキスト"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "バナーの背景"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "バナーのテキスト"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "サブボタンの背景"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "サブボタンのテキスト"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Cookieバッジの色"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "タイトル"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "メッセージ"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "「すべて許可」ボタン"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "「すべて拒否」ボタン"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "「カスタマイズ」ボタン"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "「保存」ボタン"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "設定パネルのタイトル"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "%2$dページ中%1$dページを分析中…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "ブラウザーでCookieを観察中…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "結果を統合中…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "スキャン完了：%1$dページ、%2$dサービス、%3$d個のCookie。再読み込み中…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "スキャンに失敗しました。もう一度試すか、下の予備ボタンを使用してください。"
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "サービスを検出：%s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "観察されたCookie（サーバー）：%s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "観察されたCookie（ブラウザー）：%s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "この形状はFreeCookie Proの一部です。使用するには「FreeCookie Pro」セクションにキーを入力してください。以前の形状は保持されます。"
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "設定を保存しました。"
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "PHP GDライブラリがありません：ロゴ（PNG/JPG）からの色検出は無効です。その他の検出ソースは有効なままです。"
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "重要 — FreeCookieを有効にするだけでは、サイトを準拠させるには十分ではありません。"
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "さらに次のことが必要です：Cookie/プライバシーポリシーの作成、自動検出されなかったトラッカーの確認、法的表示の調整。FreeCookieは同意前に既知の第三者スクリプトとiframeを無効化しますが、無効化していないスクリプトによるlocalStorageやフィンガープリンティングはブロックしません。サイトが未成年者を対象とする場合、より厳格な規則が適用されます（GDPR第8条）。"
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "スキャン完了：%1$sページを分析、%2$sサービスを検出。"
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "外観 — 色"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "空欄のままにすると、サイトの主要な色（または派生した色合い）が自動的に使用されます。"
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "サイトで検出された色 — クリックしてメインカラーとして適用："
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Cookieの形状"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "フローティングバッジの形状を選択してください（サイトの色を採用します）。"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — キーが必要"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "バナーのテキスト（%s）"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "空欄のままにすると、提供された翻訳テキストが保持されます。これらのテキストは上に表示されている言語に適用されます。"
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "オプション"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "事前ブロック"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "同意前に第三者トラッカーをブロック"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "言語検出"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "最後の手段としてブラウザーの言語を使用"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "同意の有効期間（日）"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "90日を推奨（EDPB/CNILガイドライン）。365日を超えると、同意は古いと見なされる可能性があります。"
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "無料しきい値（訪問数/月）"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "トラッカーの自動スキャン"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "週に1回（推奨）"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "1日に1回"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "しない（手動スキャンのみ）"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "サイトはバックグラウンドで自身をスキャンし、トラッカーリストと色を最新の状態に保ちます。"
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "スキャンごとに分析されるページ数"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10ページ（高速、推奨）"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25ページ"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50ページ"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100ページ（詳細）"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "トラッカーはテーマとプラグインによって配置されます：サイト全体で同一なので、サンプルで十分です。すべての公開コンテンツタイプがサンプリングされます（投稿、固定ページ、商品…）。"
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "サポート通知"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "しきい値を超えて表示されるサポート通知を非表示にする（プラグインは完全に機能したままです）"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "情報 / ソーシャルネットワーク"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "デフォルトで無効。有効にすると、バナー上の小さな「情報」リンクが、あなたの情報とあなたのソーシャルネットワークを含むパネルを開きます — この情報はサイトの訪問者に表示されます。ラベルは自動的に翻訳されます。"
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "「情報」リンク"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "バナーにリンクを表示"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "名前"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "サブタイトル"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "ウェブサイト"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "メール"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "寄付 / コーヒーのリンク"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Proは快適さを追加します（追加の形状ファミリー、今後さらに追加予定）— 基本的な準拠は常に無料で完全なままです。ご購入（年間10ドルまたは生涯45ドル）により、ライセンスキーが自動的にメールで送信されます。オンライン検証なし、データ送信なし：キーだけで十分です。"
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Proにアップグレード — キーをメールで受け取る"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Proキー"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro有効 — ご支援ありがとうございます。"
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "キーなし — Proの形状はロックされています。"
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "購入直後にメールで受け取ったキー（形式FCPRO-…）をここに貼り付けて、保存してください。"
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Cookieスキャナー"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "前回のスキャン：%1$s個の既知のサービスを検出（%2$s）。"
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "まだスキャンが実行されていません。"
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "サイトのスキャンを開始"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "サイトのスキャンを開始（JavaScriptなし）"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "次回の自動スキャン：%s。"
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "前回のスキャン結果"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "既知の第三者トラッカーは検出されず、分析されたページでCookieも観察されませんでした — あなたのサイトはクリーンです。バナーはトラッカーの行なしで、カテゴリのみを表示します。"
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "サービス"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "カテゴリ"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "リスク"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "目的"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "観察されたCookie（%d）"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "提供元"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "説明"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "ブラウザー"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "サーバー（HTTP）"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "このサイト"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "操作は許可されていません。"
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie：このサイトは今月%1$s回の訪問を超えました（無料しきい値：%2$s）。プラグインは完全に機能したままです — FreeCookieがお役に立つなら、プロジェクトを支援できます（年間10ドルまたは生涯45ドル）。ありがとうございます！"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "支援する（キーは自動的にメールで送信されます）"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "詳細"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "この通知を設定で非表示にする"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "クラシック"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "かじられた（横）"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "かじられた（上）"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "大きなひとかじり"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "ダブルかじり"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "歯形"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "丸"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "ミニマル"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "ライン"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "かじられたライン"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "ソフト"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "クラッカー"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "ハート"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "星"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "花"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "スカラップ"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "サンドイッチ"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "大きなチップ"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "ハーフ"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "グルメ"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "クラシック"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "カートゥーン"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "バッチ"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "かじりとくず"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "グレーズ"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "サイトのドット"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "グルメ"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "お祝い"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "グラフィックデュオ"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "クッキー型"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "同意"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "設定"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "カートゥーン %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "バッチ %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "かじられた %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "グレーズ %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "ドット %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "グルメ %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "お祝い %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "デュオ %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "型抜き %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "同意 %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "設定 %d"

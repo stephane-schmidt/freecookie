@@ -1,0 +1,625 @@
+# FreeCookie — ru_RU translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: ru_RU\n"
+"Language: ru_RU\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100% локальный баннер согласия на cookie, соответствует GDPR / ePrivacy / CNIL / nLPD. Реальная блокировка трекеров до согласия, журнал доказательств в вашей базе данных, Google Consent Mode v2, автоматическая многоязычность. Никаких сетевых обращений к третьим сторонам."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Основной цвет (кнопки, значок)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Текст на основном цвете"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Фон баннера"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Текст баннера"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Фон вторичной кнопки"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Текст вторичной кнопки"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Цвет значка cookie"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Заголовок"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Сообщение"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Кнопка «Принять все»"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Кнопка «Отклонить все»"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Кнопка «Настроить»"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Кнопка «Сохранить»"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Заголовок панели настроек"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Анализ страницы %1$d из %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Наблюдение за cookie в браузере…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Объединение результатов…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Сканирование завершено: %1$d страниц, %2$d сервисов, %3$d cookie. Перезагрузка…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "Сканирование не удалось. Повторите попытку или используйте резервную кнопку ниже."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Обнаружен сервис: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Зафиксирован cookie (сервер): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Зафиксирован cookie (браузер): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Эта форма входит в FreeCookie Pro: введите свой ключ в разделе «FreeCookie Pro», чтобы использовать её. Предыдущая форма сохраняется."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Настройки сохранены."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "Библиотека PHP GD отсутствует: определение цвета по логотипу (PNG/JPG) отключено. Остальные источники определения остаются активными."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Важно — одной активации FreeCookie недостаточно, чтобы сделать ваш сайт соответствующим требованиям."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Вам ещё нужно: составить политику cookie/конфиденциальности, проверить трекеры, не обнаруженные автоматически, и адаптировать ваши юридические уведомления. FreeCookie нейтрализует известные сторонние скрипты и iframe до согласия; он не блокирует ни localStorage, ни фингерпринтинг, выполняемый скриптами, которые он не нейтрализовал. Если ваш сайт ориентирован на несовершеннолетних, применяются более строгие правила (GDPR ст. 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Сканирование завершено: проанализировано %1$s страниц, обнаружено %2$s сервисов."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Внешний вид — цвета"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Оставьте пустым, чтобы автоматически использовать доминирующий цвет сайта (или производный оттенок)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Цвета, обнаруженные на вашем сайте — нажмите, чтобы применить как основной цвет:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Форма cookie"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Выберите форму плавающего значка (он принимает цвет сайта)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — требуется ключ"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Тексты баннера (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Оставьте пустым, чтобы сохранить предоставленный переведённый текст. Эти тексты применяются к языку, показанному выше."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Параметры"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Предварительная блокировка"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Блокировать сторонние трекеры до согласия"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Определение языка"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Использовать язык браузера в крайнем случае"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Срок действия согласия (дни)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "Рекомендуется 90 дней (рекомендации EDPB/CNIL). Свыше 365 дней согласие может считаться устаревшим."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Бесплатный порог (посещений/месяц)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Автоматическое сканирование трекеров"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "Раз в неделю (рекомендуется)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "Раз в день"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Никогда (только ручное сканирование)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "Сайт сам сканирует себя в фоновом режиме, чтобы поддерживать актуальность списка трекеров и цветов."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Страниц анализируется за одно сканирование"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 страниц (быстро, рекомендуется)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 страниц"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 страниц"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 страниц (тщательно)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Трекеры размещаются темой и плагинами: они одинаковы на всём сайте, поэтому выборки достаточно. Выбираются все публичные типы контента (записи, страницы, товары…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Уведомление о поддержке"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Скрыть уведомление о поддержке, показываемое сверх порога (плагин остаётся полностью функциональным)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "О нас / соцсети"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Отключено по умолчанию. Если вы включите это, небольшая ссылка «О нас» на баннере откроет панель с ВАШИМИ данными и ВАШИМИ соцсетями — эта информация будет видна посетителям вашего сайта. Подписи переводятся автоматически."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "Ссылка «О нас»"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Показывать ссылку на баннере"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Имя"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Подзаголовок"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Веб-сайт"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "Эл. почта"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Ссылка на пожертвование / кофе"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro добавляет удобство (дополнительные семейства форм и не только в будущем) — базовое соответствие всегда остаётся бесплатным и полным. Ваша покупка (10 $/год или 45 $ навсегда) автоматически отправляет вам лицензионный ключ по эл. почте. Никакой онлайн-проверки, никаких отправляемых данных: ключа достаточно."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Перейти на Pro — получить мой ключ по эл. почте"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Ключ Pro"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro активен — спасибо за вашу поддержку."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Нет ключа — формы Pro заблокированы."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Вставьте сюда ключ, полученный по эл. почте сразу после покупки (формат FCPRO-…), затем сохраните."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Сканер cookie"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Последнее сканирование: обнаружено %1$s известных сервисов (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Сканирование ещё не выполнялось."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Запустить сканирование сайта"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Запустить сканирование сайта (без JavaScript)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Следующее автоматическое сканирование: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Результаты последнего сканирования"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "Известных сторонних трекеров не обнаружено, и на проанализированных страницах не зафиксировано cookie — ваш сайт чист. Баннер покажет только категории, без строк трекеров."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Сервис"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Категория"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Риск"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Цель"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Зафиксированные cookie (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Источник"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Описание"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Браузер"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Сервер (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Этот сайт"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Действие не разрешено."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: этот сайт превысил %1$s посещений в этом месяце (бесплатный порог: %2$s). Плагин остаётся полностью функциональным — если FreeCookie вам полезен, вы можете поддержать проект (10 $/год или 45 $ навсегда). Спасибо!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Поддержать (ключ отправляется автоматически по эл. почте)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Узнать больше"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "скрыть это уведомление в настройках"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Классический"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Надкушенный (сбоку)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Надкушенный (сверху)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Большой укус"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Двойной укус"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Следы зубов"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Круглый"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Минимальный"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Линия"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Надкушенная линия"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Мягкий"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Крекер"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Сердце"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Звезда"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Цветок"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Фестончатый"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Сэндвич"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Крупные кусочки"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Половина"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Лакомый"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Классические"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Мультяшный"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Партия"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Укусы и крошки"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Глазированные"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Точки сайта"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Лакомые"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Праздники"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Графический дуэт"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Формочка"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Согласие"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Настройки"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Мультяшный %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Партия %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Надкушенный %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Глазированный %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Точки %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Лакомая %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Праздник %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Дуэт %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Вырубка %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Согласие %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Настройка %d"

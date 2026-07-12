@@ -1,0 +1,625 @@
+# FreeCookie — es_ES translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: es_ES\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "Banner de consentimiento de cookies 100 % local, conforme con RGPD / ePrivacy / CNIL / nLPD. Bloqueo real de rastreadores antes del consentimiento, registro de prueba en tu base de datos, Google Consent Mode v2, multilingüe automático. Sin llamadas de red a terceros."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Color principal (botones, insignia)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Texto sobre el color principal"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Fondo del banner"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Texto del banner"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Fondo del botón secundario"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Texto del botón secundario"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Color de la insignia de cookies"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Título"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Mensaje"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Botón «Aceptar todo»"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Botón «Rechazar todo»"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Botón «Personalizar»"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Botón «Guardar»"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Título del panel de preferencias"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Analizando la página %1$d de %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Observando las cookies en el navegador…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Consolidando los resultados…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Escaneo completado: %1$d páginas, %2$d servicios, %3$d cookies. Recargando…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "El escaneo falló. Inténtalo de nuevo o usa el botón de respaldo de abajo."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Servicio detectado: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Cookie observada (servidor): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Cookie observada (navegador): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Esta forma es parte de FreeCookie Pro: introduce tu clave en la sección «FreeCookie Pro» para usarla. La forma anterior se conserva."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Ajustes guardados."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "Falta la biblioteca PHP GD: la detección de color desde el logotipo (PNG/JPG) está desactivada. Las demás fuentes de detección siguen activas."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Importante — activar FreeCookie por sí solo no basta para que tu sitio sea conforme."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Aún debes: redactar una política de cookies/privacidad, comprobar los rastreadores no detectados automáticamente y adaptar tus avisos legales. FreeCookie neutraliza los scripts e iframes de terceros conocidos antes del consentimiento; no bloquea el localStorage ni el fingerprinting realizados por scripts que no ha neutralizado. Si tu sitio se dirige a menores, se aplican reglas reforzadas (RGPD art. 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Escaneo completado: %1$s páginas analizadas, %2$s servicios detectados."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Apariencia — colores"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Déjalo vacío para usar automáticamente el color dominante del sitio (o un tono derivado)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Colores detectados en tu sitio — haz clic para aplicarlo como color principal:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Forma de la cookie"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Elige la forma de la insignia flotante (adopta el color del sitio)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — clave requerida"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Textos del banner (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Déjalo vacío para conservar el texto traducido incluido. Estos textos se aplican al idioma mostrado arriba."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Opciones"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Bloqueo previo"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Bloquear los rastreadores de terceros antes del consentimiento"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Detección de idioma"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Usar el idioma del navegador como último recurso"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Validez del consentimiento (días)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "90 días recomendado (directrices EDPB/CNIL). Más allá de 365 días, el consentimiento puede considerarse caducado."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Umbral gratuito (visitas/mes)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Escaneo automático de rastreadores"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "Una vez por semana (recomendado)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "Una vez al día"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Nunca (solo escaneo manual)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "El sitio se analiza a sí mismo en segundo plano para mantener al día la lista de rastreadores y los colores."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Páginas analizadas por escaneo"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 páginas (rápido, recomendado)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 páginas"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 páginas"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 páginas (exhaustivo)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Los rastreadores los colocan el tema y los plugins: son idénticos en todo el sitio, así que una muestra basta. Se muestrean todos los tipos de contenido públicos (entradas, páginas, productos…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Aviso de apoyo"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Ocultar el aviso de apoyo mostrado más allá del umbral (el plugin sigue siendo totalmente funcional)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "Acerca de / redes"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Desactivado por defecto. Si lo activas, un pequeño enlace «Acerca de» en el banner abre un panel con TUS referencias y TUS redes — esta información será visible para los visitantes de tu sitio. Las etiquetas se traducen automáticamente."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "Enlace «Acerca de»"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Mostrar el enlace en el banner"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Nombre"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Subtítulo"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Sitio web"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "Correo electrónico"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Enlace de donación / café"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro añade comodidad (familias de formas adicionales, y más por venir) — la conformidad básica siempre es gratuita y completa. Tu compra (10 $/año o 45 $ de por vida) te envía automáticamente una clave de licencia por correo. Sin verificación en línea, sin datos enviados: la clave basta."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Pasar a Pro — recibir mi clave por correo"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Clave Pro"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro activo — gracias por tu apoyo."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Sin clave — formas Pro bloqueadas."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Pega aquí la clave recibida por correo justo después de tu compra (formato FCPRO-…), luego guarda."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Escáner de cookies"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Último escaneo: %1$s servicios conocidos detectados (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Aún no se ha realizado ningún escaneo."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Iniciar un escaneo del sitio"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Iniciar un escaneo del sitio (sin JavaScript)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Próximo escaneo automático: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Resultados del último escaneo"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "No se detectaron rastreadores de terceros conocidos ni se observaron cookies en las páginas analizadas — tu sitio está limpio. El banner solo mostrará las categorías, sin filas de rastreadores."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Servicio"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Categoría"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Riesgo"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Finalidad"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Cookies observadas (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Origen"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Descripción"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Navegador"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Servidor (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Este sitio"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Acción no autorizada."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: este sitio ha superado %1$s visitas este mes (umbral gratuito: %2$s). El plugin sigue siendo totalmente funcional — si FreeCookie te resulta útil, puedes apoyar el proyecto (10 $/año o 45 $ de por vida). ¡Gracias!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Apoyar (clave enviada automáticamente por correo)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Saber más"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "ocultar este aviso en los ajustes"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Clásico"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Mordido (lado)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Mordido (arriba)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Gran mordisco"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Doble mordisco"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Marcas de dientes"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Redondo"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Minimal"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Línea"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Línea mordida"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Suave"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Cracker"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Corazón"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Estrella"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Flor"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Festoneado"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Sándwich"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Trozos grandes"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Medio"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Goloso"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Clásicos"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Cartoon"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Hornada"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Mordiscos y migas"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Glaseados"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Puntos del sitio"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Golosas"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Fiestas"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Dúo gráfico"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Cortador"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Consentimiento"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Ajustes"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Cartoon %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Hornada %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Mordido %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Glaseado %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Puntos %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Golosa %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Fiesta %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Dúo %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Corte %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Consentimiento %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Ajuste %d"

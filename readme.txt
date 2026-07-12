@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.12.12
+Stable tag: 0.13.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,11 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.13.0 =
+* Interface d'administration désormais traduisible et livrée traduite dans 26 langues (les mêmes que SwitchMyBar), plus l'anglais : fichiers gettext `.pot` / `.po` / `.mo` dans `/languages/` (source française). Jusqu'ici l'UI d'admin n'avait aucun fichier de langue.
+* Rappel : le bandeau visiteur détecte déjà automatiquement la langue du navigateur (option « Détection de langue », activée par défaut) et reste servi depuis les jeux de chaînes intégrés (FC_I18n). L'extension du bandeau visiteur à ces 26 langues suit dans une prochaine version.
+* Les traductions non latines (arabe, hébreu, japonais, coréen, chinois) sont fournies en qualité machine et méritent une relecture par un locuteur natif.
 
 = 0.12.12 =
 * Nouveau service reconnu et bloqué a priori : « Google Sign-In » (`accounts.google.com/gsi/client`, souvent injecté par Google Site Kit). Le bouton « Se connecter avec Google » ne charge qu'après consentement de la famille Préférences ; cookie `g_state` documenté dans les fiches (7 langues).

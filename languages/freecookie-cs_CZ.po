@@ -1,0 +1,625 @@
+# FreeCookie — cs_CZ translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: cs_CZ\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "100% lokální lišta souhlasu s cookies, v souladu s GDPR / ePrivacy / CNIL / nLPD. Skutečné blokování sledovačů před souhlasem, protokol důkazů ve vaší databázi, Google Consent Mode v2, automaticky vícejazyčné. Žádná síťová volání třetích stran."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Hlavní barva (tlačítka, odznak)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Text na hlavní barvě"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Pozadí lišty"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Text lišty"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Pozadí sekundárního tlačítka"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Text sekundárního tlačítka"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Barva odznaku cookies"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Titulek"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Zpráva"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Tlačítko „Přijmout vše“"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Tlačítko „Odmítnout vše“"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Tlačítko „Přizpůsobit“"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Tlačítko „Uložit“"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Titulek panelu předvoleb"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Analýza stránky %1$d z %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Sledování cookies v prohlížeči…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Konsolidace výsledků…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Kontrola dokončena: %1$d stránek, %2$d služeb, %3$d cookies. Načítání…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "Kontrola selhala. Zkuste to znovu nebo použijte záložní tlačítko níže."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Zjištěna služba: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Zaznamenané cookie (server): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Zaznamenané cookie (prohlížeč): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Tento tvar je součástí FreeCookie Pro: zadejte svůj klíč v sekci „FreeCookie Pro“, abyste jej mohli použít. Předchozí tvar zůstává zachován."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Nastavení uloženo."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "Knihovna PHP GD chybí: detekce barvy z loga (PNG/JPG) je zakázána. Ostatní zdroje detekce zůstávají aktivní."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Důležité — samotná aktivace FreeCookie nestačí k tomu, aby byl váš web v souladu s předpisy."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Ještě musíte: sepsat zásady cookies/ochrany soukromí, zkontrolovat sledovače, které nebyly zjištěny automaticky, a upravit svá právní upozornění. FreeCookie neutralizuje známé skripty a iframy třetích stran před souhlasem; neblokuje localStorage ani fingerprinting prováděný skripty, které neutralizovány nebyly. Pokud se váš web obrací na nezletilé, platí přísnější pravidla (GDPR čl. 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Kontrola dokončena: %1$s stránek analyzováno, %2$s služeb zjištěno."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Vzhled — barvy"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Ponechte prázdné pro automatické použití převládající barvy webu (nebo odvozeného odstínu)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Barvy zjištěné na vašem webu — klikněte pro použití jako hlavní barvy:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Tvar cookie"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Zvolte tvar plovoucího odznaku (převezme barvu webu)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — vyžadován klíč"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Texty lišty (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Ponechte prázdné pro zachování dodaného přeloženého textu. Tyto texty platí pro jazyk zobrazený výše."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Možnosti"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Předběžné blokování"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Blokovat sledovače třetích stran před souhlasem"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Detekce jazyka"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Použít jazyk prohlížeče jako poslední možnost"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Platnost souhlasu (dny)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "Doporučeno 90 dní (pokyny EDPB/CNIL). Po více než 365 dnech může být souhlas považován za zastaralý."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Bezplatný limit (návštěvy/měsíc)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Automatická kontrola sledovačů"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "Jednou týdně (doporučeno)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "Jednou denně"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Nikdy (pouze ruční kontrola)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "Web se sám kontroluje na pozadí, aby udržoval aktuální seznam sledovačů a barvy."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Stránek analyzováno na jednu kontrolu"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 stránek (rychlé, doporučeno)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 stránek"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 stránek"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 stránek (důkladné)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Sledovače jsou umístěny šablonou a pluginy: jsou stejné na celém webu, proto vzorek stačí. Odebírají se všechny veřejné typy obsahu (příspěvky, stránky, produkty…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Upozornění na podporu"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Skrýt upozornění na podporu zobrazené nad limitem (plugin zůstává plně funkční)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "O aplikaci / sítě"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Ve výchozím nastavení zakázáno. Pokud to povolíte, malý odkaz „O aplikaci“ na liště otevře panel s VAŠIMI údaji a VAŠIMI sítěmi — tyto informace budou viditelné pro návštěvníky vašeho webu. Popisky se překládají automaticky."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "Odkaz „O aplikaci“"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Zobrazit odkaz na liště"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Jméno"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Podtitul"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Web"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "E-mail"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Odkaz na dar / kávu"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro přidává pohodlí (další rodiny tvarů a další v budoucnu) — základní soulad zůstává vždy zdarma a úplný. Váš nákup ($10/rok nebo $45 na doživotí) vám automaticky zašle licenční klíč e-mailem. Žádné online ověřování, žádná odeslaná data: klíč stačí."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Přejít na Pro — obdržet můj klíč e-mailem"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Klíč Pro"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro aktivní — děkujeme za vaši podporu."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Žádný klíč — tvary Pro uzamčeny."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Sem vložte klíč obdržený e-mailem hned po nákupu (formát FCPRO-…) a poté uložte."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Skener cookies"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Poslední kontrola: %1$s známých služeb zjištěno (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Zatím nebyla provedena žádná kontrola."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Spustit kontrolu webu"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Spustit kontrolu webu (bez JavaScriptu)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Příští automatická kontrola: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Výsledky poslední kontroly"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "Nebyly zjištěny žádné známé sledovače třetích stran ani žádné cookies na analyzovaných stránkách — váš web je čistý. Lišta zobrazí pouze kategorie, bez řádků sledovačů."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Služba"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Kategorie"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Riziko"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Účel"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Zaznamenané cookies (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Původ"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Popis"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Prohlížeč"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Server (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Tento web"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Akce není povolena."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: tento web překročil %1$s návštěv tento měsíc (bezplatný limit: %2$s). Plugin zůstává plně funkční — pokud je pro vás FreeCookie užitečný, můžete projekt podpořit ($10/rok nebo $45 na doživotí). Děkujeme!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Podpořit (klíč zaslán automaticky e-mailem)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Zjistit více"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "skrýt toto upozornění v nastavení"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Klasický"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Nakousnutý (bok)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Nakousnutý (nahoře)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Velké kousnutí"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Dvojité kousnutí"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Stopy zubů"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Kulatý"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Minimální"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Linka"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Nakousnutá linka"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Měkký"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Krekr"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Srdce"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Hvězda"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Květina"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Vroubkovaný"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Sendvič"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Velké kousky"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Půl"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Mlsný"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Klasické"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Kreslený"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Dávka"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Kousnutí a drobky"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Polevové"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Puntíky webu"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Mlsné"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Oslavy"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Grafické duo"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Vykrajovátko"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Souhlas"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Nastavení"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Kreslený %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Dávka %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Nakousnutý %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Polevový %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Puntíky %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Mlsná %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Oslava %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Duo %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Výřez %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Souhlas %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Nastavení %d"

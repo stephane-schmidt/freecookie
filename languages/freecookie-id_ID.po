@@ -1,0 +1,625 @@
+# FreeCookie — id_ID translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: id_ID\n"
+"Language: id_ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "Banner persetujuan cookie 100% lokal, sesuai GDPR / ePrivacy / CNIL / nLPD. Pemblokiran pelacak yang sebenarnya sebelum persetujuan, log bukti di basis data Anda, Google Consent Mode v2, multibahasa otomatis. Tanpa panggilan jaringan ke pihak ketiga."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "Warna utama (tombol, lencana)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "Teks pada warna utama"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "Latar belakang banner"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "Teks banner"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "Latar belakang tombol sekunder"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "Teks tombol sekunder"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "Warna lencana cookie"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "Judul"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "Pesan"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "Tombol “Terima semua”"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "Tombol “Tolak semua”"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "Tombol “Sesuaikan”"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "Tombol “Simpan”"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "Judul panel preferensi"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "Menganalisis halaman %1$d dari %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "Mengamati cookie di browser…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "Menggabungkan hasil…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "Pemindaian selesai: %1$d halaman, %2$d layanan, %3$d cookie. Memuat ulang…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "Pemindaian gagal. Coba lagi, atau gunakan tombol cadangan di bawah."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "Layanan terdeteksi: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "Cookie teramati (server): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "Cookie teramati (browser): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "Bentuk ini adalah bagian dari FreeCookie Pro: masukkan kunci Anda di bagian “FreeCookie Pro” untuk menggunakannya. Bentuk sebelumnya tetap dipertahankan."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "Pengaturan disimpan."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "Pustaka PHP GD tidak ada: deteksi warna dari logo (PNG/JPG) dinonaktifkan. Sumber deteksi lainnya tetap aktif."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "Penting — mengaktifkan FreeCookie saja tidak cukup untuk membuat situs Anda patuh."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "Anda masih perlu: menyusun kebijakan cookie/privasi, memeriksa pelacak yang tidak terdeteksi secara otomatis, dan menyesuaikan pemberitahuan hukum Anda. FreeCookie menetralkan skrip dan iframe pihak ketiga yang dikenal sebelum persetujuan; ia tidak memblokir localStorage maupun fingerprinting yang dilakukan oleh skrip yang tidak dinetralkannya. Jika situs Anda ditujukan untuk anak di bawah umur, aturan yang lebih ketat berlaku (GDPR pasal 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "Pemindaian selesai: %1$s halaman dianalisis, %2$s layanan terdeteksi."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "Tampilan — warna"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "Biarkan kosong untuk otomatis menggunakan warna dominan situs (atau rona turunan)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "Warna yang terdeteksi di situs Anda — klik untuk menerapkannya sebagai warna utama:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "Bentuk cookie"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "Pilih bentuk lencana mengambang (mengikuti warna situs)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — kunci diperlukan"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "Teks banner (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "Biarkan kosong untuk mempertahankan teks terjemahan yang disediakan. Teks ini berlaku untuk bahasa yang ditampilkan di atas."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "Opsi"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "Pemblokiran awal"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "Blokir pelacak pihak ketiga sebelum persetujuan"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "Deteksi bahasa"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "Gunakan bahasa browser sebagai pilihan terakhir"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "Masa berlaku persetujuan (hari)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "90 hari disarankan (pedoman EDPB/CNIL). Di atas 365 hari, persetujuan dapat dianggap kedaluwarsa."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "Ambang gratis (kunjungan/bulan)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "Pemindaian pelacak otomatis"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "Seminggu sekali (disarankan)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "Sehari sekali"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "Tidak pernah (hanya pemindaian manual)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "Situs memindai dirinya sendiri di latar belakang untuk menjaga daftar pelacak dan warna tetap mutakhir."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "Halaman yang dianalisis per pemindaian"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 halaman (cepat, disarankan)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 halaman"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 halaman"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 halaman (mendalam)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "Pelacak ditempatkan oleh tema dan plugin: mereka identik di seluruh situs, jadi satu sampel sudah cukup. Semua jenis konten publik disampel (pos, halaman, produk…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "Pemberitahuan dukungan"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "Sembunyikan pemberitahuan dukungan yang ditampilkan di atas ambang (plugin tetap berfungsi penuh)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "Tentang / jejaring sosial"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "Dinonaktifkan secara default. Jika Anda mengaktifkannya, tautan kecil “Tentang” di banner membuka panel dengan referensi ANDA dan jejaring sosial ANDA — informasi ini akan terlihat oleh pengunjung situs Anda. Label diterjemahkan secara otomatis."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "Tautan “Tentang”"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "Tampilkan tautan di banner"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "Nama"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "Subjudul"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "Situs web"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "Email"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "Tautan donasi / kopi"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro menambah kenyamanan (keluarga bentuk tambahan, dan lebih banyak lagi ke depannya) — kepatuhan dasar selalu tetap gratis dan lengkap. Pembelian Anda ($10/tahun atau $45 seumur hidup) secara otomatis mengirimi Anda kunci lisensi melalui email. Tanpa verifikasi daring, tanpa data yang dikirim: kunci sudah cukup."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "Tingkatkan ke Pro — terima kunci saya melalui email"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "Kunci Pro"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro aktif — terima kasih atas dukungan Anda."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "Tidak ada kunci — bentuk Pro terkunci."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "Tempel di sini kunci yang diterima melalui email segera setelah pembelian Anda (format FCPRO-…), lalu simpan."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "Pemindai cookie"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "Pemindaian terakhir: %1$s layanan dikenal terdeteksi (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "Belum ada pemindaian yang dilakukan."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "Mulai pemindaian situs"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "Mulai pemindaian situs (tanpa JavaScript)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "Pemindaian otomatis berikutnya: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "Hasil pemindaian terakhir"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "Tidak ada pelacak pihak ketiga dikenal yang terdeteksi dan tidak ada cookie yang teramati di halaman yang dianalisis — situs Anda bersih. Banner hanya akan menampilkan kategori, tanpa baris pelacak."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "Layanan"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "Kategori"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "Risiko"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "Tujuan"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "Cookie yang teramati (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "Cookie"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "Asal"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "Deskripsi"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "Browser"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "Server (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "Situs ini"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "Tindakan tidak diizinkan."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: situs ini melampaui %1$s kunjungan bulan ini (ambang gratis: %2$s). Plugin tetap berfungsi penuh — jika FreeCookie berguna bagi Anda, Anda dapat mendukung proyek ini ($10/tahun atau $45 seumur hidup). Terima kasih!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "Dukung (kunci dikirim otomatis melalui email)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "Pelajari lebih lanjut"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "sembunyikan pemberitahuan ini di pengaturan"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "Klasik"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "Tergigit (samping)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "Tergigit (atas)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "Gigitan besar"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "Gigitan ganda"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "Bekas gigi"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "Bulat"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "Minimal"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "Garis"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "Garis tergigit"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "Lembut"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "Kraker"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "Hati"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "Bintang"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "Bunga"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "Bergerigi"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "Sandwich"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "Potongan besar"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "Setengah"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "Lezat"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "Klasik"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "Kartun"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "Panggangan"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "Gigitan & remah"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "Berlapis gula"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "Titik situs"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "Lezat"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "Perayaan"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "Duo grafis"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "Cetakan kue"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "Persetujuan"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "Pengaturan"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "Kartun %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "Panggangan %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "Tergigit %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "Berlapis gula %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "Titik %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "Lezat %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "Perayaan %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "Duo %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "Potongan %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "Persetujuan %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "Pengaturan %d"

@@ -1,0 +1,625 @@
+# FreeCookie — he_IL translation.
+# Copyright (C) 2026 Stéphane Schmidt.
+# This file is distributed under the GPL-2.0-or-later.
+msgid ""
+msgstr ""
+"Project-Id-Version: FreeCookie\n"
+"Report-Msgid-Bugs-To: https://github.com/stephane-schmidt/freecookie\n"
+"POT-Creation-Date: 2026-07-12T07:22:21+00:00\n"
+"PO-Revision-Date: 2026-07-12T07:22:21+00:00\n"
+"Last-Translator: FreeCookie\n"
+"Language-Team: he_IL\n"
+"Language: he_IL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n%10==0 && n>=20 ? 2 : 3);\n"
+"X-Domain: freecookie\n"
+
+#. Plugin Name of the plugin
+#: freecookie.php
+msgid "FreeCookie — Cookie Consent RGPD/CNIL"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: freecookie.php
+msgid "https://github.com/stephane-schmidt/freecookie"
+msgstr ""
+
+#. Description of the plugin
+#: freecookie.php
+msgid "Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers."
+msgstr "באנר הסכמה לעוגיות מקומי 100%, תואם GDPR / ePrivacy / CNIL / nLPD. חסימה אמיתית של גששים לפני הסכמה, יומן הוכחות במסד הנתונים שלך, Google Consent Mode v2, רב-לשוני אוטומטי. ללא קריאות רשת לצדדים שלישיים."
+
+#. Author of the plugin
+#: freecookie.php
+msgid "Stéphane Schmidt"
+msgstr ""
+
+#. Author URI of the plugin
+#: freecookie.php
+msgid "https://alveo.design"
+msgstr ""
+
+#: includes/class-fc-admin.php:20
+msgid "Couleur principale (boutons, badge)"
+msgstr "צבע ראשי (כפתורים, תג)"
+
+#: includes/class-fc-admin.php:21
+msgid "Texte sur la couleur principale"
+msgstr "טקסט על הצבע הראשי"
+
+#: includes/class-fc-admin.php:22
+msgid "Fond de la bannière"
+msgstr "רקע הבאנר"
+
+#: includes/class-fc-admin.php:23
+msgid "Texte de la bannière"
+msgstr "טקסט הבאנר"
+
+#: includes/class-fc-admin.php:24
+msgid "Fond du bouton secondaire"
+msgstr "רקע הכפתור המשני"
+
+#: includes/class-fc-admin.php:25
+msgid "Texte du bouton secondaire"
+msgstr "טקסט הכפתור המשני"
+
+#: includes/class-fc-admin.php:26
+msgid "Couleur du badge cookie"
+msgstr "צבע תג העוגייה"
+
+#: includes/class-fc-admin.php:33
+msgid "Titre"
+msgstr "כותרת"
+
+#: includes/class-fc-admin.php:34
+msgid "Message"
+msgstr "הודעה"
+
+#: includes/class-fc-admin.php:35
+msgid "Bouton « Tout accepter »"
+msgstr "כפתור «קבל הכול»"
+
+#: includes/class-fc-admin.php:36
+msgid "Bouton « Tout refuser »"
+msgstr "כפתור «דחה הכול»"
+
+#: includes/class-fc-admin.php:37
+msgid "Bouton « Personnaliser »"
+msgstr "כפתור «התאמה אישית»"
+
+#: includes/class-fc-admin.php:38
+msgid "Bouton « Enregistrer »"
+msgstr "כפתור «שמור»"
+
+#: includes/class-fc-admin.php:39
+msgid "Titre du panneau de préférences"
+msgstr "כותרת חלונית ההעדפות"
+
+#: includes/class-fc-admin.php:127
+msgid "Analyse de la page %1$d sur %2$d…"
+msgstr "מנתח עמוד %1$d מתוך %2$d…"
+
+#: includes/class-fc-admin.php:128
+msgid "Observation des cookies dans le navigateur…"
+msgstr "עוקב אחר עוגיות בדפדפן…"
+
+#: includes/class-fc-admin.php:129
+msgid "Consolidation des résultats…"
+msgstr "מאחד תוצאות…"
+
+#: includes/class-fc-admin.php:130
+msgid "Scan terminé : %1$d pages, %2$d services, %3$d cookies. Rechargement…"
+msgstr "הסריקה הושלמה: %1$d עמודים, %2$d שירותים, %3$d עוגיות. טוען מחדש…"
+
+#: includes/class-fc-admin.php:131
+msgid "Le scan a échoué. Réessayez, ou utilisez le bouton de secours ci-dessous."
+msgstr "הסריקה נכשלה. נסה שוב או השתמש בכפתור החירום למטה."
+
+#: includes/class-fc-admin.php:132
+msgid "Service détecté : %s"
+msgstr "זוהה שירות: %s"
+
+#: includes/class-fc-admin.php:133
+msgid "Cookie observé (serveur) : %s"
+msgstr "עוגייה שנצפתה (שרת): %s"
+
+#: includes/class-fc-admin.php:134
+msgid "Cookie observé (navigateur) : %s"
+msgstr "עוגייה שנצפתה (דפדפן): %s"
+
+#: includes/class-fc-admin.php:171
+msgid "Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée."
+msgstr "צורה זו היא חלק מ-FreeCookie Pro: הזן את המפתח שלך בקטע «FreeCookie Pro» כדי להשתמש בה. הצורה הקודמת נשמרת."
+
+#: includes/class-fc-admin.php:220
+msgid "Réglages enregistrés."
+msgstr "ההגדרות נשמרו."
+
+#: includes/class-fc-admin.php:249
+msgid "La bibliothèque PHP GD est absente : la détection de couleur depuis le logo (PNG/JPG) est désactivée. Les autres sources de détection restent actives."
+msgstr "ספריית PHP GD חסרה: זיהוי הצבע מהלוגו (PNG/JPG) מושבת. שאר מקורות הזיהוי נשארים פעילים."
+
+#: includes/class-fc-admin.php:253
+msgid "Important — l’activation de FreeCookie ne suffit pas à elle seule à rendre votre site conforme."
+msgstr "חשוב — הפעלת FreeCookie לבדה אינה מספיקה כדי להפוך את האתר שלך לתואם."
+
+#: includes/class-fc-admin.php:254
+msgid "Il vous reste à : rédiger une politique de cookies/confidentialité, vérifier les traceurs non détectés automatiquement, et adapter vos mentions légales. FreeCookie neutralise les scripts et iframes tiers connus avant consentement ; il ne bloque pas le localStorage ni le fingerprinting effectués par des scripts qu’il n’a pas neutralisés. Si votre site s’adresse à des mineurs, des règles renforcées s’appliquent (RGPD art. 8)."
+msgstr "עליך עדיין: לנסח מדיניות עוגיות/פרטיות, לבדוק גששים שלא זוהו אוטומטית, ולהתאים את ההודעות המשפטיות שלך. FreeCookie מנטרל סקריפטים ו-iframe מוכרים של צד שלישי לפני הסכמה; הוא אינו חוסם את localStorage ואינו חוסם טביעת אצבע המבוצעת על ידי סקריפטים שלא נוטרלו. אם האתר שלך מיועד לקטינים, חלים כללים מחמירים יותר (GDPR סעיף 8)."
+
+#. translators: 1: pages, 2: services.
+#: includes/class-fc-admin.php:261
+msgid "Scan terminé : %1$s pages analysées, %2$s services détectés."
+msgstr "הסריקה הושלמה: %1$s עמודים נותחו, %2$s שירותים זוהו."
+
+#: includes/class-fc-admin.php:272
+msgid "Apparence — couleurs"
+msgstr "מראה — צבעים"
+
+#: includes/class-fc-admin.php:273
+msgid "Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée)."
+msgstr "השאר ריק כדי להשתמש אוטומטית בצבע הדומיננטי של האתר (או בגוון נגזר)."
+
+#: includes/class-fc-admin.php:278
+msgid "Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :"
+msgstr "צבעים שזוהו באתר שלך — לחץ כדי להחיל כצבע ראשי:"
+
+#: includes/class-fc-admin.php:297
+msgid "Forme du cookie"
+msgstr "צורת העוגייה"
+
+#: includes/class-fc-admin.php:298
+msgid "Choisissez la forme du badge flottant (elle prend la couleur du site)."
+msgstr "בחר את צורת התג הצף (מקבל את צבע האתר)."
+
+#: includes/class-fc-admin.php:332
+msgid "PRO — clé requise"
+msgstr "PRO — נדרש מפתח"
+
+#: includes/class-fc-admin.php:332
+msgid "PRO"
+msgstr "PRO"
+
+#. translators: %s: language code.
+#: includes/class-fc-admin.php:350
+msgid "Textes de la bannière (%s)"
+msgstr "טקסטים של הבאנר (%s)"
+
+#: includes/class-fc-admin.php:352
+msgid "Laissez vide pour garder le texte traduit fourni. Ces textes s’appliquent à la langue affichée ci-dessus."
+msgstr "השאר ריק כדי לשמור על הטקסט המתורגם שסופק. טקסטים אלה חלים על השפה המוצגת למעלה."
+
+#: includes/class-fc-admin.php:373
+msgid "Options"
+msgstr "אפשרויות"
+
+#: includes/class-fc-admin.php:376
+msgid "Blocage a priori"
+msgstr "חסימה מוקדמת"
+
+#: includes/class-fc-admin.php:378
+msgid "Bloquer les traceurs tiers avant le consentement"
+msgstr "חסום גששים של צד שלישי לפני הסכמה"
+
+#: includes/class-fc-admin.php:381
+msgid "Détection de langue"
+msgstr "זיהוי שפה"
+
+#: includes/class-fc-admin.php:383
+msgid "Utiliser la langue du navigateur en dernier recours"
+msgstr "השתמש בשפת הדפדפן כמוצא אחרון"
+
+#: includes/class-fc-admin.php:386
+msgid "Validité du consentement (jours)"
+msgstr "תוקף ההסכמה (ימים)"
+
+#: includes/class-fc-admin.php:388
+msgid "90 jours recommandé (lignes directrices EDPB/CNIL). Au-delà de 365 jours, le consentement risque d’être considéré comme périmé."
+msgstr "מומלץ 90 יום (הנחיות EDPB/CNIL). מעבר ל-365 יום, ההסכמה עלולה להיחשב מיושנת."
+
+#: includes/class-fc-admin.php:391
+msgid "Seuil gratuit (visites/mois)"
+msgstr "סף חינמי (ביקורים/חודש)"
+
+#: includes/class-fc-admin.php:395
+msgid "Scan automatique des traceurs"
+msgstr "סריקת גששים אוטומטית"
+
+#: includes/class-fc-admin.php:398
+msgid "Une fois par semaine (recommandé)"
+msgstr "פעם בשבוע (מומלץ)"
+
+#: includes/class-fc-admin.php:399
+msgid "Une fois par jour"
+msgstr "פעם ביום"
+
+#: includes/class-fc-admin.php:400
+msgid "Jamais (scan manuel uniquement)"
+msgstr "לעולם לא (סריקה ידנית בלבד)"
+
+#: includes/class-fc-admin.php:402
+msgid "Le site s’analyse lui-même en tâche de fond pour tenir à jour la liste des traceurs et les couleurs."
+msgstr "האתר סורק את עצמו ברקע כדי לשמור על רשימת הגששים והצבעים מעודכנים."
+
+#: includes/class-fc-admin.php:406
+msgid "Pages analysées par scan"
+msgstr "עמודים שנותחו לכל סריקה"
+
+#: includes/class-fc-admin.php:409
+msgid "10 pages (rapide, recommandé)"
+msgstr "10 עמודים (מהיר, מומלץ)"
+
+#: includes/class-fc-admin.php:409
+msgid "25 pages"
+msgstr "25 עמודים"
+
+#: includes/class-fc-admin.php:409
+msgid "50 pages"
+msgstr "50 עמודים"
+
+#: includes/class-fc-admin.php:409
+msgid "100 pages (approfondi)"
+msgstr "100 עמודים (מעמיק)"
+
+#: includes/class-fc-admin.php:413
+msgid "Les traceurs sont posés par le thème et les extensions : ils sont identiques sur tout le site, un échantillon suffit donc. Tous les types de contenus publics sont échantillonnés (articles, pages, produits…)."
+msgstr "הגששים ממוקמים על ידי התבנית והתוספים: הם זהים בכל האתר, ולכן דגימה מספיקה. נדגמים כל סוגי התוכן הציבוריים (פוסטים, עמודים, מוצרים…)."
+
+#: includes/class-fc-admin.php:417
+msgid "Avis de soutien"
+msgstr "הודעת תמיכה"
+
+#: includes/class-fc-admin.php:419
+msgid "Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)"
+msgstr "הסתר את הודעת התמיכה המוצגת מעבר לסף (התוסף נשאר מתפקד במלואו)"
+
+#: includes/class-fc-admin.php:423
+msgid "À propos / réseaux"
+msgstr "אודות / רשתות חברתיות"
+
+#: includes/class-fc-admin.php:424
+msgid "Désactivé par défaut. Si vous l’activez, un petit lien « À propos » sur la bannière ouvre un volet avec VOS références et VOS réseaux — ces informations seront visibles par les visiteurs de votre site. Les libellés sont traduits automatiquement."
+msgstr "מושבת כברירת מחדל. אם תפעיל זאת, קישור «אודות» קטן בבאנר יפתח חלונית עם הפרטים שלך והרשתות החברתיות שלך — מידע זה יהיה גלוי למבקרי האתר שלך. התוויות מתורגמות אוטומטית."
+
+#: includes/class-fc-admin.php:429
+msgid "Lien « À propos »"
+msgstr "קישור «אודות»"
+
+#: includes/class-fc-admin.php:430
+msgid "Afficher le lien sur la bannière"
+msgstr "הצג את הקישור בבאנר"
+
+#: includes/class-fc-admin.php:433
+msgid "Nom"
+msgstr "שם"
+
+#: includes/class-fc-admin.php:437
+msgid "Sous-titre"
+msgstr "כותרת משנה"
+
+#: includes/class-fc-admin.php:441
+msgid "Site web"
+msgstr "אתר אינטרנט"
+
+#: includes/class-fc-admin.php:445
+msgid "E-mail"
+msgstr "דוא\"ל"
+
+#: includes/class-fc-admin.php:449
+msgid "Lien de don / café"
+msgstr "קישור תרומה / קפה"
+
+#: includes/class-fc-admin.php:460
+msgid "FreeCookie Pro"
+msgstr "FreeCookie Pro"
+
+#: includes/class-fc-admin.php:462
+msgid "Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit."
+msgstr "Pro מוסיף נוחות (משפחות צורות נוספות, ועוד בעתיד) — התאימות הבסיסית תמיד נשארת חינמית ומלאה. הרכישה שלך (10 $ לשנה או 45 $ לכל החיים) שולחת לך אוטומטית מפתח רישיון בדוא\"ל. ללא אימות מקוון, ללא שליחת נתונים: המפתח מספיק."
+
+#: includes/class-fc-admin.php:465
+msgid "Passer à Pro — recevoir ma clé par e-mail"
+msgstr "שדרג ל-Pro — קבל את המפתח שלי בדוא\"ל"
+
+#: includes/class-fc-admin.php:469
+msgid "Clé Pro"
+msgstr "מפתח Pro"
+
+#: includes/class-fc-admin.php:473
+msgid "Pro actif — merci pour votre soutien."
+msgstr "Pro פעיל — תודה על תמיכתך."
+
+#: includes/class-fc-admin.php:475
+msgid "Aucune clé — formes Pro verrouillées."
+msgstr "אין מפתח — צורות Pro נעולות."
+
+#: includes/class-fc-admin.php:477
+msgid "Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez."
+msgstr "הדבק כאן את המפתח שהתקבל בדוא\"ל מיד לאחר הרכישה (פורמט FCPRO-…), ואז שמור."
+
+#: includes/class-fc-admin.php:486
+msgid "Scanner de cookies"
+msgstr "סורק עוגיות"
+
+#. translators: 1: services count, 2: date.
+#: includes/class-fc-admin.php:492
+msgid "Dernier scan : %1$s services connus détectés (%2$s)."
+msgstr "סריקה אחרונה: זוהו %1$s שירותים מוכרים (%2$s)."
+
+#: includes/class-fc-admin.php:497
+msgid "Aucun scan encore effectué."
+msgstr "עדיין לא בוצעה סריקה."
+
+#: includes/class-fc-admin.php:501
+msgid "Lancer un scan du site"
+msgstr "התחל סריקה של האתר"
+
+#: includes/class-fc-admin.php:521
+msgid "Lancer un scan du site (sans JavaScript)"
+msgstr "התחל סריקה של האתר (ללא JavaScript)"
+
+#. translators: %s: date/heure.
+#: includes/class-fc-admin.php:531
+msgid "Prochain scan automatique : %s."
+msgstr "הסריקה האוטומטית הבאה: %s."
+
+#: includes/class-fc-admin.php:541
+msgid "Résultats du dernier scan"
+msgstr "תוצאות הסריקה האחרונה"
+
+#: includes/class-fc-admin.php:544
+msgid "Aucun traceur tiers connu détecté et aucun cookie observé sur les pages analysées — votre site est propre. La bannière n’affichera que les catégories, sans lignes de traceurs."
+msgstr "לא זוהו גששים מוכרים של צד שלישי ולא נצפו עוגיות בעמודים שנותחו — האתר שלך נקי. הבאנר יציג רק את הקטגוריות, ללא שורות גששים."
+
+#: includes/class-fc-admin.php:551
+#: includes/class-fc-admin.php:581
+msgid "Service"
+msgstr "שירות"
+
+#: includes/class-fc-admin.php:552
+#: includes/class-fc-admin.php:582
+msgid "Catégorie"
+msgstr "קטגוריה"
+
+#: includes/class-fc-admin.php:553
+msgid "Risque"
+msgstr "סיכון"
+
+#: includes/class-fc-admin.php:554
+msgid "Finalité"
+msgstr "מטרה"
+
+#. translators: %d: nombre de cookies.
+#: includes/class-fc-admin.php:576
+msgid "Cookies observés (%d)"
+msgstr "עוגיות שנצפו (%d)"
+
+#: includes/class-fc-admin.php:579
+msgid "Cookie"
+msgstr "עוגייה"
+
+#: includes/class-fc-admin.php:580
+msgid "Origine"
+msgstr "מקור"
+
+#: includes/class-fc-admin.php:583
+msgid "Description"
+msgstr "תיאור"
+
+#: includes/class-fc-admin.php:590
+msgid "Navigateur"
+msgstr "דפדפן"
+
+#: includes/class-fc-admin.php:590
+msgid "Serveur (HTTP)"
+msgstr "שרת (HTTP)"
+
+#: includes/class-fc-admin.php:591
+msgid "Ce site"
+msgstr "אתר זה"
+
+#: includes/class-fc-plugin.php:159
+msgid "Action non autorisée."
+msgstr "הפעולה אינה מותרת."
+
+#. translators: 1: visits this month, 2: threshold.
+#: includes/class-fc-plugin.php:196
+msgid "FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !"
+msgstr "FreeCookie: אתר זה חרג מ-%1$s ביקורים החודש (סף חינמי: %2$s). התוסף נשאר מתפקד במלואו — אם FreeCookie מועיל לך, תוכל לתמוך בפרויקט (10 $ לשנה או 45 $ לכל החיים). תודה!"
+
+#: includes/class-fc-plugin.php:200
+msgid "Soutenir (clé envoyée automatiquement par e-mail)"
+msgstr "תמוך (המפתח נשלח אוטומטית בדוא\"ל)"
+
+#: includes/class-fc-plugin.php:201
+msgid "En savoir plus"
+msgstr "למד עוד"
+
+#: includes/class-fc-plugin.php:202
+msgid "masquer cet avis dans les réglages"
+msgstr "הסתר הודעה זו בהגדרות"
+
+#: includes/class-fc-shapes.php:27
+msgid "Classique"
+msgstr "קלאסי"
+
+#: includes/class-fc-shapes.php:31
+msgid "Croqué (côté)"
+msgstr "נגוס (צד)"
+
+#: includes/class-fc-shapes.php:35
+msgid "Croqué (haut)"
+msgstr "נגוס (למעלה)"
+
+#: includes/class-fc-shapes.php:39
+msgid "Grand mordu"
+msgstr "נגיסה גדולה"
+
+#: includes/class-fc-shapes.php:43
+msgid "Double mordu"
+msgstr "נגיסה כפולה"
+
+#: includes/class-fc-shapes.php:47
+msgid "Dents marquées"
+msgstr "סימני שיניים"
+
+#: includes/class-fc-shapes.php:51
+msgid "Rond"
+msgstr "עגול"
+
+#: includes/class-fc-shapes.php:55
+msgid "Minimal"
+msgstr "מינימלי"
+
+#: includes/class-fc-shapes.php:59
+msgid "Ligne"
+msgstr "קו"
+
+#: includes/class-fc-shapes.php:63
+msgid "Ligne croqué"
+msgstr "קו נגוס"
+
+#: includes/class-fc-shapes.php:67
+msgid "Doux"
+msgstr "רך"
+
+#: includes/class-fc-shapes.php:71
+msgid "Cracker"
+msgstr "קרקר"
+
+#: includes/class-fc-shapes.php:75
+msgid "Cœur"
+msgstr "לב"
+
+#: includes/class-fc-shapes.php:79
+msgid "Étoile"
+msgstr "כוכב"
+
+#: includes/class-fc-shapes.php:83
+msgid "Fleur"
+msgstr "פרח"
+
+#: includes/class-fc-shapes.php:87
+msgid "Festonné"
+msgstr "מסולסל"
+
+#: includes/class-fc-shapes.php:91
+msgid "Sandwich"
+msgstr "כריך"
+
+#: includes/class-fc-shapes.php:95
+msgid "Grosses pépites"
+msgstr "חתיכות גדולות"
+
+#: includes/class-fc-shapes.php:99
+msgid "Demi"
+msgstr "חצי"
+
+#: includes/class-fc-shapes.php:103
+msgid "Gourmand"
+msgstr "מפנק"
+
+#: includes/class-fc-shapes.php:117
+msgid "Classiques"
+msgstr "קלאסיים"
+
+#: includes/class-fc-shapes.php:118
+msgid "Cartoon"
+msgstr "קריקטורה"
+
+#: includes/class-fc-shapes.php:119
+msgid "Fournée"
+msgstr "מאפה"
+
+#: includes/class-fc-shapes.php:120
+msgid "Croqués & miettes"
+msgstr "נגיסות ופירורים"
+
+#: includes/class-fc-shapes.php:121
+msgid "Nappés"
+msgstr "מזוגגים"
+
+#: includes/class-fc-shapes.php:122
+msgid "Pastilles du site"
+msgstr "נקודות האתר"
+
+#: includes/class-fc-shapes.php:123
+msgid "Gourmandes"
+msgstr "מפנקים"
+
+#: includes/class-fc-shapes.php:124
+msgid "Fêtes"
+msgstr "חגים"
+
+#: includes/class-fc-shapes.php:125
+msgid "Duo graphique"
+msgstr "צמד גרפי"
+
+#: includes/class-fc-shapes.php:126
+msgid "Emporte-pièce"
+msgstr "תבנית חיתוך"
+
+#: includes/class-fc-shapes.php:127
+msgid "Consentement"
+msgstr "הסכמה"
+
+#: includes/class-fc-shapes.php:128
+msgid "Réglages"
+msgstr "הגדרות"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:201
+msgid "Cartoon %d"
+msgstr "קריקטורה %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:203
+msgid "Fournée %d"
+msgstr "מאפה %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:205
+msgid "Croqué %d"
+msgstr "נגוס %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:207
+msgid "Nappé %d"
+msgstr "מזוגג %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:209
+msgid "Pastilles %d"
+msgstr "נקודות %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:211
+msgid "Gourmande %d"
+msgstr "מפנק %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:213
+msgid "Fête %d"
+msgstr "חג %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:215
+msgid "Duo %d"
+msgstr "צמד %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:217
+msgid "Découpe %d"
+msgstr "חיתוך %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:219
+msgid "Consentement %d"
+msgstr "הסכמה %d"
+
+#. translators: %d: variant number.
+#: includes/class-fc-shapes.php:221
+msgid "Réglage %d"
+msgstr "הגדרה %d"
