@@ -23,6 +23,15 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
+== Screenshots ==
+
+1. Le bandeau de consentement (bureau) : catégories détaillées, cases décochées, « Tout refuser » à parité stricte avec « Tout accepter ».
+2. Le bandeau sur mobile (375 px) : modale compacte centrée, boutons empilés pleine largeur, liste des catégories défilable.
+3. Le volet pédagogique « Comprendre les cookies » : trois niveaux de lecture (Utile / À nuancer / À surveiller).
+4. Le bandeau en arabe : prise en charge RTL complète, l'une des 26 langues livrées.
+
+(Les images correspondantes sont dans `docs/img/` du dépôt : `screenshot-1.png` à `screenshot-4.png`.)
+
 == Changelog ==
 
 = 0.13.4 =

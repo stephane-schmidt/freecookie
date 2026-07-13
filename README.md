@@ -31,10 +31,19 @@ La plupart des solutions du marché chargent la bannière, la logique de consent
 - **Journal de preuve dans votre base.** Chaque consentement est horodaté (finalités acceptées/refusées, version de la bannière, IP masquée et hachée) dans une table WordPress dédiée — exportable, hébergé nulle part ailleurs.
 - **Scanner de cookies local.** Le site s'analyse lui-même (aucun service externe) pour détecter les traceurs présents et composer la liste de cookies affichée au visiteur.
 - **Détection automatique de la couleur de marque.** La bannière prend la couleur dominante du site : lecture du **logo** (y compris **SVG**), du kit **Elementor**, de **theme.json**, des réglages du personnalisateur et des thèmes populaires (Astra, Kadence, GeneratePress…), plus une **analyse de fréquence** des couleurs récurrentes. Les couleurs d'usine et les gris/blanc/noir sont écartés.
-- **Multilingue automatique.** Textes de bannière fournis en **7 langues** (FR, EN, DE, IT, ES, NL, PT), sélectionnés selon la langue du visiteur (WPML/Polylang → langue du site → navigateur). Extensible.
+- **Multilingue automatique.** Textes de bannière fournis en **26 langues** — dont l'**arabe et l'hébreu avec prise en charge RTL complète**, et les variantes régionales du chinois (zh-CN/zh-TW) et du portugais (pt-PT/pt-BR) — sélectionnés selon la langue du visiteur (WPML/Polylang → navigateur → langue du site). L'interface d'administration est livrée traduite dans les mêmes langues (gettext `/languages/`).
 - **Géo-ciblage local.** Régime de consentement adapté à la région (UE / Suisse / hors-UE) à partir des en-têtes fournis par l'hébergement/CDN, sans base de géolocalisation tierce. Par défaut : le régime le plus protecteur.
 - **Personnalisation complète.** Un menu **FreeCookie** dans l'administration : toutes les couleurs (color pickers), tous les textes par langue, les finalités et les options.
 - **Léger.** Quelques kilo-octets, pas de jQuery en front, aucun appel réseau externe, bannière rendue côté serveur (pas de « flash »).
+
+## Captures d'écran
+
+| | |
+|---|---|
+| ![Bandeau de consentement (bureau)](docs/img/screenshot-1.png) | ![Bandeau sur mobile (375 px)](docs/img/screenshot-2.png) |
+| **1. Le bandeau de consentement** — catégories détaillées, cases décochées, « Tout refuser » à parité stricte avec « Tout accepter ». | **2. Sur mobile (375 px)** — modale compacte centrée, boutons empilés pleine largeur, liste des catégories défilable ; les boutons restent toujours visibles. |
+| ![Volet pédagogique](docs/img/screenshot-3.png) | ![Bandeau en arabe, RTL](docs/img/screenshot-4.png) |
+| **3. Le volet « Comprendre les cookies »** — pédagogie à trois niveaux (Utile / À nuancer / À surveiller), accessible depuis le bandeau et les pastilles. | **4. Multilingue et RTL** — le bandeau servi en arabe : mise en page miroir complète (titres, cases, boutons), l'une des 26 langues livrées. |
 
 ## Conformité
 
