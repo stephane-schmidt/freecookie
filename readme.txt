@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.4
+Stable tag: 0.13.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an
 (Les images correspondantes sont dans `docs/img/` du dépôt : `screenshot-1.png` à `screenshot-4.png`.)
 
 == Changelog ==
+
+= 0.13.5 =
+* Compteur de visites plus honnête : il ne comptait plus seulement les vrais navigateurs mais aussi chaque requête sans cookie (curl, robots à identité de navigateur, moniteurs de disponibilité, tâches planifiées internes), ce qui gonflait énormément le total. Désormais une visite n'est comptée que si le navigateur renvoie une sonde posée au chargement précédent (méthode « cookie-echo »), les tâches planifiées WordPress sont exclues, et l'avis d'administration parle de « sessions de navigation (approximation locale, sans traceur) » plutôt que de « visites ». Aucun traceur, toujours 100 % local.
 
 = 0.13.4 =
 * Bandeau responsive sur mobile et écrans étroits : la modale s'élargit à 86 % de la largeur (plafonnée à 380 px) au lieu de l'ancien 70 % « timbre-poste », reste centrée et défile en interne si elle est trop haute. Les boutons Accepter/Refuser passent en pleine largeur sans déborder, même quand le thème du site pose une marge sur les boutons. Prise en charge des écrans de couverture des pliables (Honor Magic V2, Galaxy Z Fold ≈ 280–380 px) : padding réduit, plus aucun débordement de contenu (les longs noms de cookies et domaines se coupent, la grille explicative passe sur une colonne).

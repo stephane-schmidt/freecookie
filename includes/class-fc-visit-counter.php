@@ -16,18 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class FC_Visit_Counter {
 
-	const OPTION      = 'freecookie_visits';
-	const SEEN_COOKIE = 'fc_v';
+	const OPTION        = 'freecookie_visits';
+	const SEEN_COOKIE   = 'fc_v';
+	const STATE_PENDING = 'pending';
+	const STATE_COUNTED = 'counted';
 
 	/**
-	 * Incrémente au plus une fois par visite (≈30 min).
+	 * Incrémente au plus une fois par session (≈30 min), via « cookie-echo ».
 	 * Hooké sur « init » côté front, avant émission du HTML.
+	 *
+	 * On ne compte QUE les clients qui nous re-présentent une sonde posée au hit
+	 * précédent : un vrai navigateur (qui garde les cookies) le fait au 2e
+	 * chargement, mais curl, scrapers à UA de navigateur, moniteurs et le
+	 * loopback wp-cron — qui n'ont pas de jar de cookies — ne comptent JAMAIS.
+	 * (Léger sous-comptage des visites 1-page : assumé, très préférable à la
+	 * surestimation ×250 de l'ancien « pas de cookie = +1 à chaque hit ».)
 	 */
 	public function maybe_count() {
-		if ( is_admin() || wp_doing_ajax() || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-			return;
-		}
-		if ( ! empty( $_COOKIE[ self::SEEN_COOKIE ] ) ) {
+		if ( is_admin() || wp_doing_ajax() || wp_doing_cron()
+			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
 			return;
 		}
 		// L'aperçu d'observation du scan (admin) n'est pas une visite.
@@ -40,6 +47,26 @@ class FC_Visit_Counter {
 			return;
 		}
 
+		$state = isset( $_COOKIE[ self::SEEN_COOKIE ] )
+			? sanitize_text_field( wp_unslash( $_COOKIE[ self::SEEN_COOKIE ] ) )
+			: '';
+
+		// Déjà compté pendant la fenêtre de 30 min : ne rien faire.
+		if ( self::STATE_COUNTED === $state ) {
+			return;
+		}
+
+		// Premier contact (aucun cookie, ou valeur héritée d'une version
+		// antérieure) : on pose une sonde `pending` SANS compter. Seul un client
+		// avec jar de cookies nous la renverra au hit suivant.
+		if ( self::STATE_PENDING !== $state ) {
+			$this->set_seen_cookie( self::STATE_PENDING );
+			return;
+		}
+
+		// $state === 'pending' : la sonde nous revient → client réel. On compte
+		// une fois, puis on bascule sur `counted` pour ne pas recompter chaque
+		// page de la session (re-comptable après expiration du cookie).
 		$month  = gmdate( 'Y-m' );
 		$counts = get_option( self::OPTION, array() );
 		if ( ! is_array( $counts ) ) {
@@ -54,10 +81,20 @@ class FC_Visit_Counter {
 		}
 		update_option( self::OPTION, $counts, false );
 
+		$this->set_seen_cookie( self::STATE_COUNTED );
+	}
+
+	/**
+	 * Pose le cookie de sonde (`pending` puis `counted`), durée 30 min, et le
+	 * reflète tout de suite dans $_COOKIE pour la cohérence intra-requête.
+	 *
+	 * @param string $value Nouvel état (self::STATE_PENDING|STATE_COUNTED).
+	 */
+	private function set_seen_cookie( $value ) {
 		if ( ! headers_sent() ) {
 			setcookie(
 				self::SEEN_COOKIE,
-				'1',
+				$value,
 				array(
 					'expires'  => time() + 1800,
 					'path'     => defined( 'COOKIEPATH' ) ? COOKIEPATH : '/',
@@ -68,6 +105,7 @@ class FC_Visit_Counter {
 				)
 			);
 		}
+		$_COOKIE[ self::SEEN_COOKIE ] = $value;
 	}
 
 	/**

@@ -192,8 +192,8 @@ class FC_Plugin {
 		}
 		echo '<div class="notice notice-info is-dismissible"><p>';
 		printf(
-			/* translators: 1: visits this month, 2: threshold. */
-			esc_html__( 'FreeCookie : ce site a dépassé %1$s visites ce mois-ci (seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !', 'freecookie' ),
+			/* translators: 1: browsing sessions this month, 2: threshold. */
+			esc_html__( 'FreeCookie : ce site a dépassé %1$s sessions de navigation ce mois-ci (approximation locale, sans traceur ; seuil gratuit : %2$s). Le plugin reste entièrement fonctionnel — si FreeCookie vous est utile, vous pouvez soutenir le projet (10 $/an ou 45 $ à vie). Merci !', 'freecookie' ),
 			esc_html( number_format_i18n( $visits ) ),
 			esc_html( number_format_i18n( $threshold ) )
 		);
