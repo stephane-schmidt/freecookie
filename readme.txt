@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.3
+Stable tag: 0.13.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,9 @@ FreeCookie affiche un bandeau de consentement conforme et **bloque réellement**
 Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
 
 == Changelog ==
+
+= 0.13.4 =
+* Bandeau responsive sur mobile et écrans étroits : la modale s'élargit à 86 % de la largeur (plafonnée à 380 px) au lieu de l'ancien 70 % « timbre-poste », reste centrée et défile en interne si elle est trop haute. Les boutons Accepter/Refuser passent en pleine largeur sans déborder, même quand le thème du site pose une marge sur les boutons. Prise en charge des écrans de couverture des pliables (Honor Magic V2, Galaxy Z Fold ≈ 280–380 px) : padding réduit, plus aucun débordement de contenu (les longs noms de cookies et domaines se coupent, la grille explicative passe sur une colonne).
 
 = 0.13.3 =
 * Nouvelle famille de formes de badge « Verre » (Pro) : 40 cookies translucides façon verre dépoli — corps transparent, reflet lumineux, bulles à éclat. Comme toutes les formes, elles suivent automatiquement la couleur principale du site.

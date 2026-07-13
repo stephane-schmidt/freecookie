@@ -275,15 +275,33 @@ iframe.fc-blocked-embed {
 [dir="rtl"] .fc-svc__desc { text-align: right; }
 
 @media (max-width: 560px) {
-	/* Mobile : on garde le centrage + la contrainte 70vw de la règle de base
-	   (avant : pleine largeur moins 16px = bannière envahissante). */
-	.fc-banner { bottom: 8px; }
+	/* Mobile : modale un peu plus large que l'ancien 70vw (≈280px = « timbre-poste »
+	   sur grand mobile) mais bornée à 380px pour rester discrète — compromis validé
+	   par Stéphane le 13/07. Reste centrée et défile verticalement en interne si haute. */
+	.fc-banner { width: min(86vw, 380px) !important; max-width: min(86vw, 380px) !important; bottom: 10px; }
 	.fc-inner { padding: 18px; }
 	.fc-prefs, .fc-about { padding-left: 18px; padding-right: 18px; }
 	.fc-badge { left: 12px; bottom: 12px; }
 	.fc-actions { flex-direction: column; }
-	.fc-actions .fc-btn { width: 100%; flex: 1 1 auto; }
+	/* width:auto (et non 100%) : en flex-column, `align-items:stretch` donne déjà la
+	   pleine largeur ; `auto` évite le débordement quand un thème hôte pose une marge
+	   sur les <button> (cas observé sur freeetv : margin:20px hérité d'Elementor). */
+	.fc-actions .fc-btn { width: auto; flex: 1 1 auto; }
+	.fc-about__actions { flex-direction: column; }
+	.fc-about__actions .fc-btn { width: auto; }
 	.fc-svc__desc, .fc-cat__desc { font-size: 12px; }
+}
+
+/* Écrans TRÈS étroits (écrans de couverture des pliables : Honor Magic V2,
+   Galaxy Z Fold… ≈ 280–360px) : padding réduit et aucun contenu ne peut
+   déborder — les longs jetons (noms de cookies, domaines) se coupent, la
+   grille explicative passe sur une colonne. La modale reste 86vw centrée. */
+@media (max-width: 380px) {
+	.fc-inner { padding: 16px 14px; }
+	.fc-prefs, .fc-about, .fc-edu { padding-left: 14px; padding-right: 14px; }
+	.fc-cat, .fc-svc__row, .fc-title, .fc-desc, .fc-note { min-width: 0; overflow-wrap: anywhere; }
+	.fc-ck > div { grid-template-columns: 1fr; gap: 2px; }
+	.fc-ck code, .fc-svc__name, .fc-cat__name { overflow-wrap: anywhere; }
 }
 
 /* ---- Écrans BAS (petits portables, fenêtres réduites) : la typographie et
