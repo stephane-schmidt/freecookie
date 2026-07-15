@@ -384,3 +384,21 @@ iframe.fc-blocked-embed {
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
 	pointer-events: none;
 }
+
+/* ==== 0.13.8 — fenêtre CENTRÉE sur l'écran (plus ancrée en bas), réduite ; titre aligné
+   sur la marge du texte, plus grand (adaptatif si long) ; boutons resserrés et plus
+   costauds, centrés (retours Stéphane 15/07, desktop). ==== */
+.fc-banner{top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(560px,max(280px,70vw));max-height:min(78vh,620px)}
+#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{
+	font-size:22px;line-height:1.25;margin:0;padding:0;text-indent:0;text-align:left;
+	letter-spacing:-.01em;border:0;background:none}
+#freecookie-banner .fc-title--long{font-size:17px}
+#freecookie-banner .fc-text{margin:0;padding:0}
+.fc-actions{justify-content:center;gap:12px}
+.fc-actions .fc-btn{flex:0 1 auto;min-width:150px;padding:12px 20px}
+@media(max-width:560px){
+	.fc-banner{top:50%;bottom:auto}
+	.fc-actions{flex-direction:column}
+	.fc-actions .fc-btn{min-width:0}
+}
+@media(max-height:700px){.fc-banner{top:50%;bottom:auto}}

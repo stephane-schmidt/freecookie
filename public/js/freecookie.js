@@ -561,3 +561,13 @@
 		}
 	});
 })();
+
+/* ==== 0.13.8 — titre adaptatif : plus grand par défaut (22px), réduit si long (>26 car.)
+   pour laisser respirer les sites au long nom. ==== */
+(function () {
+	function ready(fn) { if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', fn); } else { fn(); } }
+	ready(function () {
+		var t = document.querySelector('#freecookie-banner .fc-title');
+		if (t && t.textContent.replace(/\s+/g, ' ').trim().length > 26) { t.classList.add('fc-title--long'); }
+	});
+})();
