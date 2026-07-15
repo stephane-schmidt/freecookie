@@ -372,3 +372,15 @@ iframe.fc-blocked-embed {
 	pointer-events: none;
 	border-radius: 0 0 12px 12px;
 }
+
+/* 0.13.7 — même fondu pour la liste intérieure (défileur le plus courant). */
+.fc-cats.fc-can-scroll::after {
+	content: "";
+	position: sticky;
+	bottom: 0;
+	display: block;
+	flex: 0 0 30px;
+	margin-top: -30px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
+	pointer-events: none;
+}
