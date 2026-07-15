@@ -44,6 +44,9 @@
 
 .fc-btn {
 	appearance: none;
+	/* margin:0 en dur : des thèmes hôtes posent des marges sur <button> (Elementor
+	   observé sur freeetv : marges héritées → boutons très écartés sur mobile). */
+	margin: 0;
 	border: 1.5px solid transparent;
 	border-radius: 8px;
 	padding: 11px 18px;
@@ -279,14 +282,18 @@ iframe.fc-blocked-embed {
 	   sur grand mobile) mais bornée à 380px pour rester discrète — compromis validé
 	   par Stéphane le 13/07. Reste centrée et défile verticalement en interne si haute. */
 	.fc-banner { width: min(86vw, 380px) !important; max-width: min(86vw, 380px) !important; bottom: 10px; }
-	.fc-inner { padding: 18px; }
-	.fc-prefs, .fc-about { padding-left: 18px; padding-right: 18px; }
+	/* Compact mobile (retour Stéphane 15/07, iPhone) : espacements resserrés,
+	   boutons plus denses — la modale gagne en hauteur sans perdre en lisibilité. */
+	.fc-inner { padding: 16px; gap: 12px; }
+	.fc-prefs, .fc-about { padding-left: 16px; padding-right: 16px; }
 	.fc-badge { left: 12px; bottom: 12px; }
-	.fc-actions { flex-direction: column; }
+	.fc-actions { flex-direction: column; gap: 8px; }
 	/* width:auto (et non 100%) : en flex-column, `align-items:stretch` donne déjà la
 	   pleine largeur ; `auto` évite le débordement quand un thème hôte pose une marge
-	   sur les <button> (cas observé sur freeetv : margin:20px hérité d'Elementor). */
-	.fc-actions .fc-btn { width: auto; flex: 1 1 auto; }
+	   sur les <button> (cas observé sur freeetv : margin:20px hérité d'Elementor).
+	   margin:0!important : ceinture-bretelles contre ces mêmes thèmes (les marges
+	   verticales héritées écartelaient la pile de boutons — capture Stéphane 15/07). */
+	.fc-actions .fc-btn { width: auto; flex: 1 1 auto; margin: 0 !important; padding: 10px 14px; }
 	.fc-about__actions { flex-direction: column; }
 	.fc-about__actions .fc-btn { width: auto; }
 	.fc-svc__desc, .fc-cat__desc { font-size: 12px; }

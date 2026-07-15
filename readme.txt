@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.5
+Stable tag: 0.13.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an
 (Les images correspondantes sont dans `docs/img/` du dépôt : `screenshot-1.png` à `screenshot-4.png`.)
 
 == Changelog ==
+
+= 0.13.6 =
+* Bandeau mobile plus compact : espacements et boutons resserrés sur les écrans étroits (padding et gaps réduits), et surtout `margin: 0` imposé aux boutons du bandeau — certains thèmes hôtes (Elementor observé) posaient leurs propres marges sur les `<button>`, ce qui écartelait verticalement la pile Enregistrer / Tout refuser / Tout accepter sur téléphone. La modale reste centrée avec des marges extérieures égales.
 
 = 0.13.5 =
 * Compteur de visites plus honnête : il ne comptait plus seulement les vrais navigateurs mais aussi chaque requête sans cookie (curl, robots à identité de navigateur, moniteurs de disponibilité, tâches planifiées internes), ce qui gonflait énormément le total. Désormais une visite n'est comptée que si le navigateur renvoie une sonde posée au chargement précédent (méthode « cookie-echo »), les tâches planifiées WordPress sont exclues, et l'avis d'administration parle de « sessions de navigation (approximation locale, sans traceur) » plutôt que de « visites ». Aucun traceur, toujours 100 % local.
