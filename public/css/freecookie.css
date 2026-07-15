@@ -357,3 +357,18 @@ iframe.fc-blocked-embed {
 
 /* Les couleurs de la bannière sont pilotées par l'administration (variables --fc-*),
    on ne force donc pas de thème sombre automatique qui les écraserait. */
+
+/* ==== 0.13.7 — indice de défilement : fondu bas persistant tant qu'il reste du contenu
+   sous le pli (classe fc-can-scroll posée par le JS). Sticky : il accompagne le défilement
+   et s'efface naturellement en fin de course. Suit la couleur de fond (mode sombre inclus). */
+.fc-banner.fc-can-scroll::after {
+	content: "";
+	position: sticky;
+	bottom: 0;
+	display: block;
+	flex: 0 0 36px;
+	margin-top: -36px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
+	pointer-events: none;
+	border-radius: 0 0 12px 12px;
+}
