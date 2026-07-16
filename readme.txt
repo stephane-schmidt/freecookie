@@ -1,227 +1,293 @@
-=== FreeCookie — Cookie Consent RGPD/CNIL ===
+=== FreeCookie — GDPR/ePrivacy Cookie Consent Banner ===
 Contributors: stephaneschmidt
-Tags: cookie consent, gdpr, rgpd, cnil, consent mode
+Donate link: https://polar.sh/freeeconcept
+Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Requires PHP: 7.4
 Stable tag: 0.13.8
+Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel avant consentement, journal de preuve dans votre base, Consent Mode v2.
+The cookie banner that practices what it preaches: trackers blocked before consent, zero third-party calls. GDPR, ePrivacy, CNIL & nLPD ready.
 
 == Description ==
 
-FreeCookie affiche un bandeau de consentement conforme et **bloque réellement** les traceurs tiers (Google Analytics, YouTube, Meta Pixel, Maps…) tant que le visiteur n'a pas donné son accord — sans dépendre d'aucun service externe.
+**FreeCookie** is a lightweight, privacy-first cookie consent manager (CMP) for WordPress. It shows an accessible consent banner and — the part that actually matters — **blocks third-party scripts and iframes *before* they run**. No tracking cookie is dropped until your visitor says yes. That is what GDPR and the ePrivacy Directive really ask for: **prior, informed, freely given consent, with nothing stored beforehand.**
 
-* 100 % local : bannière, blocage et journal servis par votre WordPress. Zéro appel réseau tiers, zéro compte, zéro CDN.
-* Conforme par défaut : « Tout refuser » aussi accessible que « Tout accepter », aucune case pré-cochée, blocage a priori.
-* Journal de preuve dans votre base de données, exportable.
-* Google Consent Mode v2 natif.
-* Multilingue automatique (chaînes livrées avec le plugin, sélection selon la langue du visiteur).
-* Léger, compatible cache de page.
+And unlike many cookie plugins, FreeCookie makes **no external calls of its own** — no CDN, no remote API, no phone-home. Everything runs on your own server. A consent tool should be the one thing on your site you never have to worry about; that is exactly what this one is built to be.
 
-Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an ou 45 $ à vie, sur polar.sh/freeeconcept — la clé Pro est envoyée automatiquement par e-mail) — le plugin reste entièrement fonctionnel dans tous les cas.
+= Why FreeCookie =
+
+* **Prior blocking, by design.** Known third-party scripts and `<iframe>` embeds are neutralised at page render (rewritten to `type="text/plain"`) and released only once the matching consent category is granted. Nothing is deposited before agreement.
+* **Refusing is as easy as accepting.** "Accept all" and "Reject all" carry equal visual weight (button parity) — the way CNIL guidelines expect real consent to look.
+* **Google Consent Mode v2, denied by default.** `ad_storage`, `ad_user_data`, `ad_personalization` and `analytics_storage` all start *denied* and update on consent — privacy-safe ad delivery out of the box.
+* **A scanner that finds your trackers for you.** The built-in **local scanner** crawls a sample of your own pages (server-side requests plus an in-admin browser check) and lists what it finds, with purpose, category and a plain-language risk level.
+* **A preference centre visitors can actually read.** Every detected service shows its purpose, a factual risk level (Helpful / Mixed / Watch out) and its own on/off switch. Per-cookie detail cards (name, duration, description) sit right in the banner.
+* **No dead embeds.** Blocked players (YouTube and friends) become a tidy click-to-load facade instead of an empty hole — refusing consent never breaks the page.
+* **Geo-aware.** Optional region handling (EU / non-EU / Switzerland) applies the most protective regime by default.
+* **Proof, kept.** Consent choices are recorded locally in your database for accountability.
+* **26 languages, detected automatically.** The visitor banner follows Polylang/WPML, then the browser, then the site locale — with **RTL** support for Arabic and Hebrew. The admin interface is translatable via standard gettext (`.pot`/`.po`/`.mo`).
+* **It dresses to match your site.** The floating badge is monochrome and auto-tinted to your site's dominant colour (detected from your logo, theme.json, Elementor kit and other page builders) — or set every colour and text yourself in the settings screen.
+* **You won't feel it.** Under ~1 ms per page in measurements, and no render-blocking third-party requests.
+
+= Compliance scope =
+
+FreeCookie is built with **GDPR, the ePrivacy Directive, the French CNIL guidelines and the Swiss nLPD** in mind. It gives you the technical tools lawful consent needs — prior blocking, granular choice, easy refusal, a proof log, Consent Mode v2. It is a helper, **not legal advice**: activating the plugin does not, on its own, make a site compliant. Your privacy policy, your data-processing choices, special cases such as minors (GDPR Art. 8), and technologies FreeCookie does not block (e.g. server-side tracking, some localStorage/fingerprinting uses) remain your responsibility.
+
+= Free and honest =
+
+FreeCookie is **100% GPL and fully functional for everyone**. Every compliance feature is free — and always will be. An optional **Pro** tier unlocks purely cosmetic extras (extra decorative badge shapes) on an honour system. Pro never gates compliance. Ever.
+
+Source code and issues: https://github.com/stephane-schmidt/freecookie
+
+== Installation ==
+
+1. In your WordPress admin, go to **Plugins → Add New → Upload Plugin** and upload the FreeCookie ZIP, or install it directly from the Plugins directory.
+2. Click **Activate**.
+3. Open the **FreeCookie** menu that appears in the admin sidebar.
+4. Click **Run a scan** to detect the trackers currently used by your site.
+5. Review the detected services, adjust categories, colours and texts if you wish, and save.
+6. Visit your site in a private/incognito window (logged out, cache cleared) to confirm the banner appears and that trackers are blocked before consent.
+
+That's it — the consent banner and prior blocking are active immediately with sensible defaults (blocking on, Consent Mode v2 on, browser language detection on).
+
+== Frequently Asked Questions ==
+
+= Does FreeCookie really block cookies before consent? =
+
+Yes — that is the whole point. Known third-party scripts and iframes are rewritten at page render so they cannot execute, and are released only when the visitor grants the relevant consent category. Nothing is stored before agreement: prior blocking, exactly as GDPR/ePrivacy require.
+
+= Does the plugin call any external server? =
+
+No, none. FreeCookie makes no third-party calls of its own: no CDN, no remote fonts, no analytics, no licensing server. Everything is processed on your own site.
+
+= Will it slow down my site? =
+
+You won't notice it — measured under ~1 ms per page. And because FreeCookie adds no external requests, it can actually leave your pages faster than a cloud-based consent tool would.
+
+= How does the automatic scan work? =
+
+FreeCookie visits a sample of your own published pages locally, inspects the cookies and third-party resources they load, and lists the services it recognises — each with its purpose and risk level. You choose how many pages to sample. Services appear in the banner only *after* a scan has run.
+
+= Is FreeCookie a certified Google CMP? =
+
+Not currently. FreeCookie implements Consent Mode v2 the privacy-first way (everything denied by default), which keeps ad delivery lawful — but it is not on Google's certified-CMP list. If you run Google ads to EU/EEA visitors and need certified-CMP status for personalised ads, keep this in mind.
+
+= Does it work with page caching and multilingual plugins? =
+
+Yes to both. FreeCookie is cache-friendly (consent is applied client-side), and the banner's language follows Polylang/WPML, then the visitor's browser, then the site locale. GTranslate-style translation setups work too.
+
+= What about Google Funding Choices / AdSense's own consent message? =
+
+If your AdSense account publishes its own "Funding Choices" message, Google injects it at runtime and no site-side CMP can remove it — so you would see two banners. The fix is simple: once FreeCookie is your CMP, disable that message in your AdSense account (Privacy & messaging → GDPR).
+
+= Is it free? How is the project funded? =
+
+Free, forever — the core plugin is GPL and complete on its own. If you want to support development, an optional Pro tier (cosmetic badge shapes, nothing more) is available on an honour system. Compliance is never behind a paywall.
+
+= How do I get and activate a Pro key? =
+
+Purchase FreeCookie Pro from the project store; a license key is generated and emailed to you automatically. Paste it into the FreeCookie Pro section of the settings and you're done. A key only unlocks the decorative extras — it never affects compliance.
+
+== Privacy ==
+
+FreeCookie makes **no external calls and sends nothing to anyone** — no CDN, no remote API, no analytics, no phone-home. All processing happens on your own server.
+
+To support your accountability obligations (GDPR Art. 5(2) and 7(1) — being able to demonstrate that consent was given), FreeCookie keeps a **local consent log** in a dedicated database table (`wp_freecookie_log`). Each entry stores: a random consent ID (UUID, not tied to a user account), the categories granted, the action taken, banner and policy versions, language, region, the page URL, the browser user-agent string, and a **minimised, irreversible IP digest** — the address is first truncated (last octet for IPv4, /64 prefix for IPv6), then hashed with SHA-256 using your site's own salt. The clear IP address is never stored.
+
+Retention: entries are kept until you delete them (no automatic purge in this version) — export or prune the table as your own retention policy requires. On uninstall, the log table is **preserved by default** for auditability; a settings checkbox lets you choose to delete it together with the plugin.
+
+The consent cookie itself (`freecookie_consent`) is a strictly necessary first-party cookie storing the visitor's choice.
 
 == Screenshots ==
 
-1. Le bandeau de consentement (bureau) : catégories détaillées, cases décochées, « Tout refuser » à parité stricte avec « Tout accepter ».
-2. Le bandeau sur mobile (375 px) : modale compacte centrée, boutons empilés pleine largeur, liste des catégories défilable.
-3. Le volet pédagogique « Comprendre les cookies » : trois niveaux de lecture (Utile / À nuancer / À surveiller).
-4. Le bandeau en arabe : prise en charge RTL complète, l'une des 26 langues livrées.
-
-(Les images correspondantes sont dans `docs/img/` du dépôt : `screenshot-1.png` à `screenshot-4.png`.)
+1. The consent banner (desktop): detailed categories, unticked boxes, "Reject all" with strict parity against "Accept all".
+2. The banner on mobile (375 px): compact centered modal, stacked full-width buttons, scrollable category list.
+3. The educational "Understand cookies" panel: three reading levels (Helpful / Mixed / Watch out).
+4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
 
 = 0.13.8 =
-* Modale centrée sur l'écran (plus ancrée en bas), légèrement réduite (560 px max). Titre de bienvenue aligné sur la même marge que le texte (certains thèmes hôtes décalaient le h2), plus grand par défaut (22 px) et automatiquement réduit quand le nom du site est long. Boutons d'action centrés, resserrés et plus généreux au clic.
+* Modal centered on screen (no longer anchored to the bottom), slightly reduced (560px max). Welcome title aligned to the same margin as the text (some host themes were offsetting the h2), larger by default (22px) and automatically reduced when the site name is long. Action buttons centered, tightened, and more generous on click.
 
 = 0.13.7 =
-* Indice de défilement de la modale : quand une partie du contenu reste sous le pli (~20 % invisibles sur certains téléphones sans aucun signe), un fondu dégradé apparaît en bas du bandeau tant qu'il reste du contenu à voir, et au premier affichage la liste fait une petite « respiration » (18 px aller-retour, douce) qui montre le geste sans l'expliquer. Discret par conception : le fondu s'efface en fin de course, la respiration ne joue qu'une fois et respecte `prefers-reduced-motion`.
+* Modal scroll hint: when part of the content stays below the fold (~20% hidden on some phones with no indication at all), a gradient fade now appears at the bottom of the banner as long as there is more content to see, and on first display the list does a small "breathing" motion (18px back and forth, gentle) that shows the gesture without explaining it. Discreet by design: the fade disappears at the end of the scroll, the breathing motion plays only once, and it respects `prefers-reduced-motion`.
 
 = 0.13.6 =
-* Bandeau mobile plus compact : espacements et boutons resserrés sur les écrans étroits (padding et gaps réduits), et surtout `margin: 0` imposé aux boutons du bandeau — certains thèmes hôtes (Elementor observé) posaient leurs propres marges sur les `<button>`, ce qui écartelait verticalement la pile Enregistrer / Tout refuser / Tout accepter sur téléphone. La modale reste centrée avec des marges extérieures égales.
+* More compact mobile banner: spacing and buttons tightened on narrow screens (reduced padding and gaps), and above all `margin: 0` enforced on the banner buttons — some host themes (Elementor observed) applied their own margins to `<button>` elements, which stretched the Save / Reject All / Accept All stack vertically on phones. The modal stays centered with equal outer margins.
 
 = 0.13.5 =
-* Compteur de visites plus honnête : il ne comptait plus seulement les vrais navigateurs mais aussi chaque requête sans cookie (curl, robots à identité de navigateur, moniteurs de disponibilité, tâches planifiées internes), ce qui gonflait énormément le total. Désormais une visite n'est comptée que si le navigateur renvoie une sonde posée au chargement précédent (méthode « cookie-echo »), les tâches planifiées WordPress sont exclues, et l'avis d'administration parle de « sessions de navigation (approximation locale, sans traceur) » plutôt que de « visites ». Aucun traceur, toujours 100 % local.
+* More honest visit counter: it was counting not only real browsers but also every cookie-less request (curl, browser-identity bots, uptime monitors, internal cron jobs), which inflated the total significantly. A visit is now only counted if the browser returns a probe set on the previous page load (the "cookie-echo" method), WordPress cron jobs are excluded, and the admin notice now refers to "browsing sessions (local approximation, no tracking)" instead of "visits". No tracking, still 100% local.
 
 = 0.13.4 =
-* Bandeau responsive sur mobile et écrans étroits : la modale s'élargit à 86 % de la largeur (plafonnée à 380 px) au lieu de l'ancien 70 % « timbre-poste », reste centrée et défile en interne si elle est trop haute. Les boutons Accepter/Refuser passent en pleine largeur sans déborder, même quand le thème du site pose une marge sur les boutons. Prise en charge des écrans de couverture des pliables (Honor Magic V2, Galaxy Z Fold ≈ 280–380 px) : padding réduit, plus aucun débordement de contenu (les longs noms de cookies et domaines se coupent, la grille explicative passe sur une colonne).
+* Responsive banner on mobile and narrow screens: the modal now widens to 86% of the width (capped at 380px) instead of the previous "postage stamp" 70%, stays centered, and scrolls internally if it is too tall. Accept/Reject buttons go full width without overflowing, even when the site theme applies a margin to buttons. Support for foldable cover screens (Honor Magic V2, Galaxy Z Fold ≈ 280–380px): reduced padding, no more content overflow (long cookie and domain names now truncate, the explanatory grid switches to a single column).
 
 = 0.13.3 =
-* Nouvelle famille de formes de badge « Verre » (Pro) : 40 cookies translucides façon verre dépoli — corps transparent, reflet lumineux, bulles à éclat. Comme toutes les formes, elles suivent automatiquement la couleur principale du site.
+* New badge shape family "Glass" (Pro): 40 translucent frosted-glass-style cookies — transparent body, light reflection, glossy bubbles. Like all shape families, they automatically follow the site's primary color.
 
 = 0.13.2 =
-* Correctifs d'affichage du bandeau (signalés en production) : le lien « À quoi servent les cookies ? » est désormais un lien discret aligné à gauche (avant : pastille flottant à droite, à cheval sur le séparateur) ; l'ouverture du volet « Comprendre les cookies » remplace proprement le contenu (fini le chevauchement) ; les boutons n'affichent plus de double bordure quand le thème du site ajoute son propre contour (l'anneau de focus n'apparaît qu'au clavier).
+* Banner display fixes (reported in production): the "What are cookies for?" link is now a discreet left-aligned link (previously: a floating pill on the right, straddling the separator); opening the "Understanding cookies" panel now properly replaces the content (no more overlap); buttons no longer show a double border when the site theme adds its own outline (the focus ring now only appears via keyboard navigation).
 
 = 0.13.1 =
-* Le bandeau visiteur parle désormais 26 langues (parité avec l'admin) : ajout de l'arabe, hébreu, tchèque, danois, grec, finnois, hongrois, indonésien, japonais, coréen, norvégien, polonais, portugais (Portugal ET Brésil, distincts), roumain, russe, suédois, turc, ukrainien, chinois simplifié ET traditionnel. Détection région-consciente pour le portugais et le chinois (variantes non interchangeables).
-* Prise en charge des langues écrites de droite à gauche (arabe, hébreu) : le bandeau bascule automatiquement en RTL.
-* Nouveau filtre `freecookie_known_first_party` : un thème/site peut déclarer ses propres cookies internes (préférences, langue…) sans modifier le plugin.
+* The visitor banner now speaks 26 languages (parity with the admin): added Arabic, Hebrew, Czech, Danish, Greek, Finnish, Hungarian, Indonesian, Japanese, Korean, Norwegian, Polish, Portuguese (Portugal AND Brazil, distinct), Romanian, Russian, Swedish, Turkish, Ukrainian, Simplified AND Traditional Chinese. Region-aware detection for Portuguese and Chinese (non-interchangeable variants).
+* Support for right-to-left languages (Arabic, Hebrew): the banner automatically switches to RTL.
+* New filter `freecookie_known_first_party`: a theme/site can declare its own internal cookies (preferences, language, etc.) without modifying the plugin.
 
 = 0.13.0 =
-* Interface d'administration désormais traduisible et livrée traduite dans 26 langues (les mêmes que SwitchMyBar), plus l'anglais : fichiers gettext `.pot` / `.po` / `.mo` dans `/languages/` (source française). Jusqu'ici l'UI d'admin n'avait aucun fichier de langue.
-* Rappel : le bandeau visiteur détecte déjà automatiquement la langue du navigateur (option « Détection de langue », activée par défaut) et reste servi depuis les jeux de chaînes intégrés (FC_I18n). L'extension du bandeau visiteur à ces 26 langues suit dans une prochaine version.
-* Les traductions non latines (arabe, hébreu, japonais, coréen, chinois) sont fournies en qualité machine et méritent une relecture par un locuteur natif.
+* Admin interface is now translatable and shipped translated in 26 languages (the same as SwitchMyBar), plus English: gettext `.pot` / `.po` / `.mo` files in `/languages/` (French source). Until now the admin UI had no language files.
+* Reminder: the visitor banner already automatically detects the browser language (the "Language detection" option, enabled by default) and is still served from the plugin's built-in string sets (FC_I18n). Extending the visitor banner to these 26 languages is planned for an upcoming release.
+* Non-Latin translations (Arabic, Hebrew, Japanese, Korean, Chinese) are machine-quality and would benefit from a review by a native speaker.
 
 = 0.12.12 =
-* Nouveau service reconnu et bloqué a priori : « Google Sign-In » (`accounts.google.com/gsi/client`, souvent injecté par Google Site Kit). Le bouton « Se connecter avec Google » ne charge qu'après consentement de la famille Préférences ; cookie `g_state` documenté dans les fiches (7 langues).
+* New service recognized and blocked by default: "Google Sign-In" (`accounts.google.com/gsi/client`, often injected by Google Site Kit). The "Sign in with Google" button only loads after consent for the Preferences family; the `g_state` cookie is documented in the fact sheets (7 languages).
 
 = 0.12.11 =
-* Bannière plus discrète : jamais plus de 70 % de la largeur ni 60 % de la hauteur de l'écran (elle occupait quasi tout l'écran sur mobile). Planchers d'accessibilité conservés : 280 px de large minimum (interrupteurs et boutons utilisables), 340 px de haut minimum (paysage mobile). Desktop inchangé (680 px).
+* More discreet banner: never more than 70% of screen width or 60% of screen height (it was taking up almost the entire screen on mobile). Accessibility floors preserved: 280px minimum width (usable toggles and buttons), 340px minimum height (mobile landscape). Desktop unchanged (680px).
 
 = 0.12.10 =
-* Façade des embeds bloqués : dimensionnement fiabilisé. Le voile suit désormais la taille réelle du lecteur via ResizeObserver (iframe + parent) au lieu d'une mesure unique au chargement — corrige la petite boîte rognée quand le lecteur est layouté tardivement (onglet, aspect-ratio, polices). Les embeds cachés au chargement (onglet masqué) reçoivent aussi leur façade, dimensionnée à l'apparition.
+* Blocked embed facade: sizing reliability improved. The overlay now follows the player's actual size via ResizeObserver (iframe + parent) instead of a single measurement on load — fixes the small cropped box that appeared when the player was laid out late (tab switch, aspect-ratio, fonts). Embeds hidden on load (background tab) also get their facade, sized once they appear.
 
 = 0.12.9 =
-* Un lecteur bloqué n'est plus jamais un cul-de-sac : chaque embed neutralisé (YouTube, Vimeo…) affiche une façade « Charger le lecteur » qui accepte UNIQUEMENT le service concerné (consentement granulaire, la bannière ne se rouvre pas). Nouvelle allow-list par service dans le cookie de consentement (`on`), reflétée dans le panneau : la case d'un service reste utilisable même quand sa famille est refusée. Textes traduits en 7 langues, boutons aux couleurs du site.
+* A blocked player is never a dead end anymore: each neutralized embed (YouTube, Vimeo, etc.) shows a "Load player" facade that accepts ONLY that specific service (granular consent, the banner does not reopen). New per-service allow-list in the consent cookie (`on`), reflected in the panel: a service's checkbox stays usable even when its family is rejected. Texts translated into 7 languages, buttons in the site's colors.
 
 = 0.12.8 =
-* Blocage a priori de Google Funding Choices (fenêtre de consentement publicitaire de Google) : le script `fundingchoicesmessages.google.com` et ses amorces inline (`googlefc`) sont neutralisés avant consentement, comme les autres traceurs marketing. Évite la double bannière quand un site colle le tag Funding Choices en dur. Nouveau service « Google Funding Choices » dans le scan, décrit en 7 langues.
+* Default blocking of Google Funding Choices (Google's advertising consent window): the `fundingchoicesmessages.google.com` script and its inline bootstraps (`googlefc`) are neutralized before consent, like other marketing trackers. Avoids a double banner when a site hardcodes the Funding Choices tag. New "Google Funding Choices" service in the scan, described in 7 languages.
 
 = 0.12.7 =
-* Reconnaissance des cookies fonctionnels du chat auto-hébergé Wise Chat (session de pseudo, préférences d'affichage) : classés strictement nécessaires, décrits en 7 langues. Le scan les montre honnêtement comme fonctionnels, pas comme traceurs.
+* Recognition of functional cookies from the self-hosted Wise Chat (pseudonym session, display preferences): classified as strictly necessary, described in 7 languages. The scan honestly shows them as functional, not as trackers.
 
 = 0.12.6 =
-* Descriptions des services entièrement traduites dans les 7 langues : la finalité de chaque traceur (Google Analytics, AdSense, YouTube, Meta, Maps…) s'affiche désormais dans la langue du visiteur, au lieu du français. La bannière est enfin 100 % cohérente sur les sites non francophones.
+* Service descriptions fully translated into all 7 languages: each tracker's purpose (Google Analytics, AdSense, YouTube, Meta, Maps, etc.) now displays in the visitor's language instead of French. The banner is finally 100% consistent on non-French-speaking sites.
 
 = 0.12.5 =
-* Fiabilité du scan : un scan automatique qui ne parvient à récupérer aucune page (serveur mono-processus, loopback bloqué par l'hébergeur, panne réseau passagère) ne remplace plus un résultat valide précédent — fini le « aucun traceur détecté » affiché à tort après un scan planifié qui a échoué. Le scan interactif (HTML fourni par le navigateur de l'administrateur) reste la voie la plus fiable.
+* Scan reliability: an automatic scan that fails to fetch any page (single-process server, loopback blocked by the host, temporary network outage) no longer overwrites a previous valid result — no more incorrect "no trackers detected" shown after a failed scheduled scan. The interactive scan (HTML supplied by the admin's browser) remains the most reliable path.
 
 = 0.12.4 =
-* Prise en charge de GTranslate : le cookie fonctionnel « googtrans » (langue d'affichage choisie) est reconnu et classé comme strictement nécessaire, décrit en 7 langues. Le sélecteur de langue reste fonctionnel — ses scripts ne sont pas neutralisés avant consentement, car changer de langue est une action explicite du visiteur.
+* GTranslate support: the functional cookie "googtrans" (chosen display language) is recognized and classified as strictly necessary, described in 7 languages. The language selector remains functional — its scripts are not neutralized before consent, since changing language is an explicit visitor action.
 
 = 0.12.3 =
-* Correctif du « cookie au milieu de l'écran » : les styles globaux de boutons de certains thèmes/kits (largeur ou hauteur minimales, width 100 %) gonflaient le bouton du badge en un grand rectangle invisible — le cookie semblait flotter au tiers de l'écran. Les dimensions du badge sont désormais blindées (35×35, insensible aux kits).
-* Mode ?fcdebug=1 : la taille réelle du badge est affichée (c'est elle qui a révélé le coupable).
+* Fix for the "cookie floating in the middle of the screen": some themes'/kits' global button styles (min-width or min-height, width 100%) inflated the badge button into a large invisible rectangle — the cookie appeared to float a third of the way down the screen. Badge dimensions are now locked (35×35, immune to kit styles).
+* ?fcdebug=1 mode: the badge's actual size is now displayed (this is what revealed the culprit).
 
 = 0.12.2 =
-* Le badge et la bannière se re-parentent automatiquement dans <body> : certains gabarits (pieds de page Elementor à effets, conteneurs avec transform/filter/backdrop-filter/contain) capturent les éléments « fixed » et les font dériver — plus possible désormais.
-* Mode diagnostic (?fcdebug=1) enrichi : contour rouge sur le badge FreeCookie, repère vert au coin attendu, liste des ancêtres à effets pièges — une capture d'écran suffit à identifier n'importe quel élément intrus.
+* The badge and banner now automatically re-parent themselves into <body>: some templates (Elementor footers with effects, containers using transform/filter/backdrop-filter/contain) were capturing "fixed" elements and making them drift — no longer possible.
+* Enhanced diagnostic mode (?fcdebug=1): red outline on the FreeCookie badge, green marker at the expected corner, list of ancestor elements with trapping effects — a single screenshot is now enough to identify any culprit element.
 
 = 0.12.1 =
-* La bannière s'adapte à la HAUTEUR de l'écran : sur les petits portables, la typographie et les espacements se compactent (deux paliers, 860 px et 700 px), et si la liste des catégories déborde malgré tout, c'est elle qui défile — les boutons Accepter/Refuser/Enregistrer restent toujours visibles sans défilement.
+* The banner now adapts to screen HEIGHT: on small laptops, typography and spacing become more compact (two breakpoints, 860px and 700px), and if the category list still overflows, it is the one that scrolls — the Accept/Reject/Save buttons always remain visible without scrolling.
 
 = 0.12.0 =
-* Le résultat du scan est toujours visible côté visiteurs : quand aucun traceur tiers n'est détecté, la bannière l'affiche fièrement (« Bonne nouvelle : aucun traceur tiers n'a été détecté sur ce site ») au lieu de rester muette — traduit dans les 7 langues.
-* Transparence totale : la catégorie « Strictement nécessaires » liste désormais ses cookies réels en fiches dépliables — le cookie de consentement de FreeCookie lui-même (avec sa durée réglée) et les cookies internes observés par le scan.
+* The scan result is always visible to visitors: when no third-party tracker is detected, the banner proudly displays it ("Good news: no third-party tracker was detected on this site") instead of staying silent — translated into all 7 languages.
+* Full transparency: the "Strictly necessary" category now lists its actual cookies in expandable fact sheets — FreeCookie's own consent cookie (with its configured duration) and the internal cookies observed by the scan.
 
 = 0.11.1 =
-* Les pastilles des traceurs parlent le même langage que le volet pédagogique : « Utile / À nuancer / À surveiller » (au lieu de « Risque faible/moyen/élevé », jugé inquiétant), dans les 7 langues.
-* La pastille est cliquable : elle ouvre « Comprendre les cookies » pour expliquer le code couleur.
+* Tracker badges now speak the same language as the educational panel: "Useful / Nuanced / To watch" (instead of "Low/Medium/High risk", deemed alarming), in all 7 languages.
+* The badge is now clickable: it opens "Understanding cookies" to explain the color code.
 
 = 0.11.0 =
-* Achat Pro en ligne : bouton « Passer à Pro » vers la boutique (polar.sh/freeeconcept, 10 $/an ou 45 $ à vie) — la clé de licence est générée et envoyée AUTOMATIQUEMENT par e-mail à l'achat. Collez-la dans le champ Clé Pro, c'est tout : fidèle au « 100 % local », aucune vérification en ligne.
-* L'avis de soutien (au-delà du seuil de visites) pointe vers la boutique ; le don « Offrez-moi un café » reste distinct.
+* Online Pro purchase: "Upgrade to Pro" button linking to the store (polar.sh/freeeconcept, $10/year or $45 lifetime) — the license key is generated and sent AUTOMATICALLY by email upon purchase. Paste it into the Pro Key field, that's it: true to the "100% local" principle, no online verification.
+* The support notice (past the visit threshold) now points to the store; the "Buy me a coffee" donation remains separate.
 
 = 0.10.3 =
-* Correctif iOS : l'ombre du badge est portée par le SVG interne et non plus par le bouton flottant — sur iOS, un filtre CSS posé sur un élément position:fixed casse son ancrage (bug WebKit) et faisait dériver le badge au milieu de l'écran.
-* Mode diagnostic embarqué : ajoutez ?fcdebug=1 à l'URL du site pour afficher les mesures en direct (viewport, zoom, position du badge) — utile pour le support mobile.
+* iOS fix: the badge's shadow is now carried by the internal SVG rather than the floating button — on iOS, a CSS filter applied to a position:fixed element breaks its anchoring (WebKit bug) and was making the badge drift to the middle of the screen.
+* Built-in diagnostic mode: add ?fcdebug=1 to the site URL to display live measurements (viewport, zoom, badge position) — useful for mobile support.
 
 = 0.10.2 =
-* Badge et bannière restent collés au bon coin sur Safari iOS même quand la page est zoomée (pincement, zoom de page, ou dézoom automatique d'une mise en page trop large) : ré-épinglage au viewport visuel, sans aucun effet quand le zoom est à 100 %.
+* The badge and banner now stay pinned to the correct corner on Safari iOS even when the page is zoomed (pinch, page zoom, or automatic zoom-out from an overly wide layout): re-pinned to the visual viewport, with no effect when zoom is at 100%.
 
 = 0.10.1 =
-* Correctif : plus d'anneau de focus (« cadre rouge ») autour du badge après un clic — certains thèmes dessinent un anneau sur les boutons focalisés. Le focus n'est rendu au badge que pour la navigation au clavier (accessibilité préservée), et les anneaux du thème (outline, box-shadow, bordure) sont neutralisés sur le badge.
+* Fix: no more focus ring ("red frame") around the badge after a click — some themes draw a ring on focused buttons. Focus is now only rendered on the badge for keyboard navigation (accessibility preserved), and the theme's rings (outline, box-shadow, border) are neutralized on the badge.
 
 = 0.10.0 =
-* Nouveau bouton « À quoi servent les cookies ? » dans la bannière : un volet pédagogique explique qu’un cookie n’est pas mauvais en soi, avec trois exemples classés par couleur — utiles (vert), à nuancer (orange), à surveiller (rouge). Traduit dans les 7 langues.
-* FreeCookie Pro : deux nouvelles familles de formes ABSTRAITES (non-gâteau) pour le badge — « Consentement » (coche d’approbation + élan) et « Réglages » (engrenage, curseurs, interrupteur, molette). 240 formes au total sur 12 familles.
+* New "What are cookies for?" button in the banner: an educational panel explains that a cookie is not inherently bad, with three examples color-coded — useful (green), nuanced (orange), to watch (red). Translated into all 7 languages.
+* FreeCookie Pro: two new ABSTRACT (non-cookie) shape families for the badge — "Consent" (approval checkmark + momentum) and "Settings" (gear, sliders, toggle, dial). 240 shapes total across 12 families.
 
 = 0.9.1 =
-* Nombre de pages analysées par scan au choix : 10 (recommandé), 25, 50 ou 100 — les traceurs étant posés par le thème et les extensions, un échantillon représentatif suffit ; crawler tout le site n'apporte rien de plus.
-* Le scan échantillonne désormais tous les types de contenus publics (articles, pages, produits, contenus personnalisés…).
-* Le scan planifié s'interrompt proprement après 20 secondes sur les hébergements limités, en conservant ce qui a déjà été trouvé.
-* Le scan n'affiche plus les cookies de session de l'administrateur (wordpress_*, wp-settings-*) : ils n'existent jamais pour les visiteurs.
+* Choice of number of pages analyzed per scan: 10 (recommended), 25, 50, or 100 — since trackers are set by the theme and plugins, a representative sample is enough; crawling the entire site adds nothing more.
+* The scan now samples all public content types (posts, pages, products, custom content, etc.).
+* The scheduled scan now stops cleanly after 20 seconds on limited hosting, keeping what was already found.
+* The scan no longer shows the admin's session cookies (wordpress_*, wp-settings-*): these never exist for visitors.
 
 = 0.9.0 =
-* FreeCookie Pro (système de confiance, aucune vérification en ligne) : 9 familles de formes supplémentaires pour le badge — 180 formes générées — dont deux familles EN COULEURS : « Pastilles du site » (pastilles aux couleurs détectées de votre site) et « Gourmandes » (couleurs naturelles de cookies : pâtes dorées, tout chocolat, trempé au chocolat blanc, caramel, marbré). Plus Cartoon, Fournée, Croqués & miettes, Nappés, Fêtes, Duo graphique et Emporte-pièce. Déverrouillées par la clé reçue après votre soutien ; la conformité de base reste toujours gratuite et complète.
-* Administration : sélecteur de formes regroupé par familles avec verrous PRO, section « FreeCookie Pro » (clé, statut, lien de soutien).
-* Scan fiable partout : le navigateur de l'administrateur fournit lui-même le HTML des pages à analyser — plus d'auto-requête du serveur, fonctionne en local et chez les hébergeurs qui bloquent le loopback (repli serveur conservé).
-* Langue : quand l'option est activée, la langue du navigateur du visiteur prime réellement sur celle du site.
+* FreeCookie Pro (honor-system trust model, no online verification): 9 additional badge shape families — 180 generated shapes — including two COLOR families: "Site swatches" (pills in your site's detected colors) and "Tasty" (natural cookie colors: golden dough, all-chocolate, white-chocolate-dipped, caramel, marbled). Plus Cartoon, Batch, Bitten & crumbs, Glazed, Festive, Graphic duo, and Cookie cutter. Unlocked with the key received after your support; base compliance always remains free and complete.
+* Admin: shape picker grouped by family with PRO locks, new "FreeCookie Pro" section (key, status, support link).
+* More reliable scan everywhere: the admin's browser now supplies the HTML of pages to analyze itself — no more server self-request, works locally and with hosts that block loopback (server fallback retained).
+* Language: when the option is enabled, the visitor's browser language now genuinely takes priority over the site's language.
 
 = 0.8.0 =
-* Le scan détecte maintenant les COOKIES RÉELS, pas seulement les scripts tiers connus : en-têtes Set-Cookie côté serveur + observation dans le navigateur (aperçu sans blocage, réservé à l'administrateur) — les cookies posés en JavaScript comme _ga sont vus, à la manière des scanners du marché.
-* Un cookie de service tiers observé (_ga, _pk_id…) révèle automatiquement le service correspondant.
-* Base de cookies internes connus (WordPress, WooCommerce, outils de consentement, Polylang/WPML, Jetpack…) traduite en 7 langues ; les cookies inconnus sont listés comme « Cookie interne du site ».
-* Barre de progression pendant le scan, avec journal en direct des services et cookies trouvés.
-* Résultats : nouveau tableau « Cookies observés » (origine serveur/navigateur, service, catégorie, description) ; la liste publique [freecookie_cookies] inclut les cookies internes observés (« Ce site »).
-* Les passages du scanner ne comptent plus comme des visites.
+* The scan now detects REAL cookies, not just known third-party scripts: server-side Set-Cookie headers + in-browser observation (preview only, no blocking, admin-only) — cookies set via JavaScript such as _ga are now seen, in the same way as commercial scanners.
+* An observed third-party service cookie (_ga, _pk_id, etc.) now automatically reveals the corresponding service.
+* Database of known internal cookies (WordPress, WooCommerce, consent tools, Polylang/WPML, Jetpack, etc.) translated into all 7 languages; unknown cookies are listed as "Internal site cookie".
+* Progress bar during the scan, with a live log of services and cookies found.
+* Results: new "Observed cookies" table (server/browser origin, service, category, description); the public [freecookie_cookies] list now includes observed internal cookies ("This site").
+* Scanner visits no longer count as visits.
 
 = 0.7.1 =
-* Fiches par cookie entièrement traduites dans les 7 langues (descriptions + durées, base de cookies neutre en jetons). Auparavant, ces textes restaient en français.
-* Liste publique [freecookie_cookies] : en-têtes de colonnes ajoutés en espagnol, néerlandais et portugais.
+* Per-cookie fact sheets fully translated into all 7 languages (descriptions + durations, token-neutral cookie database). Previously these texts stayed in French.
+* Public [freecookie_cookies] list: column headers added in Spanish, Dutch, and Portuguese.
 
 = 0.7.0 =
-* Détails par cookie dans la bannière : sous chaque traceur, une fiche dépliable liste ses cookies (nom, durée, description), traduite automatiquement.
+* Per-cookie details in the banner: under each tracker, an expandable fact sheet lists its cookies (name, duration, description), automatically translated.
 
 = 0.6.0 =
-* Scan automatique planifié (quotidien / hebdomadaire / manuel, au choix dans les options) : le site s'analyse en tâche de fond, premier scan lancé automatiquement à l'activation.
-* Les résultats du scan (service, catégorie, risque, finalité) s'affichent directement sous le bouton de scan dans l'administration.
+* Automatic scheduled scan (daily / weekly / manual, selectable in the options): the site is analyzed in the background, first scan launched automatically on activation.
+* Scan results (service, category, risk, purpose) now display directly under the scan button in the admin.
 
 = 0.5.0 =
-* Fenêtre principale : les traceurs détectés, leur finalité et leur niveau de risque (faible/moyen/élevé) sont visibles directement, avec un interrupteur par traceur — plus d'étape « Personnaliser ».
-* Éthique/conformité : volet « À propos » désactivé par défaut (opt-in strict), consentement 90 jours par défaut (reco EDPB/CNIL), niveaux de risque factuels au lieu de notes chiffrées, limites du blocage documentées, avertissements admin (juridique, mineurs, GD).
-* Accessibilité : piège de focus sur le bandeau, aria-modal correct, annonces aria-live, focus restauré à la fermeture, badge avec aria-expanded.
-* Sécurité : motif de neutralisation durci (attributs piégés), requêtes locales via wp_safe_remote_get, anti-abus sur l'endpoint de journalisation, désinstallation nettoyée.
-* Admin : avis de soutien désactivable.
+* Main window: detected trackers, their purpose, and their risk level (low/medium/high) are now visible directly, with a toggle per tracker — no more "Customize" step.
+* Ethics/compliance: "About" panel disabled by default (strict opt-in), 90-day default consent duration (EDPB/CNIL recommendation), factual risk levels instead of numeric scores, blocking limitations documented, admin warnings (legal, minors, GD).
+* Accessibility: focus trap on the banner, correct aria-modal, aria-live announcements, focus restored on close, badge with aria-expanded.
+* Security: hardened neutralization pattern (trapped attributes), local requests via wp_safe_remote_get, anti-abuse protection on the logging endpoint, cleaned-up uninstall.
+* Admin: support notice can be disabled.
 
 = 0.4.2 =
-* Boutons homogènes : « Tout accepter » et « Tout refuser » identiques (parité), « Personnaliser » en contour de même forme ; boutons protégés du style du thème. Améliorations responsive (mobile) : boutons empilés, marges ajustées.
+* Consistent buttons: "Accept All" and "Reject All" now identical (parity), "Customize" now outlined with the same shape; buttons protected from theme styling. Responsive (mobile) improvements: stacked buttons, adjusted margins.
 
 = 0.4.1 =
-* Badge : un peu plus petit, s'estompe après 10 s d'inactivité et redevient pleinement visible quand la souris s'en approche (100 px), au survol ou au focus clavier.
+* Badge: slightly smaller, fades out after 10s of inactivity and becomes fully visible again when the mouse approaches (100px), on hover, or on keyboard focus.
 
 = 0.4.0 =
-* Centre de préférences transparent : chaque traceur détecté affiche sa finalité, une note de respect de la vie privée sur 10 (pastille verte/orange/rouge) et un interrupteur individuel pour l'activer ou non.
+* Transparent preferences center: each detected tracker now shows its purpose, a privacy-respect score out of 10 (green/orange/red badge), and an individual toggle to enable or disable it.
 
 = 0.3.0 =
-* 20 formes de cookie au choix pour le badge, sélecteur visuel dans l'administration.
+* 20 selectable cookie shapes for the badge, with a visual picker in the admin.
 
 = 0.2.0 =
-* Volet « À propos » : lien discret sur la bannière ouvrant un volet concis (réseaux, bouton « Offrez-moi un café », mention du palier gratuit), entièrement traduit. Configurable dans l'admin.
+* "About" panel: discreet link on the banner opening a concise panel (social links, "Buy me a coffee" button, mention of the free tier), fully translated. Configurable in the admin.
 
 = 0.1.9 =
-* Lien « À propos » sur la bannière : ouvre un volet avec vos références et vos réseaux sociaux (libellés traduits automatiquement). Configurable dans l'admin.
+* "About" link on the banner: opens a panel with your credentials and social links (automatically translated labels). Configurable in the admin.
 
 = 0.1.8 =
-* Couleur adaptative par page : en mode auto, le badge prend la couleur dominante de la page affichée. Une couleur fixée dans les réglages reste prioritaire.
+* Adaptive per-page color: in auto mode, the badge takes on the dominant color of the displayed page. A color fixed in the settings still takes priority.
 
 = 0.1.7 =
-* Badge : cookie croqué sur le côté (mordu latéral).
+* Badge: cookie bitten on the side (side bite).
 
 = 0.1.6 =
-* Nouveau badge : cookie croqué minimal avec marques de dents (monochrome, à la couleur du site).
+* New badge: minimal bitten cookie with teeth marks (monochrome, in the site's color).
 
 = 0.1.5 =
-* Titres du bandeau protégés du style du thème ; le titre des préférences prend la couleur dominante.
+* Banner titles protected from theme styling; the preferences title now takes on the dominant color.
 
 = 0.1.4 =
-* Détection de couleur plus fiable : lit les logos SVG, détection profonde automatique à l'ouverture, sources de thèmes supplémentaires. Menu FreeCookie dédié dans l'administration.
+* More reliable color detection: now reads SVG logos, automatic deep detection on open, additional theme sources. Dedicated FreeCookie menu in the admin.
 
 = 0.1.3 =
-* Détection de couleur : échantillonne aussi le logo du site (signal de marque le plus fiable). Badge un peu plus petit.
+* Color detection: now also samples the site logo (the most reliable brand signal). Badge slightly smaller.
 
 = 0.1.2 =
-* Détection automatique des couleurs dominantes du site (kit Elementor, theme.json, réglages, analyse de fréquence) ; pastilles cliquables dans l'admin.
+* Automatic detection of the site's dominant colors (Elementor kit, theme.json, settings, frequency analysis); clickable swatches in the admin.
 
 = 0.1.1 =
-* Badge : neutralise les bordures/outline que certains thèmes appliquent aux boutons, sans casser le focus clavier.
+* Badge: neutralizes borders/outlines that some themes apply to buttons, without breaking keyboard focus.
 
 = 0.1.0 =
-* Version initiale de développement : moteur de blocage a priori, bandeau accessible, Consent Mode v2, journal de preuve, multilingue FR/EN/DE/IT, compteur honor system.
+* Initial development version: default-blocking engine, accessible banner, Consent Mode v2, proof log, FR/EN/DE/IT multilingual support, honor-system counter.
 
-== Frequently Asked Questions ==
+== Upgrade Notice ==
 
-= FreeCookie envoie-t-il des données à un serveur externe ? =
-Non. Tout est traité et stocké sur votre propre site. Le scanner et la détection de couleur n'appellent que votre propre site (boucle locale).
-
-= Quelles sont les limites du blocage ? =
-FreeCookie neutralise les scripts et iframes tiers connus avant consentement. Il ne bloque pas le localStorage/sessionStorage ni le fingerprinting réalisés par des scripts qu'il n'a pas neutralisés : vérifiez les traceurs de votre site (bouton « Lancer un scan ») et déclarez manuellement les scripts personnalisés si besoin. L'activation du plugin ne suffit pas à elle seule à rendre un site conforme.
-
-= Comment obtenir et activer une clé Pro ? =
-Achetez sur polar.sh/freeeconcept (10 $/an ou 45 $ à vie) : la clé de licence (FCPRO-…) vous est envoyée automatiquement par e-mail. Collez-la dans FreeCookie ▸ FreeCookie Pro ▸ Clé Pro, enregistrez — c'est tout. Fidèle au principe « 100 % local », le plugin ne contacte aucun serveur de licences : la clé reçue suffit (système de confiance).
-
-= Y a-t-il des prérequis techniques ? =
-La bibliothèque PHP GD est recommandée (détection de couleur depuis un logo PNG/JPG) ; sans elle, les autres sources de détection restent actives. Le blocage a priori réécrit le HTML des pages à la volée : coût mesuré inférieur à 1 ms par page.
+= 0.13.8 =
+Centered, better-proportioned consent modal with a scroll hint for content below the fold, plus refined mobile button spacing. Recommended for all sites.
