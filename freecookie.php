@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       FreeCookie — Cookie Consent RGPD/CNIL
+ * Plugin Name:       FreeCookie — Cookie Consent Banner (GDPR/ePrivacy)
  * Plugin URI:        https://github.com/stephane-schmidt/freecookie
- * Description:       Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers.
+ * Description:       Bandeau de consentement cookies 100 % local, pensé pour la conformité RGPD / ePrivacy / nLPD et les recommandations CNIL. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers.
  * Version:           0.13.8
  * Requires at least: 6.0
  * Requires PHP:      7.4
