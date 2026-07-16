@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Shapes {
+class Freecookie_Shapes {
 
 	const DEFAULT_ID = 'croque-lateral';
 

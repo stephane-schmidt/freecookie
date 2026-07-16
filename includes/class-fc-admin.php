@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Admin {
+class Freecookie_Admin {
 
 	const PAGE  = 'freecookie';
 	const GROUP = 'freecookie';
@@ -145,7 +145,7 @@ class FC_Admin {
 	 */
 	public function sanitize( $input ) {
 		$current = get_option( 'freecookie_settings', array() );
-		$out     = wp_parse_args( is_array( $current ) ? $current : array(), FC_Plugin::default_settings() );
+		$out     = wp_parse_args( is_array( $current ) ? $current : array(), Freecookie_Plugin::default_settings() );
 
 		$out['blocking_enabled'] = ! empty( $input['blocking_enabled'] );
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
@@ -154,17 +154,17 @@ class FC_Admin {
 		$out['hide_honor_notice'] = ! empty( $input['hide_honor_notice'] );
 		$freq = isset( $input['scan_frequency'] ) ? sanitize_text_field( $input['scan_frequency'] ) : 'weekly';
 		$out['scan_frequency'] = in_array( $freq, array( 'never', 'daily', 'weekly' ), true ) ? $freq : 'weekly';
-		FC_Plugin::sync_schedule( $out['scan_frequency'] );
+		Freecookie_Plugin::sync_schedule( $out['scan_frequency'] );
 		$pages = (int) ( $input['scan_pages'] ?? 10 );
 		$out['scan_pages'] = in_array( $pages, array( 10, 25, 50, 100 ), true ) ? $pages : 10;
 		// Clé FreeCookie Pro (système de confiance : aucune vérification réseau).
 		$out['license_key'] = sanitize_text_field( $input['license_key'] ?? ( $out['license_key'] ?? '' ) );
 
 		// Forme du badge : les formes Pro exigent une clé active.
-		$shape = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
-		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $out ) ) {
-			$prev  = FC_Shapes::valid( $out['badge_shape'] ?? '' );
-			$shape = FC_Shapes::is_pro( $prev ) ? FC_Shapes::DEFAULT_ID : $prev;
+		$shape = Freecookie_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
+		if ( Freecookie_Shapes::is_pro( $shape ) && ! Freecookie_Pro::active( $out ) ) {
+			$prev  = Freecookie_Shapes::valid( $out['badge_shape'] ?? '' );
+			$shape = Freecookie_Shapes::is_pro( $prev ) ? Freecookie_Shapes::DEFAULT_ID : $prev;
 			add_settings_error(
 				'freecookie',
 				'shape_pro',
@@ -177,12 +177,12 @@ class FC_Admin {
 		// Couleurs (vide autorisé = auto/dérivé).
 		$colors = array();
 		foreach ( array_keys( $this->color_fields() ) as $key ) {
-			$colors[ $key ] = FC_Colors::sanitize( $input['colors'][ $key ] ?? '' );
+			$colors[ $key ] = Freecookie_Colors::sanitize( $input['colors'][ $key ] ?? '' );
 		}
 		$out['colors'] = $colors;
 
 		// Textes : surcharge la langue soumise, préserve les autres.
-		$lang = isset( $input['_lang'] ) ? FC_I18n::normalize( sanitize_text_field( $input['_lang'] ) ) : 'fr';
+		$lang = isset( $input['_lang'] ) ? Freecookie_I18n::normalize( sanitize_text_field( $input['_lang'] ) ) : 'fr';
 		$overrides = isset( $out['text_overrides'] ) && is_array( $out['text_overrides'] ) ? $out['text_overrides'] : array();
 		$lang_over = array();
 		foreach ( array_keys( $this->text_fields() ) as $key ) {
@@ -230,16 +230,16 @@ class FC_Admin {
 		}
 		// Détection profonde automatique (logo + fréquence) à la première ouverture,
 		// ou après une mise à jour du plugin (logique de détection changée).
-		$det = get_option( FC_Color_Detector::OPTION );
+		$det = get_option( Freecookie_Color_Detector::OPTION );
 		if ( empty( $det['deep'] ) || ( $det['ver'] ?? '' ) !== FREECOOKIE_VERSION ) {
-			FC_Color_Detector::detect( true );
+			Freecookie_Color_Detector::detect( true );
 		}
-		$s      = wp_parse_args( get_option( 'freecookie_settings', array() ), FC_Plugin::default_settings() );
+		$s      = wp_parse_args( get_option( 'freecookie_settings', array() ), Freecookie_Plugin::default_settings() );
 		$colors = is_array( $s['colors'] ) ? $s['colors'] : array();
-		$lang   = FC_I18n::detect( false );
-		$bundle = FC_I18n::get( $lang );
+		$lang   = Freecookie_I18n::detect( false );
+		$bundle = Freecookie_I18n::get( $lang );
 		$over   = isset( $s['text_overrides'][ $lang ] ) && is_array( $s['text_overrides'][ $lang ] ) ? $s['text_overrides'][ $lang ] : array();
-		$scan   = FC_Scanner::last();
+		$scan   = Freecookie_Scanner::last();
 		?>
 		<div class="wrap">
 			<h1>FreeCookie</h1>
@@ -272,7 +272,7 @@ class FC_Admin {
 				<h2 class="title"><?php esc_html_e( 'Apparence — couleurs', 'freecookie' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Laissez vide pour utiliser automatiquement la couleur dominante du site (ou une teinte dérivée).', 'freecookie' ); ?></p>
 
-				<?php $detected = FC_Color_Detector::palette(); ?>
+				<?php $detected = Freecookie_Color_Detector::palette(); ?>
 				<?php if ( $detected ) : ?>
 					<style>.fc-swatch{width:30px;height:30px;border-radius:6px;border:1px solid rgba(0,0,0,.18);cursor:pointer;padding:0;margin:0 6px 6px 0;vertical-align:middle}.fc-detected{margin:2px 0 12px}</style>
 					<p class="description" style="margin-top:0"><?php esc_html_e( 'Couleurs détectées sur votre site — cliquez pour l’appliquer comme couleur principale :', 'freecookie' ); ?></p>
@@ -297,9 +297,9 @@ class FC_Admin {
 				<h2 class="title"><?php esc_html_e( 'Forme du cookie', 'freecookie' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Choisissez la forme du badge flottant (elle prend la couleur du site).', 'freecookie' ); ?></p>
 				<?php
-				$fc_bv    = FC_Colors::css_vars( $s );
-				$fc_shape = FC_Shapes::valid( $s['badge_shape'] ?? '' );
-				$fc_pro   = FC_Pro::active( $s );
+				$fc_bv    = Freecookie_Colors::css_vars( $s );
+				$fc_shape = Freecookie_Shapes::valid( $s['badge_shape'] ?? '' );
+				$fc_pro   = Freecookie_Pro::active( $s );
 				?>
 				<style>
 					.fc-shapes{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;max-width:820px;margin:6px 0 4px}
@@ -324,7 +324,7 @@ class FC_Admin {
 					.fc-fam-title .fc-fam-pro{font-size:10px;font-weight:700;color:#8c8f94;vertical-align:middle;margin-left:6px}
 				</style>
 				<div style="--fc-badge-solid:<?php echo esc_attr( $fc_bv['--fc-badge-solid'] ); ?>;--fc-badge-hole:<?php echo esc_attr( $fc_bv['--fc-badge-hole'] ); ?>;--fc-c1:<?php echo esc_attr( $fc_bv['--fc-c1'] ); ?>;--fc-c2:<?php echo esc_attr( $fc_bv['--fc-c2'] ); ?>;--fc-c3:<?php echo esc_attr( $fc_bv['--fc-c3'] ); ?>;--fc-c4:<?php echo esc_attr( $fc_bv['--fc-c4'] ); ?>;max-width:820px">
-					<?php foreach ( FC_Shapes::families() as $fc_fam => $fc_fdef ) : ?>
+					<?php foreach ( Freecookie_Shapes::families() as $fc_fam => $fc_fdef ) : ?>
 						<?php $fc_locked = $fc_fdef['pro'] && ! $fc_pro; ?>
 						<h4 class="fc-fam-title">
 							<?php echo esc_html( $fc_fdef['label'] ); ?>
@@ -333,7 +333,7 @@ class FC_Admin {
 							<?php endif; ?>
 						</h4>
 						<div class="fc-shapes">
-							<?php foreach ( FC_Shapes::by_family( $fc_fam ) as $fc_id => $fc_s ) : ?>
+							<?php foreach ( Freecookie_Shapes::by_family( $fc_fam ) as $fc_id => $fc_s ) : ?>
 								<label class="fc-shape<?php echo $fc_locked ? ' fc-shape--locked' : ''; ?>">
 									<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?> <?php disabled( $fc_locked ); ?>>
 									<?php if ( $fc_locked ) : ?><span class="fc-shape__pro">PRO</span><?php endif; ?>
@@ -462,14 +462,14 @@ class FC_Admin {
 					<?php esc_html_e( 'Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit.', 'freecookie' ); ?>
 				</p>
 				<p style="max-width:820px">
-					<a href="<?php echo esc_url( FC_Pro::BUY_URL ); ?>" target="_blank" rel="noopener" class="button button-primary"><?php esc_html_e( 'Passer à Pro — recevoir ma clé par e-mail', 'freecookie' ); ?></a>
+					<a href="<?php echo esc_url( Freecookie_Pro::BUY_URL ); ?>" target="_blank" rel="noopener" class="button button-primary"><?php esc_html_e( 'Passer à Pro — recevoir ma clé par e-mail', 'freecookie' ); ?></a>
 				</p>
 				<table class="form-table" role="presentation"><tbody>
 					<tr>
 						<th scope="row"><label for="fc-license"><?php esc_html_e( 'Clé Pro', 'freecookie' ); ?></label></th>
 						<td>
 							<input type="text" id="fc-license" class="regular-text" name="freecookie_settings[license_key]" value="<?php echo esc_attr( $s['license_key'] ?? '' ); ?>" autocomplete="off" placeholder="FCPRO-XXXX-XXXX-XXXX">
-							<?php if ( FC_Pro::active( $s ) ) : ?>
+							<?php if ( Freecookie_Pro::active( $s ) ) : ?>
 								<span style="color:#1f9d55;font-weight:600;margin-left:8px"><?php esc_html_e( 'Pro actif — merci pour votre soutien.', 'freecookie' ); ?></span>
 							<?php else : ?>
 								<span style="color:#8c8f94;margin-left:8px"><?php esc_html_e( 'Aucune clé — formes Pro verrouillées.', 'freecookie' ); ?></span>
@@ -556,17 +556,17 @@ class FC_Admin {
 						<tbody>
 						<?php foreach ( $fc_services as $fc_key ) : ?>
 							<?php
-							$fc_meta  = FC_Categories::meta( $fc_key );
-							$fc_risk  = FC_Categories::risk_key( $fc_meta['score'] );
-							$fc_color = FC_Categories::score_color( $fc_meta['score'] );
+							$fc_meta  = Freecookie_Categories::meta( $fc_key );
+							$fc_risk  = Freecookie_Categories::risk_key( $fc_meta['score'] );
+							$fc_color = Freecookie_Categories::score_color( $fc_meta['score'] );
 							$fc_rlbl  = isset( $bundle[ 'risk_' . $fc_risk ] ) ? $bundle[ 'risk_' . $fc_risk ] : $fc_risk;
 							$fc_clbl  = isset( $bundle[ $fc_meta['category'] ] ) ? $bundle[ $fc_meta['category'] ] : $fc_meta['category'];
 							?>
 							<tr>
-								<td><strong><?php echo esc_html( FC_Categories::service_label( $fc_key ) ); ?></strong></td>
+								<td><strong><?php echo esc_html( Freecookie_Categories::service_label( $fc_key ) ); ?></strong></td>
 								<td><?php echo esc_html( $fc_clbl ); ?></td>
 								<td><span class="fc-adm-score fc-adm-score--<?php echo esc_attr( $fc_color ); ?>"><?php echo esc_html( $fc_rlbl ); ?></span></td>
-								<td><?php echo esc_html( FC_I18n::pick( $fc_meta['purpose'], $lang ) ); ?></td>
+								<td><?php echo esc_html( Freecookie_I18n::pick( $fc_meta['purpose'], $lang ) ); ?></td>
 							</tr>
 						<?php endforeach; ?>
 						</tbody>
@@ -588,9 +588,9 @@ class FC_Admin {
 						<tr>
 							<td><code><?php echo esc_html( $fc_ck_name ); ?></code></td>
 							<td><?php echo ( 'js' === ( $fc_ck['src'] ?? 'http' ) ) ? esc_html__( 'Navigateur', 'freecookie' ) : esc_html__( 'Serveur (HTTP)', 'freecookie' ); ?></td>
-							<td><?php echo ! empty( $fc_ck['service'] ) ? esc_html( FC_Categories::service_label( $fc_ck['service'] ) ) : esc_html__( 'Ce site', 'freecookie' ); ?></td>
+							<td><?php echo ! empty( $fc_ck['service'] ) ? esc_html( Freecookie_Categories::service_label( $fc_ck['service'] ) ) : esc_html__( 'Ce site', 'freecookie' ); ?></td>
 							<td><?php echo esc_html( $fc_ck_clbl ); ?></td>
-							<td><?php echo esc_html( FC_I18n::pick( $fc_ck['desc'], $lang ) ); ?></td>
+							<td><?php echo esc_html( Freecookie_I18n::pick( $fc_ck['desc'], $lang ) ); ?></td>
 						</tr>
 					<?php endforeach; ?>
 					</tbody>

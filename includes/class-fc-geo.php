@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Geo {
+class Freecookie_Geo {
 
 	/** Pays de l'EEE (UE + Islande, Liechtenstein, Norvège). */
 	const EEA = array(

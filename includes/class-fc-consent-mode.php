@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Consent_Mode {
+class Freecookie_Consent_Mode {
 
 	/**
 	 * Imprime dans le <head>, avant tout tag Google, l'état par défaut « refusé ».

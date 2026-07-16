@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Plugin {
+class Freecookie_Plugin {
 
-	/** @var FC_Plugin|null */
+	/** @var Freecookie_Plugin|null */
 	protected static $instance = null;
 
 	/** @var array */
@@ -60,7 +60,7 @@ class FC_Plugin {
 	}
 
 	/**
-	 * @return FC_Plugin
+	 * @return Freecookie_Plugin
 	 */
 	public static function instance() {
 		if ( null === self::$instance ) {
@@ -81,14 +81,14 @@ class FC_Plugin {
 		load_plugin_textdomain( 'freecookie', false, dirname( FREECOOKIE_BASENAME ) . '/languages' );
 
 		// REST : journal de preuve.
-		$rest = new FC_Rest();
+		$rest = new Freecookie_Rest();
 		add_action( 'rest_api_init', array( $rest, 'register_routes' ) );
 
 		// Géo-ciblage : alimente le filtre de région (défaut '' = régime protecteur).
-		add_filter( 'freecookie_region', array( 'FC_Geo', 'region' ) );
+		add_filter( 'freecookie_region', array( 'Freecookie_Geo', 'region' ) );
 
 		// Liste de cookies publique.
-		add_shortcode( 'freecookie_cookies', array( 'FC_Cookie_List', 'render' ) );
+		add_shortcode( 'freecookie_cookies', array( 'Freecookie_Cookie_List', 'render' ) );
 
 		// Déclencheur de scan (bouton fourni par l'écran d'admin — couche C).
 		add_action( 'admin_post_freecookie_scan', array( $this, 'handle_scan' ) );
@@ -105,25 +105,25 @@ class FC_Plugin {
 
 		// Front uniquement au-delà d'ici.
 		if ( ! is_admin() ) {
-			$counter = new FC_Visit_Counter();
+			$counter = new Freecookie_Visit_Counter();
 			add_action( 'init', array( $counter, 'maybe_count' ) );
 
 			if ( ! empty( $this->settings['blocking_enabled'] ) ) {
-				$blocker = new FC_Script_Blocker();
+				$blocker = new Freecookie_Script_Blocker();
 				add_action( 'template_redirect', array( $blocker, 'start_buffer' ), 0 );
 
-				$mode = new FC_Consent_Mode();
+				$mode = new Freecookie_Consent_Mode();
 				add_action( 'wp_head', array( $mode, 'print_default' ), 0 );
 			}
 
-			$front = new FC_Frontend( $this->settings );
+			$front = new Freecookie_Frontend( $this->settings );
 			add_action( 'wp_enqueue_scripts', array( $front, 'enqueue' ) );
 			add_action( 'wp_footer', array( $front, 'render_banner' ), 20 );
 		}
 
 		// Administration : écran de réglages (apparence, textes, options, scan).
 		if ( is_admin() ) {
-			$admin = new FC_Admin();
+			$admin = new Freecookie_Admin();
 			$admin->register();
 		}
 
@@ -147,8 +147,8 @@ class FC_Plugin {
 	 * Tâche planifiée : scan des traceurs + rafraîchissement des couleurs.
 	 */
 	public static function cron_scan() {
-		FC_Scanner::scan();
-		FC_Color_Detector::detect( true );
+		Freecookie_Scanner::scan();
+		Freecookie_Color_Detector::detect( true );
 	}
 
 	/**
@@ -160,8 +160,8 @@ class FC_Plugin {
 		}
 		check_admin_referer( 'freecookie_scan' );
 
-		$result = FC_Scanner::scan();
-		FC_Color_Detector::detect( true ); // détection profonde des couleurs (fréquence).
+		$result = Freecookie_Scanner::scan();
+		Freecookie_Color_Detector::detect( true ); // détection profonde des couleurs (fréquence).
 
 		$back = add_query_arg(
 			array(
@@ -186,7 +186,7 @@ class FC_Plugin {
 			return; // L'admin a choisi de masquer l'avis : on respecte.
 		}
 		$threshold = (int) $this->settings['visit_threshold'];
-		$visits    = FC_Visit_Counter::current_month();
+		$visits    = Freecookie_Visit_Counter::current_month();
 		if ( $visits <= $threshold ) {
 			return;
 		}
@@ -197,7 +197,7 @@ class FC_Plugin {
 			esc_html( number_format_i18n( $visits ) ),
 			esc_html( number_format_i18n( $threshold ) )
 		);
-		echo ' <a href="' . esc_url( FC_Pro::BUY_URL ) . '" target="_blank" rel="noopener">' . esc_html__( 'Soutenir (clé envoyée automatiquement par e-mail)', 'freecookie' ) . '</a>';
+		echo ' <a href="' . esc_url( Freecookie_Pro::BUY_URL ) . '" target="_blank" rel="noopener">' . esc_html__( 'Soutenir (clé envoyée automatiquement par e-mail)', 'freecookie' ) . '</a>';
 		echo ' · <a href="https://github.com/stephane-schmidt/freecookie" target="_blank" rel="noopener">' . esc_html__( 'En savoir plus', 'freecookie' ) . '</a>';
 		echo ' — <a href="' . esc_url( admin_url( 'admin.php?page=freecookie' ) ) . '">' . esc_html__( 'masquer cet avis dans les réglages', 'freecookie' ) . '</a>.';
 		echo '</p></div>';

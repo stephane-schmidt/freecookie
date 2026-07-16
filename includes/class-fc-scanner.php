@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Scanner {
+class Freecookie_Scanner {
 
 	const OPTION   = 'freecookie_scan';
 	const RUN_TR   = 'fc_scan_run'; // accumulation d'un scan interactif en cours.
@@ -49,7 +49,7 @@ class FC_Scanner {
 	 */
 	public static function detect_services( $html ) {
 		$found = array();
-		foreach ( FC_Categories::known_services() as $key => $svc ) {
+		foreach ( Freecookie_Categories::known_services() as $key => $svc ) {
 			foreach ( $svc['patterns'] as $needle ) {
 				if ( false !== stripos( $html, $needle ) ) {
 					$found[ $key ] = true;
@@ -71,7 +71,7 @@ class FC_Scanner {
 			// Réglage « Pages analysées » (10/25/50/100). Inutile de crawler TOUT
 			// le site : les traceurs sont posés par le thème/les extensions et se
 			// retrouvent partout — un échantillon représentatif suffit.
-			$s   = wp_parse_args( get_option( 'freecookie_settings', array() ), FC_Plugin::default_settings() );
+			$s   = wp_parse_args( get_option( 'freecookie_settings', array() ), Freecookie_Plugin::default_settings() );
 			$max = max( 5, min( 100, (int) ( $s['scan_pages'] ?? 10 ) ) );
 		}
 		$urls = array( home_url( '/' ) );
@@ -182,7 +182,7 @@ class FC_Scanner {
 		// 1) Cookie d'un service tiers connu (base livrée) → révèle aussi le service.
 		$svc = self::service_for_cookie( $name );
 		if ( $svc ) {
-			$map = FC_Categories::known_services();
+			$map = Freecookie_Categories::known_services();
 			return array(
 				'src'      => $src,
 				'cat'      => isset( $map[ $svc['service'] ] ) ? $map[ $svc['service'] ]['category'] : 'marketing',
@@ -409,8 +409,8 @@ class FC_Scanner {
 	public static function report( $lang = 'en' ) {
 		$db       = include FREECOOKIE_DIR . 'includes/data/known-cookies.php';
 		$scan     = self::last();
-		$services = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array_keys( FC_Categories::known_services() );
-		$map      = FC_Categories::known_services();
+		$services = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array_keys( Freecookie_Categories::known_services() );
+		$map      = Freecookie_Categories::known_services();
 
 		$out = array();
 		foreach ( $services as $svc ) {
@@ -422,8 +422,8 @@ class FC_Scanner {
 				$out[ $cat ][] = array(
 					'service'  => $svc,
 					'name'     => $cookie['name'],
-					'duration' => FC_I18n::duration_label( $cookie['duration'], $lang ),
-					'desc'     => FC_I18n::pick( $cookie['desc'], $lang ),
+					'duration' => Freecookie_I18n::duration_label( $cookie['duration'], $lang ),
+					'desc'     => Freecookie_I18n::pick( $cookie['desc'], $lang ),
 				);
 			}
 		}
@@ -437,8 +437,8 @@ class FC_Scanner {
 				$out[ $meta['cat'] ][] = array(
 					'service'  => '',
 					'name'     => $name,
-					'duration' => ! empty( $meta['duration'] ) ? FC_I18n::duration_label( $meta['duration'], $lang ) : '—',
-					'desc'     => FC_I18n::pick( $meta['desc'], $lang ),
+					'duration' => ! empty( $meta['duration'] ) ? Freecookie_I18n::duration_label( $meta['duration'], $lang ) : '—',
+					'desc'     => Freecookie_I18n::pick( $meta['desc'], $lang ),
 				);
 			}
 		}

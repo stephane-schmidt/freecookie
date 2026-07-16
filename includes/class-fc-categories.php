@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Categories {
+class Freecookie_Categories {
 
 	/**
 	 * Les finalités, dans l'ordre d'affichage.

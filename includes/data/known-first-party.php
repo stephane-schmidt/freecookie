@@ -4,8 +4,8 @@
  * Sert à classer les cookies réellement observés pendant le scan
  * (en-têtes Set-Cookie côté serveur + document.cookie côté navigateur).
  *
- * 'match' accepte le joker « * ». 'duration' = jeton FC_I18n::duration_label().
- * 'desc' = tableau multilingue résolu par FC_I18n::pick().
+ * 'match' accepte le joker « * ». 'duration' = jeton Freecookie_I18n::duration_label().
+ * 'desc' = tableau multilingue résolu par Freecookie_I18n::pick().
  *
  * @package FreeCookie
  */

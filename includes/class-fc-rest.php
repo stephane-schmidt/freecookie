@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Rest {
+class Freecookie_Rest {
 
 	/**
 	 * Déclare la route.
@@ -89,8 +89,8 @@ class FC_Rest {
 	 * @return WP_REST_Response
 	 */
 	public function scan_start() {
-		FC_Scanner::run_start();
-		return new WP_REST_Response( array( 'ok' => true, 'urls' => FC_Scanner::gather_urls() ), 200 );
+		Freecookie_Scanner::run_start();
+		return new WP_REST_Response( array( 'ok' => true, 'urls' => Freecookie_Scanner::gather_urls() ), 200 );
 	}
 
 	/**
@@ -113,10 +113,10 @@ class FC_Rest {
 		// stocké ni affiché : uniquement balayé par stripos() puis jeté.
 		$html = (string) $req->get_param( 'html' ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- analysé, jamais persisté/rendu.
 		if ( '' !== $html ) {
-			$services = FC_Scanner::detect_services( substr( $html, 0, 2 * MB_IN_BYTES ) );
+			$services = Freecookie_Scanner::detect_services( substr( $html, 0, 2 * MB_IN_BYTES ) );
 			// Sonde Set-Cookie serveur : une seule fois par scan (1re page), jamais bloquante.
-			$cookies = $req->get_param( 'probe' ) ? FC_Scanner::probe_set_cookie( $url ) : array();
-			FC_Scanner::run_merge( $services, $cookies, 1 );
+			$cookies = $req->get_param( 'probe' ) ? Freecookie_Scanner::probe_set_cookie( $url ) : array();
+			Freecookie_Scanner::run_merge( $services, $cookies, 1 );
 
 			return new WP_REST_Response(
 				array(
@@ -129,8 +129,8 @@ class FC_Rest {
 		}
 
 		// Repli historique (sans HTML) : le serveur va chercher la page lui-même.
-		$r = FC_Scanner::scan_url( $url );
-		FC_Scanner::run_merge( $r['services'], $r['cookies'], $r['ok'] ? 1 : 0 );
+		$r = Freecookie_Scanner::scan_url( $url );
+		Freecookie_Scanner::run_merge( $r['services'], $r['cookies'], $r['ok'] ? 1 : 0 );
 
 		return new WP_REST_Response(
 			array(
@@ -159,9 +159,9 @@ class FC_Rest {
 			if ( '' === $name || preg_match( '/^(wordpress_|wp-settings-|wp_postpass_)/i', $name ) ) {
 				continue;
 			}
-			$cookies[ $name ] = FC_Scanner::classify_cookie( $name, 'js' );
+			$cookies[ $name ] = Freecookie_Scanner::classify_cookie( $name, 'js' );
 		}
-		FC_Scanner::run_merge( array(), $cookies, 0 );
+		Freecookie_Scanner::run_merge( array(), $cookies, 0 );
 
 		return new WP_REST_Response( array( 'ok' => true, 'cookies' => $this->describe_cookies( $cookies ) ), 200 );
 	}
@@ -172,9 +172,9 @@ class FC_Rest {
 	 * @return WP_REST_Response
 	 */
 	public function scan_finish() {
-		$result = FC_Scanner::run_finish();
-		if ( class_exists( 'FC_Color_Detector' ) ) {
-			FC_Color_Detector::detect( true );
+		$result = Freecookie_Scanner::run_finish();
+		if ( class_exists( 'Freecookie_Color_Detector' ) ) {
+			Freecookie_Color_Detector::detect( true );
 		}
 		return new WP_REST_Response(
 			array(
@@ -191,20 +191,20 @@ class FC_Rest {
 	protected function describe_services( $services ) {
 		$out = array();
 		foreach ( $services as $key ) {
-			$out[] = array( 'key' => $key, 'label' => FC_Categories::service_label( $key ) );
+			$out[] = array( 'key' => $key, 'label' => Freecookie_Categories::service_label( $key ) );
 		}
 		return $out;
 	}
 
 	/** Étiquettes lisibles des cookies, pour le journal en direct. */
 	protected function describe_cookies( $cookies ) {
-		$lang = FC_I18n::detect( false );
+		$lang = Freecookie_I18n::detect( false );
 		$out  = array();
 		foreach ( $cookies as $name => $meta ) {
 			$out[] = array(
 				'name'    => $name,
-				'service' => ! empty( $meta['service'] ) ? FC_Categories::service_label( $meta['service'] ) : '',
-				'desc'    => FC_I18n::pick( $meta['desc'], $lang ),
+				'service' => ! empty( $meta['service'] ) ? Freecookie_Categories::service_label( $meta['service'] ) : '',
+				'desc'    => Freecookie_I18n::pick( $meta['desc'], $lang ),
 				'src'     => $meta['src'],
 			);
 		}
@@ -228,14 +228,14 @@ class FC_Rest {
 		// Anti-abus : au plus 10 enregistrements par minute et par IP
 		// (protège la table de journal contre un remplissage malveillant).
 		$ip    = isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '';
-		$rlkey = 'fc_rl_' . md5( $ip );
+		$rlkey = 'freecookie_rl_' . md5( $ip );
 		$hits  = (int) get_transient( $rlkey );
 		if ( $hits >= 10 ) {
 			return new WP_REST_Response( array( 'ok' => false ), 429 );
 		}
 		set_transient( $rlkey, $hits + 1, MINUTE_IN_SECONDS );
 
-		$id = FC_Consent_Store::record(
+		$id = Freecookie_Consent_Store::record(
 			array(
 				'consent_id'     => preg_replace( '/[^a-z0-9\-]/i', '', (string) $req->get_param( 'consent_id' ) ),
 				'categories'     => sanitize_text_field( (string) $req->get_param( 'categories' ) ),

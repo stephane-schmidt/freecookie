@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Consent_Store {
+class Freecookie_Consent_Store {
 
 	/**
 	 * Nom complet de la table (avec préfixe du site).

@@ -6,8 +6,8 @@
  * Sert à composer la liste de cookies affichée au visiteur à partir des
  * services détectés par le scanner. Durées et finalités indicatives.
  *
- * Format neutre : 'duration' = jeton traduit par FC_I18n::duration_label(),
- * 'desc' = tableau multilingue résolu par FC_I18n::pick().
+ * Format neutre : 'duration' = jeton traduit par Freecookie_I18n::duration_label(),
+ * 'desc' = tableau multilingue résolu par Freecookie_I18n::pick().
  *
  * @package FreeCookie
  */
