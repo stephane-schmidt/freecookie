@@ -31,6 +31,7 @@ class Freecookie_Plugin {
 			'hide_honor_notice' => false,
 			'scan_frequency'   => 'weekly', // never | daily | weekly — scan automatique des traceurs.
 			'scan_pages'       => 10, // pages échantillonnées par scan : 10, 25, 50 ou 100.
+			'purge_on_uninstall' => false, // false = le journal de preuve survit à la désinstallation (auditabilité).
 			'position'         => 'bottom',
 			'badge_shape'      => 'croque-lateral',
 			'license_key'      => '', // FreeCookie Pro (système de confiance).
@@ -78,7 +79,11 @@ class Freecookie_Plugin {
 	 * Enregistre les hooks.
 	 */
 	public function run() {
-		load_plugin_textdomain( 'freecookie', false, dirname( FREECOOKIE_BASENAME ) . '/languages' );
+		// WP ≥ 6.7 : charger le textdomain avant `init` déclenche un _doing_it_wrong
+		// (« translation loading triggered too early ») — run() tourne sur plugins_loaded.
+		add_action( 'init', function () {
+			load_plugin_textdomain( 'freecookie', false, dirname( FREECOOKIE_BASENAME ) . '/languages' );
+		} );
 
 		// REST : journal de preuve.
 		$rest = new Freecookie_Rest();

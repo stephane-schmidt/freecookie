@@ -152,6 +152,7 @@ class Freecookie_Admin {
 		$out['consent_days']     = max( 1, min( 3650, (int) ( $input['consent_days'] ?? 180 ) ) );
 		$out['visit_threshold']  = max( 0, (int) ( $input['visit_threshold'] ?? 10000 ) );
 		$out['hide_honor_notice'] = ! empty( $input['hide_honor_notice'] );
+		$out['purge_on_uninstall'] = ! empty( $input['purge_on_uninstall'] );
 		$freq = isset( $input['scan_frequency'] ) ? sanitize_text_field( $input['scan_frequency'] ) : 'weekly';
 		$out['scan_frequency'] = in_array( $freq, array( 'never', 'daily', 'weekly' ), true ) ? $freq : 'weekly';
 		Freecookie_Plugin::sync_schedule( $out['scan_frequency'] );
@@ -417,6 +418,12 @@ class Freecookie_Admin {
 						<th scope="row"><?php esc_html_e( 'Avis de soutien', 'freecookie' ); ?></th>
 						<td><label><input type="checkbox" name="freecookie_settings[hide_honor_notice]" value="1" <?php checked( ! empty( $s['hide_honor_notice'] ) ); ?>>
 							<?php esc_html_e( 'Masquer l’avis de soutien affiché au-delà du seuil (le plugin reste entièrement fonctionnel)', 'freecookie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Désinstallation', 'freecookie' ); ?></th>
+						<td><label><input type="checkbox" name="freecookie_settings[purge_on_uninstall]" value="1" <?php checked( ! empty( $s['purge_on_uninstall'] ) ); ?>>
+							<?php esc_html_e( 'Supprimer aussi le journal de preuve des consentements à la désinstallation du plugin', 'freecookie' ); ?></label>
+							<p class="description"><?php esc_html_e( 'Décoché par défaut : le journal est conservé pour votre obligation d’auditabilité (RGPD). Cochez uniquement si vous souhaitez un effacement complet.', 'freecookie' ); ?></p></td>
 					</tr>
 				</tbody></table>
 

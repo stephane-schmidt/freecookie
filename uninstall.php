@@ -21,6 +21,11 @@ delete_option( 'freecookie_db_version' );
 delete_option( 'freecookie_colors_detected' );
 delete_option( 'freecookie_scan' );
 
+// Défensif : la désactivation retire déjà le cron, et les transients expirent
+// d'eux-mêmes — mais on nettoie quand même (désinstallation = zéro trace).
+wp_clear_scheduled_hook( 'freecookie_scan_event' );
+delete_transient( 'fc_scan_run' );
+
 if ( $purge ) {
 	global $wpdb;
 	$table = $wpdb->prefix . 'freecookie_log';
