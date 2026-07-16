@@ -96,8 +96,17 @@ class Freecookie_Consent_Store {
 		if ( '' === $ip ) {
 			return '';
 		}
-		// On masque le dernier octet avant de hasher (double minimisation).
-		$ip   = preg_replace( '/\.\d+$/', '.0', $ip );
+		// On masque la fin de l'adresse avant de hasher (double minimisation) :
+		// IPv4 = dernier octet à .0 ; IPv6 = tronquée à son préfixe /64
+		// (via inet_pton : insensible à la compression « :: », troncature stable).
+		if ( false !== strpos( $ip, ':' ) ) {
+			$fc_bin = @inet_pton( preg_replace( '/%.*$/', '', $ip ) );
+			if ( false !== $fc_bin && 16 === strlen( $fc_bin ) ) {
+				$ip = bin2hex( substr( $fc_bin, 0, 8 ) ) . '::';
+			}
+		} else {
+			$ip = preg_replace( '/\.\d+$/', '.0', $ip );
+		}
 		$salt = defined( 'AUTH_SALT' ) ? AUTH_SALT : 'freecookie';
 		return hash( 'sha256', $ip . '|' . $salt );
 	}

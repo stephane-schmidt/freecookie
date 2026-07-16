@@ -23,12 +23,12 @@ class Freecookie_Rest {
 				'callback'            => array( $this, 'log_consent' ),
 				'permission_callback' => '__return_true', // Public : consentement d'un visiteur anonyme.
 				'args'                => array(
-					'consent_id' => array( 'type' => 'string', 'required' => true ),
-					'categories' => array( 'type' => 'string', 'required' => true ),
-					'action'     => array( 'type' => 'string', 'required' => false ),
-					'version'    => array( 'type' => 'string', 'required' => false ),
-					'lang'       => array( 'type' => 'string', 'required' => false ),
-					'region'     => array( 'type' => 'string', 'required' => false ),
+					'consent_id' => array( 'type' => 'string', 'required' => true, 'sanitize_callback' => 'sanitize_text_field' ),
+					'categories' => array( 'type' => 'string', 'required' => true, 'sanitize_callback' => 'sanitize_text_field' ),
+					'action'     => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
+					'version'    => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
+					'lang'       => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
+					'region'     => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
 				),
 			)
 		);
