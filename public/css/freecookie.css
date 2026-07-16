@@ -44,6 +44,9 @@
 
 .fc-btn {
 	appearance: none;
+	/* margin:0 en dur : des thèmes hôtes posent des marges sur <button> (Elementor
+	   observé sur freeetv : marges héritées → boutons très écartés sur mobile). */
+	margin: 0;
 	border: 1.5px solid transparent;
 	border-radius: 8px;
 	padding: 11px 18px;
@@ -279,14 +282,18 @@ iframe.fc-blocked-embed {
 	   sur grand mobile) mais bornée à 380px pour rester discrète — compromis validé
 	   par Stéphane le 13/07. Reste centrée et défile verticalement en interne si haute. */
 	.fc-banner { width: min(86vw, 380px) !important; max-width: min(86vw, 380px) !important; bottom: 10px; }
-	.fc-inner { padding: 18px; }
-	.fc-prefs, .fc-about { padding-left: 18px; padding-right: 18px; }
+	/* Compact mobile (retour Stéphane 15/07, iPhone) : espacements resserrés,
+	   boutons plus denses — la modale gagne en hauteur sans perdre en lisibilité. */
+	.fc-inner { padding: 16px; gap: 12px; }
+	.fc-prefs, .fc-about { padding-left: 16px; padding-right: 16px; }
 	.fc-badge { left: 12px; bottom: 12px; }
-	.fc-actions { flex-direction: column; }
+	.fc-actions { flex-direction: column; gap: 8px; }
 	/* width:auto (et non 100%) : en flex-column, `align-items:stretch` donne déjà la
 	   pleine largeur ; `auto` évite le débordement quand un thème hôte pose une marge
-	   sur les <button> (cas observé sur freeetv : margin:20px hérité d'Elementor). */
-	.fc-actions .fc-btn { width: auto; flex: 1 1 auto; }
+	   sur les <button> (cas observé sur freeetv : margin:20px hérité d'Elementor).
+	   margin:0!important : ceinture-bretelles contre ces mêmes thèmes (les marges
+	   verticales héritées écartelaient la pile de boutons — capture Stéphane 15/07). */
+	.fc-actions .fc-btn { width: auto; flex: 1 1 auto; margin: 0 !important; padding: 10px 14px; }
 	.fc-about__actions { flex-direction: column; }
 	.fc-about__actions .fc-btn { width: auto; }
 	.fc-svc__desc, .fc-cat__desc { font-size: 12px; }
@@ -350,3 +357,48 @@ iframe.fc-blocked-embed {
 
 /* Les couleurs de la bannière sont pilotées par l'administration (variables --fc-*),
    on ne force donc pas de thème sombre automatique qui les écraserait. */
+
+/* ==== 0.13.7 — indice de défilement : fondu bas persistant tant qu'il reste du contenu
+   sous le pli (classe fc-can-scroll posée par le JS). Sticky : il accompagne le défilement
+   et s'efface naturellement en fin de course. Suit la couleur de fond (mode sombre inclus). */
+.fc-banner.fc-can-scroll::after {
+	content: "";
+	position: sticky;
+	bottom: 0;
+	display: block;
+	flex: 0 0 36px;
+	margin-top: -36px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
+	pointer-events: none;
+	border-radius: 0 0 12px 12px;
+}
+
+/* 0.13.7 — même fondu pour la liste intérieure (défileur le plus courant). */
+.fc-cats.fc-can-scroll::after {
+	content: "";
+	position: sticky;
+	bottom: 0;
+	display: block;
+	flex: 0 0 30px;
+	margin-top: -30px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
+	pointer-events: none;
+}
+
+/* ==== 0.13.8 — fenêtre CENTRÉE sur l'écran (plus ancrée en bas), réduite ; titre aligné
+   sur la marge du texte, plus grand (adaptatif si long) ; boutons resserrés et plus
+   costauds, centrés (retours Stéphane 15/07, desktop). ==== */
+.fc-banner{top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(560px,max(280px,70vw));max-height:min(78vh,620px)}
+#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{
+	font-size:22px;line-height:1.25;margin:0;padding:0;text-indent:0;text-align:left;
+	letter-spacing:-.01em;border:0;background:none}
+#freecookie-banner .fc-title--long{font-size:17px}
+#freecookie-banner .fc-text{margin:0;padding:0}
+.fc-actions{justify-content:center;gap:12px}
+.fc-actions .fc-btn{flex:0 1 auto;min-width:150px;padding:12px 20px}
+@media(max-width:560px){
+	.fc-banner{top:50%;bottom:auto}
+	.fc-actions{flex-direction:column}
+	.fc-actions .fc-btn{min-width:0}
+}
+@media(max-height:700px){.fc-banner{top:50%;bottom:auto}}

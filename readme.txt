@@ -4,7 +4,7 @@ Tags: cookie consent, gdpr, rgpd, cnil, consent mode
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.13.5
+Stable tag: 0.13.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,15 @@ Gratuit jusqu'à 10 000 visites/mois. Au-delà, un soutien est proposé (10 $/an
 (Les images correspondantes sont dans `docs/img/` du dépôt : `screenshot-1.png` à `screenshot-4.png`.)
 
 == Changelog ==
+
+= 0.13.8 =
+* Modale centrée sur l'écran (plus ancrée en bas), légèrement réduite (560 px max). Titre de bienvenue aligné sur la même marge que le texte (certains thèmes hôtes décalaient le h2), plus grand par défaut (22 px) et automatiquement réduit quand le nom du site est long. Boutons d'action centrés, resserrés et plus généreux au clic.
+
+= 0.13.7 =
+* Indice de défilement de la modale : quand une partie du contenu reste sous le pli (~20 % invisibles sur certains téléphones sans aucun signe), un fondu dégradé apparaît en bas du bandeau tant qu'il reste du contenu à voir, et au premier affichage la liste fait une petite « respiration » (18 px aller-retour, douce) qui montre le geste sans l'expliquer. Discret par conception : le fondu s'efface en fin de course, la respiration ne joue qu'une fois et respecte `prefers-reduced-motion`.
+
+= 0.13.6 =
+* Bandeau mobile plus compact : espacements et boutons resserrés sur les écrans étroits (padding et gaps réduits), et surtout `margin: 0` imposé aux boutons du bandeau — certains thèmes hôtes (Elementor observé) posaient leurs propres marges sur les `<button>`, ce qui écartelait verticalement la pile Enregistrer / Tout refuser / Tout accepter sur téléphone. La modale reste centrée avec des marges extérieures égales.
 
 = 0.13.5 =
 * Compteur de visites plus honnête : il ne comptait plus seulement les vrais navigateurs mais aussi chaque requête sans cookie (curl, robots à identité de navigateur, moniteurs de disponibilité, tâches planifiées internes), ce qui gonflait énormément le total. Désormais une visite n'est comptée que si le navigateur renvoie une sonde posée au chargement précédent (méthode « cookie-echo »), les tâches planifiées WordPress sont exclues, et l'avis d'administration parle de « sessions de navigation (approximation locale, sans traceur) » plutôt que de « visites ». Aucun traceur, toujours 100 % local.

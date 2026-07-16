@@ -517,3 +517,57 @@
 		init();
 	}
 })();
+
+/* ==== 0.13.7 — indice de défilement de la modale (~20 % du contenu peut se cacher sous le
+   pli sans qu'aucun signe ne l'indique — retour terrain 15/07). Deux défileurs possibles :
+   la modale (#freecookie-banner) ET la liste des catégories (.fc-cats, cas le plus courant).
+   Deux gestes quasi invisibles : 1) classe fc-can-scroll → fondu bas (CSS) tant qu'il reste
+   du contenu dessous ; 2) au premier affichage, une « respiration » (18px aller-retour,
+   douce) montre le geste au lieu de l'expliquer. Respecte prefers-reduced-motion. ==== */
+(function () {
+	function ready(fn) { if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', fn); } else { fn(); } }
+	ready(function () {
+		var root = document.getElementById('freecookie-root');
+		var banner = document.getElementById('freecookie-banner');
+		if (!root || !banner) { return; }
+		var els = [banner, banner.querySelector('.fc-cats')].filter(Boolean);
+		var done = false;
+		function cue(el) {
+			var more = el.scrollHeight - el.clientHeight - el.scrollTop > 6;
+			el.classList.toggle('fc-can-scroll', more);
+		}
+		function cueAll() { els.forEach(cue); }
+		function nudge() {
+			cueAll();
+			if (done) { return; }
+			done = true;
+			var target = null;
+			for (var i = 0; i < els.length; i++) { if (els[i].classList.contains('fc-can-scroll')) { target = els[i]; break; } }
+			if (!target) { return; }
+			if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) { return; }
+			setTimeout(function () {
+				try { target.scrollTo({ top: 18, behavior: 'smooth' }); } catch (e) { target.scrollTop = 18; }
+				setTimeout(function () {
+					try { target.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { target.scrollTop = 0; }
+				}, 520);
+			}, 700);
+		}
+		els.forEach(function (el) { el.addEventListener('scroll', function () { cue(el); }, { passive: true }); });
+		window.addEventListener('resize', cueAll);
+		if (!root.hidden) { nudge(); }
+		if (window.MutationObserver) {
+			new MutationObserver(function () { if (!root.hidden) { nudge(); } })
+				.observe(root, { attributes: true, attributeFilter: ['hidden'] });
+		}
+	});
+})();
+
+/* ==== 0.13.8 — titre adaptatif : plus grand par défaut (22px), réduit si long (>26 car.)
+   pour laisser respirer les sites au long nom. ==== */
+(function () {
+	function ready(fn) { if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', fn); } else { fn(); } }
+	ready(function () {
+		var t = document.querySelector('#freecookie-banner .fc-title');
+		if (t && t.textContent.replace(/\s+/g, ' ').trim().length > 26) { t.classList.add('fc-title--long'); }
+	});
+})();
