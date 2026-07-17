@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Script_Blocker {
+class Freecookie_Script_Blocker {
 
 	/**
 	 * Signatures de scripts INLINE à bloquer (regex sans délimiteurs), par finalité.
@@ -40,7 +40,7 @@ class FC_Script_Blocker {
 			return;
 		}
 		// Aperçu d'observation du scan (admin seulement) : laisser tout s'exécuter.
-		if ( FC_Scanner::is_sniff_request() ) {
+		if ( Freecookie_Scanner::is_sniff_request() ) {
 			return;
 		}
 		ob_start( array( $this, 'process_html' ) );
@@ -111,7 +111,7 @@ class FC_Script_Blocker {
 		if ( preg_match( '#\bsrc\s*=\s*[\'"]([^\'"]+)[\'"]#i', $attrs, $sm ) ) {
 			$category = $this->match_url( $sm[1] );
 			if ( '' !== $category ) {
-				$service = FC_Categories::match_service( $sm[1] );
+				$service = Freecookie_Categories::match_service( $sm[1] );
 			}
 		}
 
@@ -186,7 +186,7 @@ class FC_Script_Blocker {
 		if ( '' === $category ) {
 			return $m[0];
 		}
-		$service = FC_Categories::match_service( $sm[1] );
+		$service = Freecookie_Categories::match_service( $sm[1] );
 		$svc     = $service ? ' data-fc-service="' . esc_attr( $service ) . '"' : '';
 
 		// src → data-fc-src pour empêcher le chargement, + classe pour le placeholder CSS.
@@ -207,7 +207,7 @@ class FC_Script_Blocker {
 		if ( $host && $host === wp_parse_url( home_url(), PHP_URL_HOST ) ) {
 			return '';
 		}
-		foreach ( FC_Categories::known_services() as $svc ) {
+		foreach ( Freecookie_Categories::known_services() as $svc ) {
 			foreach ( $svc['patterns'] as $needle ) {
 				if ( false !== stripos( $url, $needle ) ) {
 					return $svc['category'];

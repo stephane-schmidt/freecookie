@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Frontend {
+class Freecookie_Frontend {
 
 	/** @var array Réglages du plugin. */
 	protected $settings;
@@ -37,7 +37,7 @@ class FC_Frontend {
 	 * @return array<string,string>
 	 */
 	protected function strings( $lang ) {
-		$s  = FC_I18n::get( $lang );
+		$s  = Freecookie_I18n::get( $lang );
 		$ov = isset( $this->settings['text_overrides'][ $lang ] ) && is_array( $this->settings['text_overrides'][ $lang ] )
 			? $this->settings['text_overrides'][ $lang ]
 			: array();
@@ -56,8 +56,8 @@ class FC_Frontend {
 	 */
 	protected static function service_labels() {
 		$out = array();
-		foreach ( FC_Categories::known_services() as $key => $svc ) {
-			$out[ $key ] = FC_Categories::service_label( $key );
+		foreach ( Freecookie_Categories::known_services() as $key => $svc ) {
+			$out[ $key ] = Freecookie_Categories::service_label( $key );
 		}
 		return $out;
 	}
@@ -67,14 +67,14 @@ class FC_Frontend {
 	 */
 	public function enqueue() {
 		wp_enqueue_style( 'freecookie', FREECOOKIE_URL . 'public/css/freecookie.css', array(), FREECOOKIE_VERSION );
-		wp_add_inline_style( 'freecookie', FC_Colors::inline_css( $this->settings ) );
+		wp_add_inline_style( 'freecookie', Freecookie_Colors::inline_css( $this->settings ) );
 		wp_enqueue_script( 'freecookie', FREECOOKIE_URL . 'public/js/freecookie.js', array(), FREECOOKIE_VERSION, true );
 
-		$lang    = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		$lang    = Freecookie_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
 		$strings = $this->strings( $lang );
 
 		$cats = array();
-		foreach ( FC_Categories::all() as $key => $def ) {
+		foreach ( Freecookie_Categories::all() as $key => $def ) {
 			$cats[] = array(
 				'key'     => $key,
 				'locked'  => (bool) $def['locked'],
@@ -94,7 +94,7 @@ class FC_Frontend {
 				'region'         => (string) apply_filters( 'freecookie_region', '' ),
 				'consentExpiry'  => (int) $this->settings['consent_days'],
 				'categories'     => $cats,
-				'consentModeMap' => FC_Categories::consent_mode_map(),
+				'consentModeMap' => Freecookie_Categories::consent_mode_map(),
 				'restUrl'        => esc_url_raw( rest_url( 'freecookie/v1/consent' ) ),
 				'nonce'          => wp_create_nonce( 'wp_rest' ),
 				'strings'        => $strings,
@@ -102,7 +102,7 @@ class FC_Frontend {
 				'serviceLabels'  => self::service_labels(),
 				// Mode auto : aucune couleur principale fixée dans les réglages
 				// → le badge/bannière suit la couleur dominante de CHAQUE page.
-				'autoColor'      => ( '' === FC_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
+				'autoColor'      => ( '' === Freecookie_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
 			)
 		);
 	}
@@ -117,12 +117,12 @@ class FC_Frontend {
 	 * @return array<string,array<int,array<string,mixed>>>
 	 */
 	protected function detected_services( $lang = 'en' ) {
-		$scan = FC_Scanner::last();
+		$scan = Freecookie_Scanner::last();
 		$keys = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array();
 		$out  = array();
 		$db   = include FREECOOKIE_DIR . 'includes/data/known-cookies.php';
 		foreach ( $keys as $key ) {
-			$meta = FC_Categories::meta( $key );
+			$meta = Freecookie_Categories::meta( $key );
 			if ( 'necessary' === $meta['category'] ) {
 				continue;
 			}
@@ -131,18 +131,18 @@ class FC_Frontend {
 				foreach ( $db[ $key ] as $ck ) {
 					$cookies[] = array(
 						'name'     => $ck['name'],
-						'duration' => FC_I18n::duration_label( $ck['duration'], $lang ),
-						'desc'     => FC_I18n::pick( $ck['desc'], $lang ),
+						'duration' => Freecookie_I18n::duration_label( $ck['duration'], $lang ),
+						'desc'     => Freecookie_I18n::pick( $ck['desc'], $lang ),
 					);
 				}
 			}
 			$out[ $meta['category'] ][] = array(
 				'key'     => $key,
-				'label'   => FC_Categories::service_label( $key ),
-				'purpose' => FC_I18n::pick( $meta['purpose'], $lang ),
+				'label'   => Freecookie_Categories::service_label( $key ),
+				'purpose' => Freecookie_I18n::pick( $meta['purpose'], $lang ),
 				'score'   => $meta['score'],
-				'risk'    => FC_Categories::risk_key( $meta['score'] ),
-				'color'   => FC_Categories::score_color( $meta['score'] ),
+				'risk'    => Freecookie_Categories::risk_key( $meta['score'] ),
+				'color'   => Freecookie_Categories::score_color( $meta['score'] ),
 				'cookies' => $cookies,
 			);
 		}
@@ -161,8 +161,8 @@ class FC_Frontend {
 		$out   = array();
 		$out[] = array(
 			'name'     => FREECOOKIE_COOKIE,
-			'duration' => FC_I18n::days_label( (int) $this->settings['consent_days'], $lang ),
-			'desc'     => FC_I18n::pick(
+			'duration' => Freecookie_I18n::days_label( (int) $this->settings['consent_days'], $lang ),
+			'desc'     => Freecookie_I18n::pick(
 				array(
 					'fr' => 'Mémorise vos choix de consentement pour ce bandeau.',
 					'en' => 'Stores your consent choices for this banner.',
@@ -175,7 +175,7 @@ class FC_Frontend {
 				$lang
 			),
 		);
-		$scan = FC_Scanner::last();
+		$scan = Freecookie_Scanner::last();
 		if ( $scan && ! empty( $scan['cookies'] ) && is_array( $scan['cookies'] ) ) {
 			foreach ( $scan['cookies'] as $name => $meta ) {
 				if ( ! is_array( $meta ) || 'necessary' !== ( $meta['cat'] ?? '' ) ) {
@@ -186,8 +186,8 @@ class FC_Frontend {
 				}
 				$out[] = array(
 					'name'     => $name,
-					'duration' => ! empty( $meta['duration'] ) ? FC_I18n::duration_label( $meta['duration'], $lang ) : '',
-					'desc'     => FC_I18n::pick( $meta['desc'] ?? '', $lang ),
+					'duration' => ! empty( $meta['duration'] ) ? Freecookie_I18n::duration_label( $meta['duration'], $lang ) : '',
+					'desc'     => Freecookie_I18n::pick( $meta['desc'] ?? '', $lang ),
 				);
 			}
 		}
@@ -196,27 +196,27 @@ class FC_Frontend {
 
 	public function render_banner() {
 		// Aperçu d'observation du scan : pas de bannière dans l'iframe.
-		if ( FC_Scanner::is_sniff_request() ) {
+		if ( Freecookie_Scanner::is_sniff_request() ) {
 			return;
 		}
-		$lang     = FC_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
-		$fc_rtl   = FC_I18n::is_rtl( $lang ); // arabe/hébreu : bandeau en droite-à-gauche.
+		$lang     = Freecookie_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		$fc_rtl   = Freecookie_I18n::is_rtl( $lang ); // arabe/hébreu : bandeau en droite-à-gauche.
 		$strings  = $this->strings( $lang );
-		$cats     = FC_Categories::all();
+		$cats     = Freecookie_Categories::all();
 		$services = $this->detected_services( $lang );
 		$necessary_cookies = $this->necessary_cookies( $lang );
-		$fc_scan  = FC_Scanner::last();
+		$fc_scan  = Freecookie_Scanner::last();
 		// Le scan a tourné et n'a trouvé AUCUN traceur tiers : on le DIT aux
 		// visiteurs (bonne nouvelle) au lieu de laisser un silence ambigu.
 		$no_trackers = ( $fc_scan && empty( $services ) );
-		$defaults = FC_Plugin::default_settings();
+		$defaults = Freecookie_Plugin::default_settings();
 		$about    = isset( $this->settings['about'] ) && is_array( $this->settings['about'] )
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )
 			: $defaults['about'];
-		$alabels  = FC_I18n::about_labels( $lang );
-		$shape    = FC_Shapes::valid( isset( $this->settings['badge_shape'] ) ? $this->settings['badge_shape'] : '' );
-		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $this->settings ) ) {
-			$shape = FC_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
+		$alabels  = Freecookie_I18n::about_labels( $lang );
+		$shape    = Freecookie_Shapes::valid( isset( $this->settings['badge_shape'] ) ? $this->settings['badge_shape'] : '' );
+		if ( Freecookie_Shapes::is_pro( $shape ) && ! Freecookie_Pro::active( $this->settings ) ) {
+			$shape = Freecookie_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
 		}
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 	}

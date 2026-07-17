@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       FreeCookie — Cookie Consent RGPD/CNIL
+ * Plugin Name:       FreeCookie — Cookie Consent Banner (GDPR/ePrivacy)
  * Plugin URI:        https://github.com/stephane-schmidt/freecookie
- * Description:       Bandeau de consentement cookies 100 % local, conforme RGPD / ePrivacy / CNIL / nLPD. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers.
+ * Description:       Bandeau de consentement cookies 100 % local, pensé pour la conformité RGPD / ePrivacy / nLPD et les recommandations CNIL. Blocage réel des traceurs avant consentement, journal de preuve dans votre base, Google Consent Mode v2, multilingue automatique. Aucun appel réseau tiers.
  * Version:           0.13.8
  * Requires at least: 6.0
  * Requires PHP:      7.4
@@ -54,22 +54,22 @@ require_once FREECOOKIE_DIR . 'includes/class-fc-plugin.php';
  * Activation : crée la table du journal de preuve et pose les options par défaut.
  */
 function freecookie_activate() {
-	FC_Consent_Store::install();
+	Freecookie_Consent_Store::install();
 
 	if ( false === get_option( 'freecookie_settings' ) ) {
-		add_option( 'freecookie_settings', FC_Plugin::default_settings() );
+		add_option( 'freecookie_settings', Freecookie_Plugin::default_settings() );
 	}
 	if ( false === get_option( 'freecookie_db_version' ) ) {
 		add_option( 'freecookie_db_version', FREECOOKIE_VERSION );
 	}
 
 	// Première détection des couleurs du site (sources structurées, sans réseau).
-	FC_Color_Detector::detect( false );
+	Freecookie_Color_Detector::detect( false );
 
 	// Scan automatique : planning selon le réglage + premier scan dans 2 minutes
 	// (en tâche de fond, pour ne pas ralentir l'activation).
-	$fc_settings = wp_parse_args( get_option( 'freecookie_settings', array() ), FC_Plugin::default_settings() );
-	FC_Plugin::sync_schedule( isset( $fc_settings['scan_frequency'] ) ? $fc_settings['scan_frequency'] : 'weekly' );
+	$fc_settings = wp_parse_args( get_option( 'freecookie_settings', array() ), Freecookie_Plugin::default_settings() );
+	Freecookie_Plugin::sync_schedule( isset( $fc_settings['scan_frequency'] ) ? $fc_settings['scan_frequency'] : 'weekly' );
 	if ( ! wp_next_scheduled( 'freecookie_scan_event' ) || wp_next_scheduled( 'freecookie_scan_event' ) > time() + 300 ) {
 		wp_schedule_single_event( time() + 2 * MINUTE_IN_SECONDS, 'freecookie_scan_event' );
 	}
@@ -88,6 +88,6 @@ register_deactivation_hook( __FILE__, 'freecookie_deactivate' );
  * Démarrage.
  */
 function freecookie_boot() {
-	FC_Plugin::instance()->run();
+	Freecookie_Plugin::instance()->run();
 }
 add_action( 'plugins_loaded', 'freecookie_boot' );

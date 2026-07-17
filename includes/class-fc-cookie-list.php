@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Cookie_List {
+class Freecookie_Cookie_List {
 
 	/** En-têtes de colonnes par langue. */
 	protected static function headers( $lang ) {
@@ -38,16 +38,16 @@ class FC_Cookie_List {
 	 * @return string HTML.
 	 */
 	public static function render() {
-		$lang    = FC_I18n::detect();
-		$strings = FC_I18n::get( $lang );
+		$lang    = Freecookie_I18n::detect();
+		$strings = Freecookie_I18n::get( $lang );
 		$head    = self::headers( $lang );
-		$report  = FC_Scanner::report( $lang );
+		$report  = Freecookie_Scanner::report( $lang );
 
 		if ( empty( $report ) ) {
 			return '';
 		}
 
-		$order = array_keys( FC_Categories::all() );
+		$order = array_keys( Freecookie_Categories::all() );
 		$out   = '<div class="fc-cookie-list">';
 
 		foreach ( $order as $cat ) {
@@ -81,11 +81,11 @@ class FC_Cookie_List {
 					$meta = array( 'score' => 9 );
 					$svc  = self::site_label( $lang );
 				} else {
-					$meta = FC_Categories::meta( $c['service'] );
-					$svc  = FC_Categories::service_label( $c['service'] );
+					$meta = Freecookie_Categories::meta( $c['service'] );
+					$svc  = Freecookie_Categories::service_label( $c['service'] );
 				}
-				$color = FC_Categories::score_color( $meta['score'] );
-				$risk  = FC_Categories::risk_key( $meta['score'] );
+				$color = Freecookie_Categories::score_color( $meta['score'] );
+				$risk  = Freecookie_Categories::risk_key( $meta['score'] );
 				$rlbl  = isset( $strings[ 'risk_' . $risk ] ) ? $strings[ 'risk_' . $risk ] : $risk;
 				$out  .= '<tr>'
 					. '<td><code>' . esc_html( $c['name'] ) . '</code></td>'

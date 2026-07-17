@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Colors {
+class Freecookie_Colors {
 
 	/**
 	 * Valide un hex (#rgb ou #rrggbb) ; renvoie '' si invalide.
@@ -131,8 +131,8 @@ class FC_Colors {
 			return $filtered;
 		}
 		// Couleur dominante détectée sur le site (Elementor, theme.json, mods, fréquence).
-		if ( class_exists( 'FC_Color_Detector' ) ) {
-			$detected = self::sanitize( FC_Color_Detector::primary() );
+		if ( class_exists( 'Freecookie_Color_Detector' ) ) {
+			$detected = self::sanitize( Freecookie_Color_Detector::primary() );
 			if ( '' !== $detected ) {
 				return $detected;
 			}
@@ -163,7 +163,7 @@ class FC_Colors {
 
 		// Palette multicolore : les couleurs détectées du site (jusqu'à 4),
 		// complétées par des dérivés de l'accent — pour les formes « Pastilles ».
-		$palette = class_exists( 'FC_Color_Detector' ) ? FC_Color_Detector::palette() : array();
+		$palette = class_exists( 'Freecookie_Color_Detector' ) ? Freecookie_Color_Detector::palette() : array();
 		$multi   = array();
 		foreach ( $palette as $p ) {
 			$p = self::sanitize( $p );

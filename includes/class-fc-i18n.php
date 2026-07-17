@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_I18n {
+class Freecookie_I18n {
 
 	/**
 	 * Détermine la langue à servir (cascade).
@@ -79,7 +79,7 @@ class FC_I18n {
 	 * (variantes non interchangeables), et repli norvégien.
 	 *
 	 * @param string $code Locale minuscule à tirets (ex. « pt-br », « zh-hant », « fr-fr »).
-	 * @return string Code court FC_I18n (ex. « pt-PT », « zh-CN », « fr »).
+	 * @return string Code court Freecookie_I18n (ex. « pt-PT », « zh-CN », « fr »).
 	 */
 	protected static function map_code( $code ) {
 		if ( 0 === strpos( $code, 'pt' ) ) {

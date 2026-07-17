@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Color_Detector {
+class Freecookie_Color_Detector {
 
 	const OPTION = 'freecookie_colors_detected';
 

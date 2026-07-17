@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Pro {
+class Freecookie_Pro {
 
 	/**
 	 * Boutique Pro (Polar, merchant of record — TVA/taxes gérées) : l'achat

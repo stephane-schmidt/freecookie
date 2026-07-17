@@ -176,5 +176,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 </div>
 
 <button type="button" id="freecookie-badge" class="fc-badge" hidden aria-expanded="false" aria-label="<?php echo esc_attr( $strings['manage'] ); ?>" title="<?php echo esc_attr( $strings['manage'] ); ?>">
-	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><?php echo FC_Shapes::get( $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG interne statique de confiance. ?></svg>
+	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><?php echo Freecookie_Shapes::get( $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG interne statique de confiance. ?></svg>
 </button>

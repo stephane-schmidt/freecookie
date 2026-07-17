@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class FC_Visit_Counter {
+class Freecookie_Visit_Counter {
 
 	const OPTION        = 'freecookie_visits';
 	const SEEN_COOKIE   = 'fc_v';
@@ -38,7 +38,7 @@ class FC_Visit_Counter {
 			return;
 		}
 		// L'aperçu d'observation du scan (admin) n'est pas une visite.
-		if ( FC_Scanner::is_sniff_request() ) {
+		if ( Freecookie_Scanner::is_sniff_request() ) {
 			return;
 		}
 		// Ne pas compter les robots évidents.
