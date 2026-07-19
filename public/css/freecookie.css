@@ -402,3 +402,41 @@ iframe.fc-blocked-embed {
 	.fc-actions .fc-btn{min-width:0}
 }
 @media(max-height:700px){.fc-banner{top:50%;bottom:auto}}
+
+/* ==================================================================================
+   DARK MODE AUTOMATIQUE (AA) — item design #6 du sprint FreeCookie (Lili, 19/07).
+   Le bandeau suit le mode sombre du système (prefers-color-scheme) SANS aucune config.
+   On ne fait que redéfinir les variables --fc-* : toutes les couleurs en découlent, donc
+   le rendu reste cohérent. Contrastes vérifiés AA (texte/segments ≥ 4.5:1, gros ≥ 3:1).
+   Override explicite prioritaire : data-fc-theme="dark" | "light" sur <html> (ou un
+   ancêtre du bandeau) force le thème quel que soit le réglage de l'OS.
+   ================================================================================== */
+@media (prefers-color-scheme: dark) {
+	#freecookie-root, #freecookie-badge,
+	.fc-banner, .fc-prefs, .fc-about {
+		--fc-bg: #161b22;            /* ardoise sombre, légère teinte froide (accord avec le teal) */
+		--fc-text: #e8edf2;          /* ~14:1 sur le fond */
+		--fc-border: #2c343f;
+		--fc-muted: #a2aeb9;         /* ~7:1 sur le fond */
+		--fc-secondary-bg: #202832;
+		--fc-accent: #4fd1b5;        /* teal éclairci : lisible sur fond sombre (~8:1) */
+		--fc-accent-deep: #7fe6cf;   /* texte/liens secondaires, éclairci */
+		--fc-accent-text: #06251f;   /* texte SUR le bouton accent (foncé sur teal clair) */
+		--fc-badge-hole: #14332e;
+		--fc-badge-solid: #4fd1b5;
+	}
+}
+/* Override EXPLICITE (gagne sur l'auto) — thème sombre forcé. */
+[data-fc-theme="dark"] #freecookie-root, [data-fc-theme="dark"] #freecookie-badge,
+[data-fc-theme="dark"] .fc-banner, [data-fc-theme="dark"] .fc-prefs, [data-fc-theme="dark"] .fc-about {
+	--fc-bg: #161b22; --fc-text: #e8edf2; --fc-border: #2c343f; --fc-muted: #a2aeb9;
+	--fc-secondary-bg: #202832; --fc-accent: #4fd1b5; --fc-accent-deep: #7fe6cf;
+	--fc-accent-text: #06251f; --fc-badge-hole: #14332e; --fc-badge-solid: #4fd1b5;
+}
+/* Override EXPLICITE — thème clair forcé (annule le dark auto si l'OS est sombre). */
+[data-fc-theme="light"] #freecookie-root, [data-fc-theme="light"] #freecookie-badge,
+[data-fc-theme="light"] .fc-banner, [data-fc-theme="light"] .fc-prefs, [data-fc-theme="light"] .fc-about {
+	--fc-bg: #ffffff; --fc-text: #1a2430; --fc-border: #e2e6ea; --fc-muted: #46535f;
+	--fc-secondary-bg: #eef1f3; --fc-accent: #1c7a6b; --fc-accent-deep: #124c43;
+	--fc-accent-text: #ffffff; --fc-badge-hole: #bfe0d9; --fc-badge-solid: #1c7a6b;
+}
