@@ -7,6 +7,15 @@
  * seuil, un avis DISCRET côté administration invitant à soutenir le projet.
  * Rien n'est jamais bloqué, rien n'est envoyé nulle part.
  *
+ * Depuis la 0.14.0, le « cookie-echo » vit CÔTÉ CLIENT : la page n'émet plus
+ * aucun Set-Cookie (une page HTML avec Set-Cookie est inéligible au cache CDN
+ * — Cloudflare & co refusent de la garder en bord de réseau). Une mini-sonde
+ * JS pose `fc_v=pending` au premier chargement, puis au suivant signale la
+ * visite via un POST REST (non cacheable) et bascule le cookie sur `counted`.
+ * Même philosophie qu'avant : seuls les clients qui exécutent le JS ET
+ * conservent les cookies comptent — curl, scrapers et moniteurs ne comptent
+ * jamais. Le HTML devient identique pour tous → cache pleine page possible.
+ *
  * @package FreeCookie
  */
 
@@ -20,53 +29,48 @@ class FC_Visit_Counter {
 	const SEEN_COOKIE   = 'fc_v';
 	const STATE_PENDING = 'pending';
 	const STATE_COUNTED = 'counted';
+	const REST_NS       = 'freecookie/v1';
 
 	/**
-	 * Incrémente au plus une fois par session (≈30 min), via « cookie-echo ».
-	 * Hooké sur « init » côté front, avant émission du HTML.
-	 *
-	 * On ne compte QUE les clients qui nous re-présentent une sonde posée au hit
-	 * précédent : un vrai navigateur (qui garde les cookies) le fait au 2e
-	 * chargement, mais curl, scrapers à UA de navigateur, moniteurs et le
-	 * loopback wp-cron — qui n'ont pas de jar de cookies — ne comptent JAMAIS.
-	 * (Léger sous-comptage des visites 1-page : assumé, très préférable à la
-	 * surestimation ×250 de l'ancien « pas de cookie = +1 à chaque hit ».)
+	 * Route REST de signalement : POST /wp-json/freecookie/v1/visit.
+	 * Réponse jamais mise en cache (REST), aucun corps requis ni renvoyé.
 	 */
-	public function maybe_count() {
-		if ( is_admin() || wp_doing_ajax() || wp_doing_cron()
-			|| ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) {
-			return;
-		}
-		// L'aperçu d'observation du scan (admin) n'est pas une visite.
-		if ( FC_Scanner::is_sniff_request() ) {
-			return;
-		}
-		// Ne pas compter les robots évidents.
-		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ) : '';
-		if ( $ua && preg_match( '/bot|crawl|spider|slurp|preview|headless|lighthouse|freecookie-scanner/', $ua ) ) {
-			return;
-		}
+	public function register_rest() {
+		register_rest_route(
+			self::REST_NS,
+			'/visit',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => '__return_true',
+				'callback'            => array( $this, 'count_visit' ),
+			)
+		);
+	}
 
+	/**
+	 * Incrémente au plus une fois par session (≈30 min) — appelé par la sonde
+	 * JS quand elle re-présente `fc_v=pending` (voir print_probe()).
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function count_visit() {
+		// Mêmes gardes que l'ancien comptage serveur : robots évidents exclus.
+		$ua = isset( $_SERVER['HTTP_USER_AGENT'] ) ? strtolower( sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) ) : '';
+		if ( ! $ua || preg_match( '/bot|crawl|spider|slurp|preview|headless|lighthouse|freecookie-scanner/', $ua ) ) {
+			return new WP_REST_Response( null, 204 );
+		}
+		if ( class_exists( 'FC_Scanner' ) && FC_Scanner::is_sniff_request() ) {
+			return new WP_REST_Response( null, 204 );
+		}
+		// Le cookie doit être en `pending` : sans lui (ou déjà `counted`), on ignore
+		// — un POST forgé sans jar de cookies ne compte pas.
 		$state = isset( $_COOKIE[ self::SEEN_COOKIE ] )
 			? sanitize_text_field( wp_unslash( $_COOKIE[ self::SEEN_COOKIE ] ) )
 			: '';
-
-		// Déjà compté pendant la fenêtre de 30 min : ne rien faire.
-		if ( self::STATE_COUNTED === $state ) {
-			return;
-		}
-
-		// Premier contact (aucun cookie, ou valeur héritée d'une version
-		// antérieure) : on pose une sonde `pending` SANS compter. Seul un client
-		// avec jar de cookies nous la renverra au hit suivant.
 		if ( self::STATE_PENDING !== $state ) {
-			$this->set_seen_cookie( self::STATE_PENDING );
-			return;
+			return new WP_REST_Response( null, 204 );
 		}
 
-		// $state === 'pending' : la sonde nous revient → client réel. On compte
-		// une fois, puis on bascule sur `counted` pour ne pas recompter chaque
-		// page de la session (re-comptable après expiration du cookie).
 		$month  = gmdate( 'Y-m' );
 		$counts = get_option( self::OPTION, array() );
 		if ( ! is_array( $counts ) ) {
@@ -81,31 +85,31 @@ class FC_Visit_Counter {
 		}
 		update_option( self::OPTION, $counts, false );
 
-		$this->set_seen_cookie( self::STATE_COUNTED );
+		return new WP_REST_Response( null, 204 );
 	}
 
 	/**
-	 * Pose le cookie de sonde (`pending` puis `counted`), durée 30 min, et le
-	 * reflète tout de suite dans $_COOKIE pour la cohérence intra-requête.
-	 *
-	 * @param string $value Nouvel état (self::STATE_PENDING|STATE_COUNTED).
+	 * Sonde JS (footer front) : gère le cookie-echo côté client.
+	 * `pending` posé au 1er chargement (sans compter) ; au chargement suivant,
+	 * beacon vers la route REST puis bascule sur `counted` (30 min).
 	 */
-	private function set_seen_cookie( $value ) {
-		if ( ! headers_sent() ) {
-			setcookie(
-				self::SEEN_COOKIE,
-				$value,
-				array(
-					'expires'  => time() + 1800,
-					'path'     => defined( 'COOKIEPATH' ) ? COOKIEPATH : '/',
-					'domain'   => defined( 'COOKIE_DOMAIN' ) ? COOKIE_DOMAIN : '',
-					'samesite' => 'Lax',
-					'secure'   => is_ssl(),
-					'httponly' => true,
-				)
-			);
+	public function print_probe() {
+		if ( is_admin() ) {
+			return;
 		}
-		$_COOKIE[ self::SEEN_COOKIE ] = $value;
+		$url = esc_url_raw( rest_url( self::REST_NS . '/visit' ) );
+		?>
+<script id="fc-visit-probe">(function(){try{
+var m=document.cookie.match(/(?:^|; )fc_v=([^;]*)/),v=m?m[1]:'';
+if(v==='<?php echo esc_js( self::STATE_COUNTED ); ?>'){return;}
+function put(x){var d=new Date(Date.now()+18e5);document.cookie='fc_v='+x+'; expires='+d.toUTCString()+'; path=/; SameSite=Lax'+('https:'===location.protocol?'; Secure':'');}
+if(v!=='<?php echo esc_js( self::STATE_PENDING ); ?>'){put('<?php echo esc_js( self::STATE_PENDING ); ?>');return;}
+put('<?php echo esc_js( self::STATE_COUNTED ); ?>');
+var u=<?php echo wp_json_encode( $url ); ?>;
+if(navigator.sendBeacon){navigator.sendBeacon(u);}
+else{var x=new XMLHttpRequest();x.open('POST',u,true);x.send();}
+}catch(e){}})();</script>
+		<?php
 	}
 
 	/**

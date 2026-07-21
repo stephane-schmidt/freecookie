@@ -106,7 +106,10 @@ class FC_Plugin {
 		// Front uniquement au-delà d'ici.
 		if ( ! is_admin() ) {
 			$counter = new FC_Visit_Counter();
-			add_action( 'init', array( $counter, 'maybe_count' ) );
+			// 0.14.0 : plus de Set-Cookie serveur (page cacheable CDN) — sonde JS
+			// dans le footer + signalement via la route REST (jamais cachée).
+			add_action( 'wp_footer', array( $counter, 'print_probe' ), 99 );
+			add_action( 'rest_api_init', array( $counter, 'register_rest' ) );
 
 			if ( ! empty( $this->settings['blocking_enabled'] ) ) {
 				$blocker = new FC_Script_Blocker();
