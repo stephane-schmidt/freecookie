@@ -223,8 +223,8 @@ Non. Tout est traité et stocké sur votre propre site. Le scanner et la détect
 = Quelles sont les limites du blocage ? =
 FreeCookie neutralise les scripts et iframes tiers connus avant consentement. Il ne bloque pas le localStorage/sessionStorage ni le fingerprinting réalisés par des scripts qu'il n'a pas neutralisés : vérifiez les traceurs de votre site (bouton « Lancer un scan ») et déclarez manuellement les scripts personnalisés si besoin. L'activation du plugin ne suffit pas à elle seule à rendre un site conforme.
 
-= Comment obtenir et activer une clé Pro ? =
-Achetez sur polar.sh/freeeconcept (10 $/an ou 45 $ à vie) : la clé de licence (FCPRO-…) vous est envoyée automatiquement par e-mail. Collez-la dans FreeCookie ▸ FreeCookie Pro ▸ Clé Pro, enregistrez — c'est tout. Fidèle au principe « 100 % local », le plugin ne contacte aucun serveur de licences : la clé reçue suffit (système de confiance).
+= Comment obtenir et activer FreeCookie Pro ? =
+FreeCookie Pro est une extension séparée (familles de formes supplémentaires pour le badge, et plus à venir) — ce plugin gratuit reste complet et illimité sans elle. Achetez sur polar.sh/freeeconcept (10 $/an ou 45 $ à vie) : l'extension et la clé de licence (FCPRO-…) vous sont envoyées automatiquement par e-mail. Installez l'extension, collez la clé dans FreeCookie ▸ FreeCookie Pro ▸ Clé Pro, enregistrez — c'est tout. Fidèle au principe « 100 % local », aucun serveur de licences n'est contacté : la clé reçue suffit (système de confiance).
 
 = Y a-t-il des prérequis techniques ? =
 La bibliothèque PHP GD est recommandée (détection de couleur depuis un logo PNG/JPG) ; sans elle, les autres sources de détection restent actives. Le blocage a priori réécrit le HTML des pages à la volée : coût mesuré inférieur à 1 ms par page.

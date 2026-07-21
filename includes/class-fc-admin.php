@@ -157,22 +157,14 @@ class FC_Admin {
 		FC_Plugin::sync_schedule( $out['scan_frequency'] );
 		$pages = (int) ( $input['scan_pages'] ?? 10 );
 		$out['scan_pages'] = in_array( $pages, array( 10, 25, 50, 100 ), true ) ? $pages : 10;
-		// Clé FreeCookie Pro (système de confiance : aucune vérification réseau).
+		// Clé FreeCookie Pro : sert uniquement à l'extension compagnon (système
+		// de confiance, aucune vérification réseau) — aucune fonctionnalité de
+		// ce plugin n'en dépend.
 		$out['license_key'] = sanitize_text_field( $input['license_key'] ?? ( $out['license_key'] ?? '' ) );
 
-		// Forme du badge : les formes Pro exigent une clé active.
-		$shape = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
-		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $out ) ) {
-			$prev  = FC_Shapes::valid( $out['badge_shape'] ?? '' );
-			$shape = FC_Shapes::is_pro( $prev ) ? FC_Shapes::DEFAULT_ID : $prev;
-			add_settings_error(
-				'freecookie',
-				'shape_pro',
-				__( 'Cette forme fait partie de FreeCookie Pro : saisissez votre clé dans la section « FreeCookie Pro » pour l’utiliser. La forme précédente est conservée.', 'freecookie' ),
-				'warning'
-			);
-		}
-		$out['badge_shape'] = $shape;
+		// Forme du badge : un id inconnu (ex. forme d'une extension retirée)
+		// retombe silencieusement sur la forme par défaut.
+		$out['badge_shape'] = FC_Shapes::valid( isset( $input['badge_shape'] ) ? sanitize_text_field( $input['badge_shape'] ) : '' );
 
 		// Couleurs (vide autorisé = auto/dérivé).
 		$colors = array();
@@ -297,9 +289,9 @@ class FC_Admin {
 				<h2 class="title"><?php esc_html_e( 'Forme du cookie', 'freecookie' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Choisissez la forme du badge flottant (elle prend la couleur du site).', 'freecookie' ); ?></p>
 				<?php
-				$fc_bv    = FC_Colors::css_vars( $s );
-				$fc_shape = FC_Shapes::valid( $s['badge_shape'] ?? '' );
-				$fc_pro   = FC_Pro::active( $s );
+				$fc_bv       = FC_Colors::css_vars( $s );
+				$fc_shape    = FC_Shapes::valid( $s['badge_shape'] ?? '' );
+				$fc_families = FC_Shapes::families();
 				?>
 				<style>
 					.fc-shapes{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:10px;max-width:820px;margin:6px 0 4px}
@@ -317,32 +309,26 @@ class FC_Admin {
 					.fc-shapes .fc-cookie__c2{fill:var(--fc-c2)}
 					.fc-shapes .fc-cookie__c3{fill:var(--fc-c3)}
 					.fc-shapes .fc-cookie__c4{fill:var(--fc-c4)}
-					.fc-shape--locked{opacity:.45}
-					.fc-shape--locked input{cursor:not-allowed}
-					.fc-shape__pro{position:absolute;top:4px;right:4px;font-size:9px;font-weight:700;letter-spacing:.04em;color:#fff;background:#8c8f94;border-radius:3px;padding:1px 4px;pointer-events:none}
 					.fc-fam-title{margin:16px 0 2px;font-size:13px}
-					.fc-fam-title .fc-fam-pro{font-size:10px;font-weight:700;color:#8c8f94;vertical-align:middle;margin-left:6px}
 				</style>
 				<div style="--fc-badge-solid:<?php echo esc_attr( $fc_bv['--fc-badge-solid'] ); ?>;--fc-badge-hole:<?php echo esc_attr( $fc_bv['--fc-badge-hole'] ); ?>;--fc-c1:<?php echo esc_attr( $fc_bv['--fc-c1'] ); ?>;--fc-c2:<?php echo esc_attr( $fc_bv['--fc-c2'] ); ?>;--fc-c3:<?php echo esc_attr( $fc_bv['--fc-c3'] ); ?>;--fc-c4:<?php echo esc_attr( $fc_bv['--fc-c4'] ); ?>;max-width:820px">
-					<?php foreach ( FC_Shapes::families() as $fc_fam => $fc_fdef ) : ?>
-						<?php $fc_locked = $fc_fdef['pro'] && ! $fc_pro; ?>
-						<h4 class="fc-fam-title">
-							<?php echo esc_html( $fc_fdef['label'] ); ?>
-							<?php if ( $fc_fdef['pro'] ) : ?>
-								<span class="fc-fam-pro"><?php echo $fc_locked ? esc_html__( 'PRO — clé requise', 'freecookie' ) : esc_html__( 'PRO', 'freecookie' ); ?></span>
-							<?php endif; ?>
-						</h4>
+					<?php foreach ( $fc_families as $fc_fam => $fc_fdef ) : ?>
+						<h4 class="fc-fam-title"><?php echo esc_html( $fc_fdef['label'] ); ?></h4>
 						<div class="fc-shapes">
-							<?php foreach ( FC_Shapes::by_family( $fc_fam ) as $fc_id => $fc_s ) : ?>
-								<label class="fc-shape<?php echo $fc_locked ? ' fc-shape--locked' : ''; ?>">
-									<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?> <?php disabled( $fc_locked ); ?>>
-									<?php if ( $fc_locked ) : ?><span class="fc-shape__pro">PRO</span><?php endif; ?>
+							<?php foreach ( $fc_fdef['shapes'] as $fc_id => $fc_s ) : ?>
+								<label class="fc-shape">
+									<input type="radio" name="freecookie_settings[badge_shape]" value="<?php echo esc_attr( $fc_id ); ?>" <?php checked( $fc_shape, $fc_id ); ?>>
 									<span class="fc-shape__ico"><svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true"><?php echo $fc_s['svg']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></svg></span>
 									<span class="fc-shape__lbl"><?php echo esc_html( $fc_s['label'] ); ?></span>
 								</label>
 							<?php endforeach; ?>
 						</div>
 					<?php endforeach; ?>
+					<?php if ( count( $fc_families ) < 2 ) : ?>
+						<p class="description" style="margin-top:10px">
+							<a href="<?php echo esc_url( FC_Pro::BUY_URL ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Plus de formes avec FreeCookie Pro', 'freecookie' ); ?></a>
+						</p>
+					<?php endif; ?>
 				</div>
 
 				<h2 class="title"><?php
@@ -459,7 +445,7 @@ class FC_Admin {
 
 				<h2 class="title"><?php esc_html_e( 'FreeCookie Pro', 'freecookie' ); ?></h2>
 				<p class="description" style="max-width:820px">
-					<?php esc_html_e( 'Pro ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé suffit.', 'freecookie' ); ?>
+					<?php esc_html_e( 'FreeCookie Pro est une extension séparée qui ajoute du confort (familles de formes supplémentaires, et plus à venir) — la conformité de base reste toujours gratuite et complète, et ne dépend jamais de cette clé. L’achat (10 $/an ou 45 $ à vie) vous envoie automatiquement l’extension et une clé de licence par e-mail. Aucune vérification en ligne, aucune donnée envoyée : la clé saisie ici active l’extension une fois installée.', 'freecookie' ); ?>
 				</p>
 				<p style="max-width:820px">
 					<a href="<?php echo esc_url( FC_Pro::BUY_URL ); ?>" target="_blank" rel="noopener" class="button button-primary"><?php esc_html_e( 'Passer à Pro — recevoir ma clé par e-mail', 'freecookie' ); ?></a>
@@ -472,9 +458,9 @@ class FC_Admin {
 							<?php if ( FC_Pro::active( $s ) ) : ?>
 								<span style="color:#1f9d55;font-weight:600;margin-left:8px"><?php esc_html_e( 'Pro actif — merci pour votre soutien.', 'freecookie' ); ?></span>
 							<?php else : ?>
-								<span style="color:#8c8f94;margin-left:8px"><?php esc_html_e( 'Aucune clé — formes Pro verrouillées.', 'freecookie' ); ?></span>
+								<span style="color:#8c8f94;margin-left:8px"><?php esc_html_e( 'Aucune clé enregistrée.', 'freecookie' ); ?></span>
 							<?php endif; ?>
-							<p class="description"><?php esc_html_e( 'Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez.', 'freecookie' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Collez ici la clé reçue par e-mail juste après votre achat (format FCPRO-…), puis enregistrez : l’extension FreeCookie Pro la lit pour s’activer.', 'freecookie' ); ?></p>
 						</td>
 					</tr>
 				</tbody></table>

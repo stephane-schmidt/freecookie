@@ -214,10 +214,9 @@ class FC_Frontend {
 			? wp_parse_args( $this->settings['about'], $defaults['about'] )
 			: $defaults['about'];
 		$alabels  = FC_I18n::about_labels( $lang );
+		// Forme du badge : un id inconnu (ex. forme d'une extension retirée)
+		// retombe silencieusement sur la forme par défaut via valid().
 		$shape    = FC_Shapes::valid( isset( $this->settings['badge_shape'] ) ? $this->settings['badge_shape'] : '' );
-		if ( FC_Shapes::is_pro( $shape ) && ! FC_Pro::active( $this->settings ) ) {
-			$shape = FC_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
-		}
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 	}
 }

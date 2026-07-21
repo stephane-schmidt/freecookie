@@ -1,11 +1,12 @@
 <?php
 /**
- * FreeCookie Pro — activation par clé, en SYSTÈME DE CONFIANCE.
+ * FreeCookie Pro — validation de la clé de licence, en SYSTÈME DE CONFIANCE.
  *
- * Aucune vérification serveur, aucun appel réseau, aucun bridage caché :
- * la clé transmise après le soutien (10 $/an ou 45 $ à vie) suffit. La
- * conformité de base reste toujours gratuite ; Pro n'ajoute que du confort
- * (familles de formes supplémentaires, et plus à venir).
+ * Aucune vérification serveur, aucun appel réseau, aucun bridage caché : la
+ * clé transmise après l'achat (10 $/an ou 45 $ à vie) suffit. Cette clé n'est
+ * utilisée QUE par l'extension compagnon « FreeCookie Pro » (installée
+ * séparément) : aucune fonctionnalité de ce plugin gratuit n'en dépend — la
+ * conformité reste toujours gratuite et complète.
  *
  * @package FreeCookie
  */
