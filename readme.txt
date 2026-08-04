@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.13.8
+Stable tag: 0.13.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.13.9 =
+* Banner language: the visitor's browser language now only wins when the site actually offers that language (declared by Polylang or WPML). On a monolingual site the banner follows the site's own locale. Before this, a French-only site served an English consent banner to any visitor whose browser was set to English — and the one person who never noticed was the site owner, whose browser is in the right language. Multilingual sites are unaffected: the browser still selects among the languages the site really speaks.
 
 = 0.13.8 =
 * Modal centered on screen (no longer anchored to the bottom), slightly reduced (560px max). Welcome title aligned to the same margin as the text (some host themes were offsetting the h2), larger by default (22px) and automatically reduced when the site name is long. Action buttons centered, tightened, and more generous on click.
@@ -288,6 +291,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 * Initial development version: default-blocking engine, accessible banner, Consent Mode v2, proof log, FR/EN/DE/IT multilingual support, honor-system counter.
 
 == Upgrade Notice ==
+
+= 0.13.9 =
+Fixes the consent banner appearing in the visitor's browser language on sites that do not offer that language. Recommended for every monolingual site.
 
 = 0.13.8 =
 Centered, better-proportioned consent modal with a scroll hint for content below the fold, plus refined mobile button spacing. Recommended for all sites.

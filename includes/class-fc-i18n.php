@@ -18,10 +18,11 @@ class Freecookie_I18n {
 	 * Détermine la langue à servir (cascade).
 	 *
 	 * 1) langue active WPML/Polylang (langue réelle de la PAGE affichée)
-	 * → 2) (option) langue du NAVIGATEUR du visiteur, si prise en charge
+	 * → 2) (option) langue du NAVIGATEUR, SI LE SITE PARLE CETTE LANGUE
 	 * → 3) locale du site → 4) anglais.
 	 *
-	 * @param bool $use_browser La langue du navigateur prime sur celle du site.
+	 * @param bool $use_browser Autoriser la langue du navigateur a l emporter — uniquement
+	 *                          parmi les langues que le site declare offrir.
 	 * @return string Code court : fr, en, de, it…
 	 */
 	public static function detect( $use_browser = false ) {
@@ -36,10 +37,27 @@ class Freecookie_I18n {
 		if ( defined( 'ICL_LANGUAGE_CODE' ) && ICL_LANGUAGE_CODE ) {
 			return self::normalize( ICL_LANGUAGE_CODE );
 		}
-		// Navigateur du visiteur : première langue de sa liste que l'on parle.
+		/*
+		 * Navigateur du visiteur — MAIS SEULEMENT SI LE SITE PARLE CETTE LANGUE.
+		 *
+		 * 04/08/2026 — le défaut `detect_browser => true` faisait passer la langue du navigateur
+		 * AVANT celle du site, sans condition. Sur un site MONOLINGUE français, un visiteur dont
+		 * le navigateur est en anglais recevait donc un bandeau de consentement anglais au milieu
+		 * d'un site entièrement français. Constaté sur un site communal genevois.
+		 *
+		 * L'intention d'origine — « multilingue auto » — n'est pas remise en cause : elle n'a de
+		 * sens que si le site OFFRE vraiment la langue. Un bandeau dans une langue que le site ne
+		 * parle pas ne rend service à personne : le visiteur lit une phrase compréhensible, puis
+		 * clique sur un site qu'il ne comprend pas. Et l'exploitant ne voit jamais le problème,
+		 * puisque SON navigateur est dans la bonne langue.
+		 *
+		 * La règle est donc : le navigateur l'emporte quand le site déclare cette langue, sinon
+		 * c'est la locale du site. Sur un site monolingue, cela revient à toujours servir la
+		 * langue du site — ce que tout le monde attendait déjà.
+		 */
 		if ( $use_browser ) {
 			$bl = self::browser_lang();
-			if ( '' !== $bl ) {
+			if ( '' !== $bl && in_array( $bl, self::langues_du_site(), true ) ) {
 				return $bl;
 			}
 		}
@@ -49,6 +67,41 @@ class Freecookie_I18n {
 			return self::normalize( $locale );
 		}
 		return 'en';
+	}
+
+	/**
+	 * Langues que le SITE offre réellement, en codes courts.
+	 *
+	 * Un site ne « parle » une langue que s'il le déclare : Polylang et WPML sont les deux seuls
+	 * à pouvoir le dire. Sans eux, le site est monolingue et ne parle que sa propre locale — un
+	 * site n'est pas multilingue parce que son visiteur l'est.
+	 *
+	 * @return string[] Codes courts, jamais vide : la locale du site en fait toujours partie.
+	 */
+	public static function langues_du_site() {
+		$codes = array();
+
+		if ( function_exists( 'pll_languages_list' ) ) {
+			$l = pll_languages_list( array( 'fields' => 'slug' ) );
+			if ( is_array( $l ) ) {
+				$codes = $l;
+			}
+		} elseif ( function_exists( 'icl_get_languages' ) ) {
+			$l = icl_get_languages( 'skip_missing=0' );
+			if ( is_array( $l ) ) {
+				$codes = array_keys( $l );
+			}
+		}
+
+		$codes[] = get_locale();
+
+		$courts = array();
+		foreach ( $codes as $c ) {
+			if ( '' !== (string) $c ) {
+				$courts[] = self::normalize( $c );
+			}
+		}
+		return array_values( array_unique( $courts ) );
 	}
 
 	/**
