@@ -25,7 +25,9 @@ class Freecookie_Plugin {
 	public static function default_settings() {
 		return array(
 			'blocking_enabled' => true,
-			'detect_browser'   => true,
+			// Détection de la langue du navigateur : opt-in. Depuis 0.13.9 elle
+			// se fait côté client (cache-safe), mais reste désactivée par défaut.
+			'detect_browser'   => false,
 			'consent_days'     => 90, // Reco EDPB/CNIL : re-demander régulièrement (90 j par défaut).
 			'visit_threshold'  => 10000,
 			'hide_honor_notice' => false,
@@ -86,7 +88,7 @@ class Freecookie_Plugin {
 		} );
 
 		// REST : journal de preuve.
-		$rest = new Freecookie_Rest();
+		$rest = new Freecookie_Rest( $this->settings );
 		add_action( 'rest_api_init', array( $rest, 'register_routes' ) );
 
 		// Géo-ciblage : alimente le filtre de région (défaut '' = régime protecteur).

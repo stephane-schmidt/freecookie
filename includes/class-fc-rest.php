@@ -11,6 +11,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Freecookie_Rest {
 
+	/** @var array Réglages du plugin (bandeau traduit à la demande). */
+	protected $settings;
+
+	/**
+	 * @param array $settings Réglages du plugin.
+	 */
+	public function __construct( $settings = array() ) {
+		$this->settings = is_array( $settings ) ? $settings : array();
+	}
+
 	/**
 	 * Déclare la route.
 	 */
@@ -29,6 +39,22 @@ class Freecookie_Rest {
 					'version'    => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
 					'lang'       => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
 					'region'     => array( 'type' => 'string', 'required' => false, 'sanitize_callback' => 'sanitize_text_field' ),
+				),
+			)
+		);
+
+		// Bandeau traduit à la demande : la page cachée est servie en langue du
+		// site ; quand le navigateur du visiteur préfère une autre langue prise
+		// en charge, le JS recharge le bandeau ici — réponse jamais mise en cache.
+		register_rest_route(
+			'freecookie/v1',
+			'/banner',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'banner' ),
+				'permission_callback' => '__return_true', // Public : visiteur anonyme.
+				'args'                => array(
+					'lang' => array( 'type' => 'string', 'required' => true, 'sanitize_callback' => 'sanitize_text_field' ),
 				),
 			)
 		);
@@ -81,6 +107,20 @@ class Freecookie_Rest {
 				'permission_callback' => $admin_only,
 			)
 		);
+	}
+
+	/**
+	 * Bandeau complet (markup + chaînes) dans la langue demandée.
+	 *
+	 * @param WP_REST_Request $req Requête (lang).
+	 * @return WP_REST_Response
+	 */
+	public function banner( WP_REST_Request $req ) {
+		$lang  = Freecookie_I18n::normalize( (string) $req->get_param( 'lang' ) ); // langue inconnue → anglais.
+		$front = new Freecookie_Frontend( $this->settings );
+		$res   = rest_ensure_response( $front->banner_payload( $lang ) );
+		$res->header( 'Cache-Control', 'no-store, must-revalidate' );
+		return $res;
 	}
 
 	/**

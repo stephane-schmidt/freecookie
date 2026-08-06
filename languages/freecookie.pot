@@ -643,3 +643,7 @@ msgstr ""
 #, php-format
 msgid "Réglage %d"
 msgstr ""
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr ""

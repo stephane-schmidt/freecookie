@@ -70,7 +70,11 @@ class Freecookie_Frontend {
 		wp_add_inline_style( 'freecookie', Freecookie_Colors::inline_css( $this->settings ) );
 		wp_enqueue_script( 'freecookie', FREECOOKIE_URL . 'public/js/freecookie.js', array(), FREECOOKIE_VERSION, true );
 
-		$lang    = Freecookie_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		// La langue du navigateur n'est JAMAIS lue côté serveur : avec un cache
+		// de page, elle graverait la langue du visiteur qui régénère le cache
+		// (bandeau en chinois pour tout le monde). Le serveur sert la langue du
+		// site ; si l'option est active, le JS détecte et traduit via REST.
+		$lang    = Freecookie_I18n::detect();
 		$strings = $this->strings( $lang );
 
 		$cats = array();
@@ -96,6 +100,12 @@ class Freecookie_Frontend {
 				'categories'     => $cats,
 				'consentModeMap' => Freecookie_Categories::consent_mode_map(),
 				'restUrl'        => esc_url_raw( rest_url( 'freecookie/v1/consent' ) ),
+				// Détection de langue côté client (cache-safe) : le JS compare
+				// navigator.languages aux langues disponibles et recharge le
+				// bandeau traduit via cet endpoint, jamais mis en cache.
+				'browserDetect'  => ! empty( $this->settings['detect_browser'] ),
+				'langs'          => array_keys( Freecookie_I18n::strings() ),
+				'bannerUrl'      => esc_url_raw( rest_url( 'freecookie/v1/banner' ) ),
 				'nonce'          => wp_create_nonce( 'wp_rest' ),
 				'strings'        => $strings,
 				// Libellés des services connus (façade des embeds bloqués).
@@ -199,7 +209,33 @@ class Freecookie_Frontend {
 		if ( Freecookie_Scanner::is_sniff_request() ) {
 			return;
 		}
-		$lang     = Freecookie_I18n::detect( ! empty( $this->settings['detect_browser'] ) );
+		// Toujours la langue du SITE ici (voir enqueue() : cache de page).
+		echo $this->banner_markup( Freecookie_I18n::detect() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- gabarit interne, échappé champ par champ.
+	}
+
+	/**
+	 * Payload REST du bandeau traduit : le JS le demande quand la langue du
+	 * navigateur diffère de celle gravée dans la page (cache-safe).
+	 *
+	 * @param string $lang Code court Freecookie_I18n.
+	 * @return array{lang:string,rtl:bool,strings:array<string,string>,html:string}
+	 */
+	public function banner_payload( $lang ) {
+		return array(
+			'lang'    => $lang,
+			'rtl'     => Freecookie_I18n::is_rtl( $lang ),
+			'strings' => $this->strings( $lang ),
+			'html'    => $this->banner_markup( $lang ),
+		);
+	}
+
+	/**
+	 * Markup complet du bandeau (racine + badge) rendu dans une langue donnée.
+	 *
+	 * @param string $lang Code court Freecookie_I18n.
+	 * @return string
+	 */
+	public function banner_markup( $lang ) {
 		$fc_rtl   = Freecookie_I18n::is_rtl( $lang ); // arabe/hébreu : bandeau en droite-à-gauche.
 		$strings  = $this->strings( $lang );
 		$cats     = Freecookie_Categories::all();
@@ -218,6 +254,8 @@ class Freecookie_Frontend {
 		if ( Freecookie_Shapes::is_pro( $shape ) && ! Freecookie_Pro::active( $this->settings ) ) {
 			$shape = Freecookie_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
 		}
+		ob_start();
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
+		return (string) ob_get_clean();
 	}
 }

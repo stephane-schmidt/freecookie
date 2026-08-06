@@ -623,3 +623,7 @@ msgstr "Συγκατάθεση %d"
 #: includes/class-fc-shapes.php:221
 msgid "Réglage %d"
 msgstr "Ρύθμιση %d"
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr "Η ανίχνευση γίνεται στο πρόγραμμα περιήγησης του επισκέπτη και είναι συμβατή με τις κρυφές μνήμες σελίδων. Αν δεν είναι επιλεγμένο, το banner ακολουθεί πάντα τη γλώσσα του ιστότοπου."

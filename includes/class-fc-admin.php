@@ -381,7 +381,8 @@ class Freecookie_Admin {
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Détection de langue', 'freecookie' ); ?></th>
 						<td><label><input type="checkbox" name="freecookie_settings[detect_browser]" value="1" <?php checked( ! empty( $s['detect_browser'] ) ); ?>>
-							<?php esc_html_e( 'Utiliser la langue du navigateur en dernier recours', 'freecookie' ); ?></label></td>
+							<?php esc_html_e( 'Utiliser la langue du navigateur en dernier recours', 'freecookie' ); ?></label>
+						<p class="description"><?php esc_html_e( 'Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site.', 'freecookie' ); ?></p></td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="fc-days"><?php esc_html_e( 'Validité du consentement (jours)', 'freecookie' ); ?></label></th>

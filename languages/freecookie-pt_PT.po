@@ -623,3 +623,7 @@ msgstr "Consentimento %d"
 #: includes/class-fc-shapes.php:221
 msgid "Réglage %d"
 msgstr "Definição %d"
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr "A deteção é feita no navegador do visitante e é compatível com caches de página. Se estiver desmarcada, o banner segue sempre o idioma do site."

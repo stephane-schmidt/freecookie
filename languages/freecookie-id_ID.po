@@ -623,3 +623,7 @@ msgstr "Persetujuan %d"
 #: includes/class-fc-shapes.php:221
 msgid "Réglage %d"
 msgstr "Pengaturan %d"
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr "Deteksi dilakukan di peramban pengunjung dan kompatibel dengan cache halaman. Jika tidak dicentang, banner selalu mengikuti bahasa situs."

@@ -623,3 +623,7 @@ msgstr "Samtycke %d"
 #: includes/class-fc-shapes.php:221
 msgid "Réglage %d"
 msgstr "Inställning %d"
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr "Identifieringen sker i besökarens webbläsare och är kompatibel med sidcachar. Om rutan är avmarkerad följer bannern alltid webbplatsens språk."

@@ -623,3 +623,7 @@ msgstr "동의 %d"
 #: includes/class-fc-shapes.php:221
 msgid "Réglage %d"
 msgstr "설정 %d"
+
+#: includes/class-fc-admin.php
+msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
+msgstr "감지는 방문자의 브라우저에서 이루어지며 페이지 캐시와 호환됩니다. 선택을 해제하면 배너는 항상 사이트 언어를 따릅니다."

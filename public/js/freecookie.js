@@ -11,6 +11,68 @@
 
 	var root, banner, badge;
 	var usedKeyboard = false; // dernier mode d'interaction : clavier ou pointeur.
+	var langSynced = false;   // la traduction navigateur n'est tentée qu'une fois.
+
+	/* ---------- Langue : détection côté NAVIGATEUR, jamais côté serveur ----------
+	   La page servie (et cachée) est toujours en langue du site : une détection
+	   serveur d'Accept-Language gravait dans le cache la langue du visiteur qui
+	   le régénérait — bandeau en chinois pour tout le monde. Ici le navigateur
+	   choisit lui-même, et le bandeau traduit arrive par REST (jamais caché). */
+	function mapLang(code) {
+		code = String(code || '').toLowerCase().replace(/_/g, '-');
+		if (code.indexOf('pt') === 0) { return code.indexOf('pt-br') === 0 ? 'pt-BR' : 'pt-PT'; }
+		if (code.indexOf('zh') === 0) { return /zh-(hant|tw|hk|mo)/.test(code) ? 'zh-TW' : 'zh-CN'; }
+		if (code.indexOf('nb') === 0 || code.indexOf('nn') === 0 || code.indexOf('no') === 0) { return 'nb'; }
+		return code.slice(0, 2);
+	}
+	function browserLang() {
+		// ?fclang=de : aperçu d'une langue (test/démo), prioritaire sur le navigateur.
+		var forced = (location.search.match(/[?&]fclang=([a-zA-Z_-]+)/) || [])[1];
+		var prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || ''];
+		if (forced) { prefs = [forced]; }
+		for (var i = 0; i < prefs.length; i++) {
+			var m = mapLang(prefs[i]);
+			if (D.langs && D.langs.indexOf(m) !== -1) { return m; }
+		}
+		return '';
+	}
+	function maybeTranslate(done) {
+		var want = (!langSynced && D.browserDetect && D.bannerUrl) ? browserLang() : '';
+		if (!want || want === D.lang) { langSynced = true; done(); return; }
+		var finished = false;
+		function finish() { langSynced = true; if (!finished) { finished = true; done(); } }
+		var guard = setTimeout(finish, 2500); // réseau lent : langue du site plutôt que pas de bandeau.
+		fetch(D.bannerUrl + '?lang=' + encodeURIComponent(want))
+			.then(function (r) { return r.ok ? r.json() : null; })
+			.then(function (r) {
+				clearTimeout(guard);
+				if (!r || !r.html || finished) { finish(); return; }
+				var tpl = document.createElement('div');
+				tpl.innerHTML = r.html;
+				var newRoot = tpl.querySelector('#freecookie-root');
+				var newBadge = tpl.querySelector('#freecookie-badge');
+				if (newRoot && root) {
+					// Les écouteurs sont délégués sur root : échanger son CONTENU est sûr.
+					root.innerHTML = newRoot.innerHTML;
+					if (newRoot.getAttribute('dir')) { root.setAttribute('dir', newRoot.getAttribute('dir')); }
+					else { root.removeAttribute('dir'); }
+					banner = document.getElementById('freecookie-banner') || banner;
+				}
+				if (newBadge && badge) {
+					badge.setAttribute('aria-label', newBadge.getAttribute('aria-label') || '');
+					badge.setAttribute('title', newBadge.getAttribute('title') || '');
+				}
+				D.lang = r.lang || want;
+				if (r.strings) {
+					D.strings = r.strings;
+					// Les façades d'embeds déjà posées parlent l'ancienne langue : on les reconstruit.
+					Array.prototype.forEach.call(document.querySelectorAll('iframe.fc-blocked-embed[data-fc-src]'), removeVeil);
+					buildVeils();
+				}
+				finish();
+			})
+			.catch(function () { clearTimeout(guard); finish(); });
+	}
 
 	/* ---------- Couleur dominante de la page (mode auto) ---------- */
 	function rgbOf(h){ h = h.slice(1); return [parseInt(h.slice(0,2),16), parseInt(h.slice(2,4),16), parseInt(h.slice(4,6),16)]; }
@@ -272,6 +334,11 @@
 		else if (!e.shiftKey && (document.activeElement === last || !root.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
 	}
 
+	// Traduit d'abord si besoin (une seule fois), puis ouvre : le visiteur déjà
+	// consenti ne coûte AUCUN appel REST tant qu'il ne rouvre pas le bandeau.
+	function openBannerTranslated() {
+		maybeTranslate(openBanner);
+	}
 	function openBanner() {
 		show(root); hide(aboutEl()); hide(eduEl());
 		banner.setAttribute('data-fc-state', 'banner');
@@ -469,7 +536,7 @@
 			var b = e.target.closest('[data-fc]');
 			if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
 		});
-		if (badge) { badge.addEventListener('click', openBanner); }
+		if (badge) { badge.addEventListener('click', openBannerTranslated); }
 		document.addEventListener('keydown', trapTab, true);
 		document.addEventListener('keydown', function (e) {
 			if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ') { usedKeyboard = true; }
@@ -498,13 +565,13 @@
 			unblock(consent.c, consent.off || [], consent.on || []);
 			show(badge);
 		} else {
-			openBanner();
+			openBannerTranslated();
 		}
 		buildVeils(); // façade sur tout embed resté bloqué (jamais de lecteur cul-de-sac)
 
 		// API publique.
 		window.FreeCookie = {
-			open: openBanner,
+			open: openBannerTranslated,
 			accept: function () { onClick('accept'); },
 			reject: function () { onClick('reject'); },
 			get: function () { var c = getConsent(); return c ? c.c : []; }

@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.13.8
+Stable tag: 0.13.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ And unlike many cookie plugins, FreeCookie makes **no external calls of its own*
 * **No dead embeds.** Blocked players (YouTube and friends) become a tidy click-to-load facade instead of an empty hole — refusing consent never breaks the page.
 * **Geo-aware.** Optional region handling (EU / non-EU / Switzerland) applies the most protective regime by default.
 * **Proof, kept.** Consent choices are recorded locally in your database for accountability.
-* **26 languages, detected automatically.** The visitor banner follows Polylang/WPML, then the browser, then the site locale — with **RTL** support for Arabic and Hebrew. The admin interface is translatable via standard gettext (`.pot`/`.po`/`.mo`).
+* **27 languages, detected automatically.** The visitor banner follows Polylang/WPML, then (optionally) the visitor's browser — detected client-side, so page caches can never serve the wrong language — then the site locale, with **RTL** support for Arabic and Hebrew. The admin interface is translatable via standard gettext (`.pot`/`.po`/`.mo`).
 * **It dresses to match your site.** The floating badge is monochrome and auto-tinted to your site's dominant colour (detected from your logo, theme.json, Elementor kit and other page builders) — or set every colour and text yourself in the settings screen.
 * **You won't feel it.** Under ~1 ms per page in measurements, and no render-blocking third-party requests.
 
@@ -50,7 +50,7 @@ Source code and issues: https://github.com/stephane-schmidt/freecookie
 5. Review the detected services, adjust categories, colours and texts if you wish, and save.
 6. Visit your site in a private/incognito window (logged out, cache cleared) to confirm the banner appears and that trackers are blocked before consent.
 
-That's it — the consent banner and prior blocking are active immediately with sensible defaults (blocking on, Consent Mode v2 on, browser language detection on).
+That's it — the consent banner and prior blocking are active immediately with sensible defaults (blocking on, Consent Mode v2 on, banner in your site's language — enable browser-language detection in the settings if you want the banner to follow each visitor's own language).
 
 == Frequently Asked Questions ==
 
@@ -76,7 +76,7 @@ Not currently. FreeCookie implements Consent Mode v2 the privacy-first way (ever
 
 = Does it work with page caching and multilingual plugins? =
 
-Yes to both. FreeCookie is cache-friendly (consent is applied client-side), and the banner's language follows Polylang/WPML, then the visitor's browser, then the site locale. GTranslate-style translation setups work too.
+Yes to both. FreeCookie is cache-friendly by design: consent is applied client-side, and language detection (optional) also happens client-side — the cached page always carries the site language, and a translated banner is fetched through an uncached REST endpoint when the visitor's browser prefers another supported language. The banner's language follows Polylang/WPML, then (if enabled) the visitor's browser, then the site locale. GTranslate-style translation setups work too.
 
 = What about Google Funding Choices / AdSense's own consent message? =
 
@@ -108,6 +108,10 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.13.9 =
+* Important fix: the banner language is no longer detected server-side. With page caching, the Accept-Language header of whichever visitor happened to regenerate the cache imposed THEIR language on every subsequent visitor (a Chinese or German banner on a French site). The server now always renders the site language; when the "browser language" option is enabled, detection happens in the visitor's browser and the translated banner is fetched through a REST endpoint that is never cached. A `?fclang=xx` URL parameter lets you preview any of the 27 banner languages.
+* The "browser language" option is now off by default (opt-in) for new installations; existing settings are preserved.
 
 = 0.13.8 =
 * Modal centered on screen (no longer anchored to the bottom), slightly reduced (560px max). Welcome title aligned to the same margin as the text (some host themes were offsetting the h2), larger by default (22px) and automatically reduced when the site name is long. Action buttons centered, tightened, and more generous on click.
