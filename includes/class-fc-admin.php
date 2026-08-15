@@ -149,6 +149,8 @@ class Freecookie_Admin {
 
 		$out['blocking_enabled'] = ! empty( $input['blocking_enabled'] );
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
+		$hide = sanitize_text_field( $input['hide_for'] ?? ( $out['hide_for'] ?? 'logged' ) );
+		$out['hide_for'] = in_array( $hide, array( 'none', 'admins', 'logged' ), true ) ? $hide : 'logged';
 		$out['consent_days']     = max( 1, min( 3650, (int) ( $input['consent_days'] ?? 180 ) ) );
 		$out['visit_threshold']  = max( 0, (int) ( $input['visit_threshold'] ?? 10000 ) );
 		$out['hide_honor_notice'] = ! empty( $input['hide_honor_notice'] );
@@ -377,6 +379,17 @@ class Freecookie_Admin {
 						<th scope="row"><?php esc_html_e( 'Blocage a priori', 'freecookie' ); ?></th>
 						<td><label><input type="checkbox" name="freecookie_settings[blocking_enabled]" value="1" <?php checked( ! empty( $s['blocking_enabled'] ) ); ?>>
 							<?php esc_html_e( 'Bloquer les traceurs tiers avant le consentement', 'freecookie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-hidefor"><?php esc_html_e( 'Comptes exemptés', 'freecookie' ); ?></label></th>
+						<td>
+							<select id="fc-hidefor" name="freecookie_settings[hide_for]">
+								<option value="logged" <?php selected( $s['hide_for'] ?? 'logged', 'logged' ); ?>><?php esc_html_e( 'Tous les utilisateurs connectés (recommandé)', 'freecookie' ); ?></option>
+								<option value="admins" <?php selected( $s['hide_for'] ?? '', 'admins' ); ?>><?php esc_html_e( 'Les administrateurs du site uniquement', 'freecookie' ); ?></option>
+								<option value="none" <?php selected( $s['hide_for'] ?? '', 'none' ); ?>><?php esc_html_e( 'Personne — bandeau affiché à tout le monde', 'freecookie' ); ?></option>
+							</select>
+							<p class="description"><?php esc_html_e( 'Les comptes exemptés ne voient ni bandeau ni badge et aucun script n’est bloqué pendant qu’ils sont connectés — pratique pour administrer et éditer le site sans être gêné. Les visiteurs restent bloqués a priori et doivent consentir, comme toujours. Si votre site a des membres (espace client, forum…), choisissez « administrateurs uniquement ».', 'freecookie' ); ?></p>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Détection de langue', 'freecookie' ); ?></th>

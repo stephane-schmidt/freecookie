@@ -75,7 +75,7 @@ Tout se règle dans le menu **FreeCookie** de l'administration :
 
 - **Apparence** : couleur principale (ou une pastille de couleur détectée), fond, textes, boutons, badge.
 - **Textes** : titre, message et libellés des boutons, modifiables par langue.
-- **Options** : blocage a priori, durée de validité du consentement, seuil gratuit.
+- **Options** : blocage a priori, comptes exemptés (par défaut, les utilisateurs connectés ne voient ni bandeau ni blocage — réglable), durée de validité du consentement, seuil gratuit.
 - **Scanner** : détecte les cookies du site et rafraîchit la détection des couleurs.
 
 Affichez la liste des cookies dans une page avec le shortcode `[freecookie_cookies]`.

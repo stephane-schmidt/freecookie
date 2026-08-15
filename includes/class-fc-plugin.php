@@ -28,6 +28,12 @@ class Freecookie_Plugin {
 			// Détection de la langue du navigateur : opt-in. Depuis 0.13.9 elle
 			// se fait côté client (cache-safe), mais reste désactivée par défaut.
 			'detect_browser'   => false,
+			// Comptes exemptés : pour eux, FreeCookie s'efface entièrement côté
+			// front (ni bandeau, ni badge, ni blocage, ni comptage). L'équipe
+			// connectée n'est pas un visiteur à faire consentir ; les visiteurs
+			// anonymes — y compris via le cache de pages, qui ne sert jamais les
+			// connectés — restent bloqués a priori.
+			'hide_for'         => 'logged', // none | admins | logged.
 			'consent_days'     => 90, // Reco EDPB/CNIL : re-demander régulièrement (90 j par défaut).
 			'visit_threshold'  => 10000,
 			'hide_honor_notice' => false,
@@ -110,22 +116,11 @@ class Freecookie_Plugin {
 			self::sync_schedule( 'never' );
 		}
 
-		// Front uniquement au-delà d'ici.
+		// Front uniquement au-delà d'ici. L'utilisateur courant n'est fiable
+		// qu'à partir de `init` : tout le câblage front se décide là, pour
+		// pouvoir exempter les comptes connectés (réglage « hide_for »).
 		if ( ! is_admin() ) {
-			$counter = new Freecookie_Visit_Counter();
-			add_action( 'init', array( $counter, 'maybe_count' ) );
-
-			if ( ! empty( $this->settings['blocking_enabled'] ) ) {
-				$blocker = new Freecookie_Script_Blocker();
-				add_action( 'template_redirect', array( $blocker, 'start_buffer' ), 0 );
-
-				$mode = new Freecookie_Consent_Mode();
-				add_action( 'wp_head', array( $mode, 'print_default' ), 0 );
-			}
-
-			$front = new Freecookie_Frontend( $this->settings );
-			add_action( 'wp_enqueue_scripts', array( $front, 'enqueue' ) );
-			add_action( 'wp_footer', array( $front, 'render_banner' ), 20 );
+			add_action( 'init', array( $this, 'setup_front' ) );
 		}
 
 		// Administration : écran de réglages (apparence, textes, options, scan).
@@ -136,6 +131,49 @@ class Freecookie_Plugin {
 
 		// Avis honor system (administration).
 		add_action( 'admin_notices', array( $this, 'honor_notice' ) );
+	}
+
+	/**
+	 * Câble le front : compteur de visites, blocage a priori, Consent Mode,
+	 * bandeau. Sur `init`, une fois l'utilisateur courant connu — les comptes
+	 * exemptés naviguent comme si le plugin n'était pas là.
+	 */
+	public function setup_front() {
+		if ( self::hidden_for_user( $this->settings ) ) {
+			return;
+		}
+
+		$counter = new Freecookie_Visit_Counter();
+		$counter->maybe_count();
+
+		if ( ! empty( $this->settings['blocking_enabled'] ) ) {
+			$blocker = new Freecookie_Script_Blocker();
+			add_action( 'template_redirect', array( $blocker, 'start_buffer' ), 0 );
+
+			$mode = new Freecookie_Consent_Mode();
+			add_action( 'wp_head', array( $mode, 'print_default' ), 0 );
+		}
+
+		$front = new Freecookie_Frontend( $this->settings );
+		add_action( 'wp_enqueue_scripts', array( $front, 'enqueue' ) );
+		add_action( 'wp_footer', array( $front, 'render_banner' ), 20 );
+	}
+
+	/**
+	 * L'utilisateur courant est-il exempté de FreeCookie (réglage « hide_for ») ?
+	 *
+	 * @param array $settings Réglages du plugin.
+	 * @return bool
+	 */
+	public static function hidden_for_user( $settings ) {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+		$mode = isset( $settings['hide_for'] ) ? $settings['hide_for'] : 'logged';
+		if ( 'logged' === $mode ) {
+			return true;
+		}
+		return 'admins' === $mode && current_user_can( 'manage_options' );
 	}
 
 	/**

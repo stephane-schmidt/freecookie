@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.13.9
+Stable tag: 0.14.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.14.0 =
+* New: logged-in accounts are now exempt from FreeCookie by default. While logged in you see no banner and no badge, no scripts are blocked for you, and your page loads are not counted as visits — so administering and editing the site is never in your own way. A new **"Exempt accounts"** option (FreeCookie ▸ Options) lets you choose the scope: all logged-in users (default), administrators only, or nobody. Anonymous visitors are unaffected: they keep getting the blocked-before-consent pages (page caches never serve logged-in views), so compliance for the public is unchanged. If your site has public member accounts (client area, forum…), pick "administrators only" so members are still asked for consent.
 
 = 0.13.9 =
 * Important fix: the banner language is no longer detected server-side. With page caching, the Accept-Language header of whichever visitor happened to regenerate the cache imposed THEIR language on every subsequent visitor (a Chinese or German banner on a French site). The server now always renders the site language; when the "browser language" option is enabled, detection happens in the visitor's browser and the translated banner is fetched through a REST endpoint that is never cached. A `?fclang=xx` URL parameter lets you preview any of the 27 banner languages.
