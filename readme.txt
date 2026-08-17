@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.15.2
+Stable tag: 0.15.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.15.3 =
+* Mode barre, petits écrans : le titre s'efface sous 600 px — deux rangées ne tenaient pas dans le plafond de 8 % et le titre sortait rogné. Les boutons restent seuls, le titre demeure dans l'aria-label.
 
 = 0.15.2 =
 * Correction : le panneau déplié en flux héritait du translateX(-50 %) du mode dialogue et débordait à gauche de l'écran.

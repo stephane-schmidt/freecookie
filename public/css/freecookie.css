@@ -441,6 +441,15 @@ iframe.fc-blocked-embed {
 	line-height: 1.4;
 }
 .fc-mini__text { margin: 0; font-weight: 600; }
+/* 0.15.3 — capture iPhone de Stéphane : titre + boutons = deux rangées, et 8 vh n'en
+   loge qu'une et demie — le titre sortait à moitié rogné, illisible. Sous 600 px le
+   titre s'efface : les trois boutons disent tout, et le nom du site reste porté par
+   l'aria-label de la région pour les lecteurs d'écran. Une rangée unique tient
+   TOUJOURS dans le plafond. */
+@media (max-width: 600px) {
+	.fc-mini__text { display: none; }
+	.fc-mini { gap: 8px; }
+}
 .fc-mini__actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .fc-mini__ok { min-width: 64px; }
 .fc-mini .fc-btn { padding: 6px 14px; }
