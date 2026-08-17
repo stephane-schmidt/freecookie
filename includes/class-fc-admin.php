@@ -151,6 +151,11 @@ class Freecookie_Admin {
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
 		$hide = sanitize_text_field( $input['hide_for'] ?? ( $out['hide_for'] ?? 'logged' ) );
 		$out['hide_for'] = in_array( $hide, array( 'none', 'admins', 'logged' ), true ) ? $hide : 'logged';
+		$fc_layout = sanitize_text_field( $input['layout'] ?? ( $out['layout'] ?? 'full' ) );
+		$out['layout'] = in_array( $fc_layout, array( 'full', 'mini' ), true ) ? $fc_layout : 'full';
+		// Sélecteur CSS de l'ancre du mode mini : texte brut, jamais interprété côté PHP
+		// (le JS fait un querySelector et retombe sur la barre si rien ne correspond).
+		$out['mini_anchor'] = substr( sanitize_text_field( $input['mini_anchor'] ?? ( $out['mini_anchor'] ?? '' ) ), 0, 120 );
 		$out['consent_days']     = max( 1, min( 3650, (int) ( $input['consent_days'] ?? 180 ) ) );
 		$out['visit_threshold']  = max( 0, (int) ( $input['visit_threshold'] ?? 10000 ) );
 		$out['hide_honor_notice'] = ! empty( $input['hide_honor_notice'] );
@@ -389,6 +394,21 @@ class Freecookie_Admin {
 								<option value="none" <?php selected( $s['hide_for'] ?? '', 'none' ); ?>><?php esc_html_e( 'Personne — bandeau affiché à tout le monde', 'freecookie' ); ?></option>
 							</select>
 							<p class="description"><?php esc_html_e( 'Les comptes exemptés ne voient ni bandeau ni badge et aucun script n’est bloqué pendant qu’ils sont connectés — pratique pour administrer et éditer le site sans être gêné. Les visiteurs restent bloqués a priori et doivent consentir, comme toujours. Si votre site a des membres (espace client, forum…), choisissez « administrateurs uniquement ».', 'freecookie' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-layout"><?php esc_html_e( 'Premier contact', 'freecookie' ); ?></label></th>
+						<td>
+							<select id="fc-layout" name="freecookie_settings[layout]">
+								<option value="full" <?php selected( $s['layout'] ?? 'full', 'full' ); ?>><?php esc_html_e( 'Panneau complet — tout est visible d’emblée', 'freecookie' ); ?></option>
+								<option value="mini" <?php selected( $s['layout'] ?? '', 'mini' ); ?>><?php esc_html_e( 'Barre discrète — OK / Refuser, détails à la demande', 'freecookie' ); ?></option>
+							</select>
+							<p style="margin-top:8px">
+								<label for="fc-mini-anchor"><?php esc_html_e( 'Ancre des détails (mode barre) :', 'freecookie' ); ?></label>
+								<input type="text" id="fc-mini-anchor" class="regular-text code" name="freecookie_settings[mini_anchor]"
+									value="<?php echo esc_attr( $s['mini_anchor'] ?? '' ); ?>" placeholder="footer .foot-row">
+							</p>
+							<p class="description"><?php esc_html_e( 'En mode barre, « Plus d’infos » déplie le panneau complet DANS la page, juste après l’élément désigné par ce sélecteur CSS (par exemple sous les slogans du pied de page) — jamais en fenêtre par-dessus le contenu. Sélecteur vide ou introuvable : le panneau se déplie au-dessus de la barre. Refuser reste aussi accessible qu’accepter, dès la barre.', 'freecookie' ); ?></p>
 						</td>
 					</tr>
 					<tr>

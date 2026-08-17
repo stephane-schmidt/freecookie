@@ -323,8 +323,15 @@
 		});
 	}
 
-	// Piège de focus : tant que le bandeau est ouvert, Tab reste dedans.
+	/* 0.15.0 — mode barre : la barre elle-même, et l'état « déplié en flux ». */
+	function miniEl() { return document.getElementById('freecookie-mini'); }
+	function isInline() { return root && root.classList.contains('fc-inline'); }
+
+	// Piège de focus : tant que le bandeau est ouvert EN DIALOGUE, Tab reste dedans.
+	// Déplié en flux (mode barre), le panneau est un bloc ordinaire de la page : piéger
+	// le focus y emprisonnerait le clavier dans le footer.
 	function trapTab(e) {
+		if (isInline()) { return; }
 		if (e.key !== 'Tab' || !root || root.hidden) { return; }
 		var all = root.querySelectorAll('button, a[href], input:not([disabled])');
 		var list = Array.prototype.filter.call(all, function (el) { return el.offsetParent !== null; });
@@ -354,6 +361,34 @@
 		var t = root.querySelector('.fc-about__title');
 		announce(t ? t.textContent : '');
 	}
+	/* 0.15.0 — « Plus d'infos » du mode barre : le panneau complet se déplie EN FLUX,
+	   inséré après l'ancre (D.miniAnchor, ex. `footer .foot-row` = sous les slogans),
+	   jamais en surcouche. Ancre vide ou introuvable : repli juste au-dessus de la
+	   barre — toujours en flux. aria-modal tombe : ce n'est plus un dialogue. */
+	function openInline() {
+		var anchor = null;
+		if (D.miniAnchor) {
+			try { anchor = document.querySelector(D.miniAnchor); } catch (e) { anchor = null; }
+		}
+		var m = miniEl();
+		if (anchor) { anchor.insertAdjacentElement('afterend', root); }
+		else if (m && m.parentNode) { m.parentNode.insertBefore(root, m); }
+		root.classList.add('fc-inline');
+		banner.removeAttribute('aria-modal');
+		banner.setAttribute('role', 'region');
+		show(root); hide(aboutEl()); hide(eduEl());
+		banner.setAttribute('data-fc-state', 'banner');
+		reflect();
+		if (m) {
+			var more = m.querySelector('.fc-mini__more');
+			if (more) { more.setAttribute('aria-expanded', 'true'); }
+			hide(m); // les trois boutons du panneau prennent le relais, la barre s'efface
+		}
+		announce(D.strings.prefs_title || '');
+		try { root.scrollIntoView({ block: 'start', behavior: 'smooth' }); } catch (e) { root.scrollIntoView(); }
+	}
+	function openInlineTranslated() { maybeTranslate(openInline); }
+
 	function openEdu() {
 		show(root); show(eduEl()); hide(aboutEl());
 		banner.setAttribute('data-fc-state', 'edu');
@@ -364,6 +399,7 @@
 	}
 	function closeAll() {
 		hide(root); show(badge);
+		hide(miniEl()); // mode barre : un choix fait, la barre s'en va aussi
 		if (badge) {
 			badge.setAttribute('aria-expanded', 'false');
 			// On ne rend le focus au badge qu'aux utilisateurs CLAVIER : à la
@@ -396,6 +432,7 @@
 		else if (action === 'reject') { saveConsent([], [], 'reject', []); closeAll(); }
 		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save', t.on); closeAll(); }
 		else if (action === 'customize') { openBanner(); } // rétro-compat : tout est déjà visible.
+		else if (action === 'more') { openInlineTranslated(); } // mode barre : détails en flux, sous les slogans.
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
 		else if (action === 'edu') { openEdu(); }
@@ -536,7 +573,10 @@
 			var b = e.target.closest('[data-fc]');
 			if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
 		});
-		if (badge) { badge.addEventListener('click', openBannerTranslated); }
+		// Mode barre : MÊME la réouverture par le badge se fait en flux dans la page —
+		// la consigne est « jamais en surcouche », pas « jamais au premier contact ».
+		var fcOpen = (D.layout === 'mini') ? openInlineTranslated : openBannerTranslated;
+		if (badge) { badge.addEventListener('click', fcOpen); }
 		document.addEventListener('keydown', trapTab, true);
 		document.addEventListener('keydown', function (e) {
 			if (e.key === 'Tab' || e.key === 'Enter' || e.key === ' ') { usedKeyboard = true; }
@@ -564,6 +604,15 @@
 			applyConsentMode(consent.c);
 			unblock(consent.c, consent.off || [], consent.on || []);
 			show(badge);
+		} else if (D.layout === 'mini' && miniEl()) {
+			// Mode barre : le premier contact est la barre, pas le panneau. La barre
+			// porte ses propres [data-fc] hors de root : elle a son écouteur.
+			var fcMini = miniEl();
+			fcMini.addEventListener('click', function (e) {
+				var b = e.target.closest('[data-fc]');
+				if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
+			});
+			show(fcMini);
 		} else {
 			openBannerTranslated();
 		}
@@ -571,7 +620,7 @@
 
 		// API publique.
 		window.FreeCookie = {
-			open: openBannerTranslated,
+			open: fcOpen,
 			accept: function () { onClick('accept'); },
 			reject: function () { onClick('reject'); },
 			get: function () { var c = getConsent(); return c ? c.c : []; }

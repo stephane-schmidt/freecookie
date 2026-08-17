@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.14.0
+Stable tag: 0.15.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,12 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.15.0 =
+* Nouveau : mode « barre » (réglage « Premier contact ») — au lieu du panneau complet, une barre discrète en bas de page (au plus 15 % de l'écran) : OK, Refuser, et « Gérer mes cookies ». Refuser est sur la barre, au même rang qu'accepter.
+* Les détails ne s'ouvrent jamais en fenêtre par-dessus le contenu : le panneau complet se déplie DANS la page, après l'élément désigné par le sélecteur « Ancre des détails » (par exemple sous les slogans du pied de page). Ancre absente : repli au-dessus de la barre, toujours en flux.
+* En mode barre, la réouverture par le badge se fait aussi en flux — jamais de surcouche.
+* Le piège de focus clavier ne s'applique qu'au mode dialogue : déplié en flux, le panneau est un bloc ordinaire de la page.
 
 = 0.14.0 =
 * New: logged-in accounts are now exempt from FreeCookie by default. While logged in you see no banner and no badge, no scripts are blocked for you, and your page loads are not counted as visits — so administering and editing the site is never in your own way. A new **"Exempt accounts"** option (FreeCookie ▸ Options) lets you choose the scope: all logged-in users (default), administrators only, or nobody. Anonymous visitors are unaffected: they keep getting the blocked-before-consent pages (page caches never serve logged-in views), so compliance for the public is unchanged. If your site has public member accounts (client area, forum…), pick "administrators only" so members are still asked for consent.

@@ -113,6 +113,10 @@ class Freecookie_Frontend {
 				// Mode auto : aucune couleur principale fixée dans les réglages
 				// → le badge/bannière suit la couleur dominante de CHAQUE page.
 				'autoColor'      => ( '' === Freecookie_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
+				// 0.15.0 — mode « barre » : premier contact réduit, détails EN FLUX
+				// dans la page (insérés après `miniAnchor`), jamais en surcouche.
+				'layout'         => ( isset( $this->settings['layout'] ) && 'mini' === $this->settings['layout'] ) ? 'mini' : 'full',
+				'miniAnchor'     => isset( $this->settings['mini_anchor'] ) ? (string) $this->settings['mini_anchor'] : '',
 			)
 		);
 	}
@@ -254,6 +258,7 @@ class Freecookie_Frontend {
 		if ( Freecookie_Shapes::is_pro( $shape ) && ! Freecookie_Pro::active( $this->settings ) ) {
 			$shape = Freecookie_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
 		}
+		$fc_layout = ( isset( $this->settings['layout'] ) && 'mini' === $this->settings['layout'] ) ? 'mini' : 'full';
 		ob_start();
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 		return (string) ob_get_clean();

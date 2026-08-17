@@ -175,6 +175,27 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 
+<?php if ( ! empty( $fc_layout ) && 'mini' === $fc_layout ) : ?>
+	<?php
+	/* 0.15.0 — LA BARRE. Premier contact réduit : le titre, OK, Refuser, Plus d'infos.
+	   Refuser est là dès la barre, au même rang qu'accepter (exigence RGPD/CNIL : le refus
+	   aussi simple que l'accord — jamais caché derrière « Plus d'infos »). « OK » n'est pas
+	   traduit : c'est le même mot dans les 24 langues servies. « Plus d'infos » réutilise la
+	   chaîne `manage` (déjà traduite partout) et déplie le panneau complet EN FLUX dans la
+	   page — c'est le JS qui l'insère après l'ancre (`miniAnchor`), jamais en surcouche. */
+	?>
+	<div id="freecookie-mini" class="fc-mini"<?php echo ! empty( $fc_rtl ) ? ' dir="rtl"' : ''; ?> hidden
+		role="region" aria-label="<?php echo esc_attr( $strings['title'] ); ?>">
+		<p class="fc-mini__text"><?php echo esc_html( $strings['title'] ); ?></p>
+		<div class="fc-mini__actions">
+			<button type="button" class="fc-btn fc-btn--primary fc-mini__ok" data-fc="accept">OK</button>
+			<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
+			<button type="button" class="fc-link fc-mini__more" data-fc="more" aria-expanded="false"
+				aria-controls="freecookie-banner"><?php echo esc_html( $strings['manage'] ); ?></button>
+		</div>
+	</div>
+<?php endif; ?>
+
 <button type="button" id="freecookie-badge" class="fc-badge" hidden aria-expanded="false" aria-label="<?php echo esc_attr( $strings['manage'] ); ?>" title="<?php echo esc_attr( $strings['manage'] ); ?>">
 	<svg class="fc-cookie" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><?php echo Freecookie_Shapes::get( $shape ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- SVG interne statique de confiance. ?></svg>
 </button>

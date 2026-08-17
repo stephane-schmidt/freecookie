@@ -41,6 +41,14 @@ class Freecookie_Plugin {
 			'scan_pages'       => 10, // pages échantillonnées par scan : 10, 25, 50 ou 100.
 			'purge_on_uninstall' => false, // false = le journal de preuve survit à la désinstallation (auditabilité).
 			'position'         => 'bottom',
+			// 0.15.0 : présentation du premier contact. `full` = le panneau complet en
+			// dialogue (comportement historique). `mini` = une barre discrète en bas de
+			// page (OK / Refuser / Plus d'infos) ; le panneau complet ne s'ouvre qu'à la
+			// demande, EN FLUX dans la page (jamais en surcouche) — inséré après
+			// l'élément désigné par `mini_anchor` (sélecteur CSS, ex. `footer .foot-row`),
+			// ou juste au-dessus de la barre si l'ancre est introuvable.
+			'layout'           => 'full',
+			'mini_anchor'      => '',
 			'badge_shape'      => 'croque-lateral',
 			'license_key'      => '', // FreeCookie Pro (système de confiance).
 			'colors'           => array(
