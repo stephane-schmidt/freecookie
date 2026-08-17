@@ -404,23 +404,27 @@ iframe.fc-blocked-embed {
 @media(max-height:700px){.fc-banner{top:50%;bottom:auto}}
 
 /* ══ 0.15.0 — MODE BARRE (premier contact réduit) ════════════════════════════════════
-   La barre occupe AU PLUS 15 % de la hauteur de l'écran (demande d'origine : « 15 % de
-   place tout en bas de page ») ; en pratique une ligne, deux sur mobile étroit. Les
+   La barre occupe AU PLUS 8 % de la hauteur de l'écran (rectification Stéphane du 17/08 —
+   la demande initiale disait 15 %, la bonne cible est 8) ; en pratique une seule ligne. Les
    couleurs viennent des mêmes variables que le panneau : les deux suivent le thème. */
 .fc-mini {
 	position: fixed;
 	inset-inline: 0;
 	bottom: 0;
-	max-height: 15vh;
-	overflow: hidden;
+	/* 0.15.1 — rectification Stéphane : la barre vise 8 % de l'écran, pas 15.
+	   Et JAMAIS overflow:hidden ici : sur un écran bas, couper « Refuser » rendrait
+	   le refus moins accessible que l'accord — la barre défile au lieu d'amputer. */
+	max-height: 8vh;
+	min-height: 44px; /* jamais plus petit qu'une cible tactile */
+	overflow-y: auto;
 	z-index: 2147483000;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-wrap: wrap;
 	gap: 8px 18px;
-	padding: 10px clamp(12px, 4vw, 28px);
-	padding-bottom: max(10px, env(safe-area-inset-bottom)); /* iPhone : la barre systeme ne mange pas Refuser */
+	padding: 7px clamp(12px, 4vw, 28px);
+	padding-bottom: max(7px, env(safe-area-inset-bottom)); /* iPhone : la barre systeme ne mange pas Refuser */
 	background: var(--fc-bg, #ffffff);
 	color: var(--fc-text, #1a2430);
 	border-top: 1px solid var(--fc-border, #e2e6ea);
@@ -432,7 +436,7 @@ iframe.fc-blocked-embed {
 .fc-mini__text { margin: 0; font-weight: 600; }
 .fc-mini__actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .fc-mini__ok { min-width: 64px; }
-.fc-mini .fc-btn { padding: 8px 16px; }
+.fc-mini .fc-btn { padding: 6px 14px; }
 .fc-mini .fc-link { text-decoration: underline; }
 
 /* Le panneau DÉPLIÉ EN FLUX (après l'ancre, sous les slogans du footer) : plus un

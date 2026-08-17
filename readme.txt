@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.15.0
+Stable tag: 0.15.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.15.1 =
+* Mode barre : hauteur plafonnée à 8 % de l'écran (rectification — la 0.15.0 visait 15 %). Jamais d'amputation : si l'écran est très bas, la barre défile plutôt que de couper « Refuser ».
 
 = 0.15.0 =
 * Nouveau : mode « barre » (réglage « Premier contact ») — au lieu du panneau complet, une barre discrète en bas de page (au plus 15 % de l'écran) : OK, Refuser, et « Gérer mes cookies ». Refuser est sur la barre, au même rang qu'accepter.
