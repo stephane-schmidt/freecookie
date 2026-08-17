@@ -407,6 +407,13 @@ iframe.fc-blocked-embed {
    La barre occupe AU PLUS 8 % de la hauteur de l'écran (rectification Stéphane du 17/08 —
    la demande initiale disait 15 %, la bonne cible est 8) ; en pratique une seule ligne. Les
    couleurs viennent des mêmes variables que le panneau : les deux suivent le thème. */
+/* ② l'attribut `hidden` confère display:none via la feuille du NAVIGATEUR — que
+   n'importe quelle règle d'auteur écrase, même moins spécifique. Notre display:flex
+   ci-dessous rendait donc la barre IMPOSSIBLE À CACHER : elle restait peinte sous le
+   panneau ouvert (et après un choix). Leçon payée deux fois ce jour-là : le banc
+   lisait l'ATTRIBUT hidden, pas l'affichage calculé — vert menteur. */
+.fc-mini[hidden] { display: none !important; }
+
 .fc-mini {
 	position: fixed;
 	inset-inline: 0;
@@ -445,6 +452,13 @@ iframe.fc-blocked-embed {
 #freecookie-root.fc-inline { position: static; }
 #freecookie-root.fc-inline .fc-banner {
 	position: static;
+	/* 0.15.2 — les DEUX bugs de la capture de Stéphane (17/08) :
+	   ① le mode dialogue centre par `left:50% + translateX(-50%)`. En flux, `left`
+	   meurt avec position:static mais LE TRANSFORM SURVIT : le panneau partait d'une
+	   demi-largeur vers la gauche, coupé au bord de l'écran. On le neutralise. */
+	transform: none;
+	left: auto;
+	bottom: auto;
 	width: 100%;
 	max-width: 860px;
 	max-height: none;
