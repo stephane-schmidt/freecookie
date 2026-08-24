@@ -25,9 +25,12 @@ class Freecookie_Plugin {
 	public static function default_settings() {
 		return array(
 			'blocking_enabled' => true,
-			// Détection de la langue du navigateur : opt-in. Depuis 0.13.9 elle
-			// se fait côté client (cache-safe), mais reste désactivée par défaut.
-			'detect_browser'   => false,
+			// Détection de la langue du navigateur : ACTIVE par défaut depuis 0.15.4
+			// (décision Stéphane 24/08 : un bandeau de consentement doit être compris
+			// par le visiteur, pas par le site). Détection côté client (cache-safe,
+			// voir 0.13.9), repli sur la langue du site ; Polylang/WPML priment.
+			// Les réglages déjà enregistrés gardent leur choix (wp_parse_args).
+			'detect_browser'   => true,
 			// Comptes exemptés : pour eux, FreeCookie s'efface entièrement côté
 			// front (ni bandeau, ni badge, ni blocage, ni comptage). L'équipe
 			// connectée n'est pas un visiteur à faire consentir ; les visiteurs

@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.15.3
+Stable tag: 0.15.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -27,7 +27,7 @@ And unlike many cookie plugins, FreeCookie makes **no external calls of its own*
 * **No dead embeds.** Blocked players (YouTube and friends) become a tidy click-to-load facade instead of an empty hole — refusing consent never breaks the page.
 * **Geo-aware.** Optional region handling (EU / non-EU / Switzerland) applies the most protective regime by default.
 * **Proof, kept.** Consent choices are recorded locally in your database for accountability.
-* **27 languages, detected automatically.** The visitor banner follows Polylang/WPML, then (optionally) the visitor's browser — detected client-side, so page caches can never serve the wrong language — then the site locale, with **RTL** support for Arabic and Hebrew. The admin interface is translatable via standard gettext (`.pot`/`.po`/`.mo`).
+* **27 languages, detected automatically.** The visitor banner follows Polylang/WPML, then the visitor's browser (on by default since 0.15.4, can be turned off) — detected client-side, so page caches can never serve the wrong language — then the site locale, with **RTL** support for Arabic and Hebrew. The admin interface is translatable via standard gettext (`.pot`/`.po`/`.mo`).
 * **It dresses to match your site.** The floating badge is monochrome and auto-tinted to your site's dominant colour (detected from your logo, theme.json, Elementor kit and other page builders) — or set every colour and text yourself in the settings screen.
 * **You won't feel it.** Under ~1 ms per page in measurements, and no render-blocking third-party requests.
 
@@ -50,7 +50,7 @@ Source code and issues: https://github.com/stephane-schmidt/freecookie
 5. Review the detected services, adjust categories, colours and texts if you wish, and save.
 6. Visit your site in a private/incognito window (logged out, cache cleared) to confirm the banner appears and that trackers are blocked before consent.
 
-That's it — the consent banner and prior blocking are active immediately with sensible defaults (blocking on, Consent Mode v2 on, banner in your site's language — enable browser-language detection in the settings if you want the banner to follow each visitor's own language).
+That's it — the consent banner and prior blocking are active immediately with sensible defaults (blocking on, Consent Mode v2 on, banner in each visitor's own browser language with your site's language as fallback — disable browser-language detection in the settings if you prefer the site language for everyone).
 
 == Frequently Asked Questions ==
 
@@ -76,7 +76,7 @@ Not currently. FreeCookie implements Consent Mode v2 the privacy-first way (ever
 
 = Does it work with page caching and multilingual plugins? =
 
-Yes to both. FreeCookie is cache-friendly by design: consent is applied client-side, and language detection (optional) also happens client-side — the cached page always carries the site language, and a translated banner is fetched through an uncached REST endpoint when the visitor's browser prefers another supported language. The banner's language follows Polylang/WPML, then (if enabled) the visitor's browser, then the site locale. GTranslate-style translation setups work too.
+Yes to both. FreeCookie is cache-friendly by design: consent is applied client-side, and language detection (on by default, can be disabled) also happens client-side — the cached page always carries the site language, and a translated banner is fetched through an uncached REST endpoint when the visitor's browser prefers another supported language. The banner's language follows Polylang/WPML, then the visitor's browser, then the site locale. GTranslate-style translation setups work too.
 
 = What about Google Funding Choices / AdSense's own consent message? =
 
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.15.4 =
+* Browser-language detection is now ON by default: the banner speaks the visitor's browser language when it is among the 27 shipped languages, and falls back to the site language otherwise (Polylang/WPML page language still wins when present). A consent banner must be understandable by the visitor, not by the site. Detection still happens client-side through the uncached REST endpoint (see 0.13.9), so page caches remain safe. Installations that explicitly saved the setting keep their choice.
 
 = 0.15.3 =
 * Mode barre, petits écrans : le titre s'efface sous 600 px — deux rangées ne tenaient pas dans le plafond de 8 % et le titre sortait rogné. Les boutons restent seuls, le titre demeure dans l'aria-label.
