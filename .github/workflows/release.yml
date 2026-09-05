@@ -64,7 +64,7 @@ jobs:
           set -eu
           V="${{ steps.v.outputs.version }}"
           mkdir -p build/freecookie
-          tar --exclude=.git --exclude=.github --exclude=build -cf - . | tar -xf - -C build/freecookie
+          tar --exclude=.git --exclude=.gitignore --exclude=.github --exclude=build -cf - . | tar -xf - -C build/freecookie
           (cd build && zip -qr -X "freecookie-$V.zip" freecookie)
           N=$(unzip -Z1 "build/freecookie-$V.zip" | grep -v '/$' | wc -l)
           echo "zip : build/freecookie-$V.zip · $N fichiers · $(wc -c < "build/freecookie-$V.zip") octets"
