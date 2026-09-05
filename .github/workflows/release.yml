@@ -55,9 +55,10 @@ jobs:
         run: |
           set -eu
           V="${{ steps.v.outputs.version }}"
-          awk -v v="$V" '$0=="= " v " ="{p=1; next} /^= [0-9]/{if(p) exit} p' readme.txt | sed '/^[[:space:]]*$/d' > corps.md
-          [ -s corps.md ] || { echo "::error::section changelog vide"; exit 1; }
-          cat corps.md
+          mkdir -p build
+          awk -v v="$V" '$0=="= " v " ="{p=1; next} /^= [0-9]/{if(p) exit} p' readme.txt | sed '/^[[:space:]]*$/d' > build/corps.md
+          [ -s build/corps.md ] || { echo "::error::section changelog vide"; exit 1; }
+          cat build/corps.md
 
       - name: Fabriquer le zip (arbre du plugin, sans .git ni .github)
         run: |
@@ -69,6 +70,9 @@ jobs:
           N=$(unzip -Z1 "build/freecookie-$V.zip" | grep -v '/$' | wc -l)
           echo "zip : build/freecookie-$V.zip · $N fichiers · $(wc -c < "build/freecookie-$V.zip") octets"
           [ "$N" -ge 80 ] || { echo "::error::zip trop petit ($N fichiers)"; exit 1; }
+          # Le zip ne contient QUE l'arbre du plugin : ni .git, ni .github, ni les fichiers de
+          # travail de ce job (la 0.16.1 a embarqué un corps.md avant cette garde).
+          unzip -Z1 "build/freecookie-$V.zip" | grep -vE '^freecookie/(admin|docs|includes|languages|public)/|^freecookie/(freecookie\.php|uninstall\.php|readme\.txt|README\.md|LICENSE)$|/$' && { echo "::error::le zip porte un fichier étranger (ci-dessus)"; exit 1; } || echo "zip : uniquement l'arbre du plugin"
 
       - name: Tag (créé s'il manque, jamais déplacé)
         if: github.event_name == 'workflow_dispatch'
@@ -79,8 +83,15 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git ls-remote --tags origin "refs/tags/v$V" | grep -q .; then
             SHA=$(git ls-remote --tags origin "refs/tags/v$V^{}" | cut -f1); SHA=${SHA:-$(git ls-remote --tags origin "refs/tags/v$V" | cut -f1)}
-            [ "$SHA" = "$GITHUB_SHA" ] || { echo "::error::le tag v$V existe déjà sur $SHA, pas sur ce commit"; exit 1; }
-            echo "tag v$V déjà posé sur ce commit"
+            if [ "$SHA" = "$GITHUB_SHA" ]; then
+              echo "tag v$V déjà posé sur ce commit"
+            elif git diff --quiet "$SHA" "$GITHUB_SHA" -- . ':!.github'; then
+              # Le tag est sur un commit plus ancien mais l'ARBRE DU PLUGIN est identique (seul
+              # .github a bougé) : la release se rejoue sur le même code, le tag ne bouge pas.
+              echo "tag v$V posé sur $SHA : même arbre de plugin que ce commit, on rejoue la release"
+            else
+              echo "::error::le tag v$V existe déjà sur $SHA et le plugin y diffère : bump la version"; exit 1
+            fi
           else
             git tag -a "v$V" -m "$V"
             git push origin "v$V"
@@ -92,6 +103,6 @@ jobs:
         with:
           tag_name: v${{ steps.v.outputs.version }}
           name: ${{ steps.v.outputs.version }}${{ inputs.nom != '' && format(' — {0}', inputs.nom) || '' }}
-          body_path: corps.md
+          body_path: build/corps.md
           files: build/freecookie-${{ steps.v.outputs.version }}.zip
           fail_on_unmatched_files: true
