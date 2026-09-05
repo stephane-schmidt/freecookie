@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.16.0
+Stable tag: 0.16.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,9 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.16.1 =
+* New option **Services loaded without consent** (FreeCookie ▸ Options, under "A-priori blocking"): a list of the known services that this site EXEMPTS from a-priori blocking. An exempted service (say, the YouTube player on a TV-channel directory, where the player *is* the page) keeps its `src` and loads as if the plugin were not there; no veil, no "Load the player" button. The banner shows it as **Always on** with a locked checkbox, and the choice is stored in `exempt_services` (validated against the known-services list, unknown keys are dropped). The `freecookie_exempt_services` filter adds keys from code. Nothing is exempted by default, and the site owner takes responsibility for what they exempt.
 
 = 0.16.0 =
 * New look: the banner takes the design of a compact card (large rounded corners, one title, one paragraph with a link to your cookie policy, three pill buttons: Customize, Reject, Accept). The categories and detected services open on **Customize**, in the same card; Accept and Reject stay one click away.

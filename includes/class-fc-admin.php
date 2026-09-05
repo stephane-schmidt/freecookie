@@ -148,6 +148,8 @@ class Freecookie_Admin {
 		$out     = wp_parse_args( is_array( $current ) ? $current : array(), Freecookie_Plugin::default_settings() );
 
 		$out['blocking_enabled'] = ! empty( $input['blocking_enabled'] );
+		// 0.16.1 : cases décochées = clé absente du formulaire = liste vide, c'est voulu.
+		$out['exempt_services']  = Freecookie_Categories::normalize_exempt( isset( $input['exempt_services'] ) ? (array) $input['exempt_services'] : array() );
 		$out['detect_browser']   = ! empty( $input['detect_browser'] );
 		$hide = sanitize_text_field( $input['hide_for'] ?? ( $out['hide_for'] ?? 'logged' ) );
 		$out['hide_for'] = in_array( $hide, array( 'none', 'admins', 'logged' ), true ) ? $hide : 'logged';
@@ -417,6 +419,17 @@ class Freecookie_Admin {
 						<th scope="row"><?php esc_html_e( 'Blocage a priori', 'freecookie' ); ?></th>
 						<td><label><input type="checkbox" name="freecookie_settings[blocking_enabled]" value="1" <?php checked( ! empty( $s['blocking_enabled'] ) ); ?>>
 							<?php esc_html_e( 'Bloquer les traceurs tiers avant le consentement', 'freecookie' ); ?></label></td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Services chargés sans consentement', 'freecookie' ); ?></th>
+						<td>
+							<?php $fc_exempt = Freecookie_Categories::normalize_exempt( isset( $s['exempt_services'] ) ? $s['exempt_services'] : array() ); ?>
+							<?php foreach ( Freecookie_Categories::known_services() as $fc_sk => $fc_sv ) : ?>
+								<label style="display:inline-block;margin:0 16px 6px 0"><input type="checkbox" name="freecookie_settings[exempt_services][]" value="<?php echo esc_attr( $fc_sk ); ?>" <?php checked( in_array( $fc_sk, $fc_exempt, true ) ); ?>>
+									<?php echo esc_html( Freecookie_Categories::service_label( $fc_sk ) ); ?></label>
+							<?php endforeach; ?>
+							<p class="description"><?php esc_html_e( 'Ces services sont EXEMPTÉS du blocage a priori : ils se chargent dès l’arrivée du visiteur, sans attendre son choix, et le bandeau les affiche « Toujours actif ». À réserver aux services qui sont la raison d’être du site (un lecteur vidéo sur un annuaire de chaînes) : c’est vous, éditeur, qui en assumez la responsabilité au regard du RGPD / de la nLPD. Rien n’est coché par défaut.', 'freecookie' ); ?></p>
+						</td>
 					</tr>
 					<tr>
 						<th scope="row"><label for="fc-hidefor"><?php esc_html_e( 'Comptes exemptés', 'freecookie' ); ?></label></th>

@@ -25,6 +25,13 @@ class Freecookie_Plugin {
 	public static function default_settings() {
 		return array(
 			'blocking_enabled' => true,
+			// 0.16.1 : services CONNUS (clés de Freecookie_Categories::known_services)
+			// EXEMPTÉS du blocage a priori — chargés sans consentement, par décision de
+			// l'éditeur du site, quand un service EST le site (un lecteur YouTube sur un
+			// annuaire de chaînes n'est pas un traceur qu'on glisse, c'est la page). Vide
+			// par défaut : tout reste bloqué. Le bandeau affiche ces services « Toujours
+			// actif » ; le filtre `freecookie_exempt_services` complète la liste.
+			'exempt_services'  => array(),
 			// Détection de la langue du navigateur : ACTIVE par défaut depuis 0.15.4
 			// (décision Stéphane 24/08 : un bandeau de consentement doit être compris
 			// par le visiteur, pas par le site). Détection côté client (cache-safe,
@@ -168,7 +175,7 @@ class Freecookie_Plugin {
 		$counter->maybe_count();
 
 		if ( ! empty( $this->settings['blocking_enabled'] ) ) {
-			$blocker = new Freecookie_Script_Blocker();
+			$blocker = new Freecookie_Script_Blocker( Freecookie_Categories::exempt_services( $this->settings ) );
 			add_action( 'template_redirect', array( $blocker, 'start_buffer' ), 0 );
 
 			$mode = new Freecookie_Consent_Mode();

@@ -18,6 +18,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Freecookie_Script_Blocker {
 
 	/**
+	 * 0.16.1 — Clés de services (Freecookie_Categories::known_services) que ce site
+	 * charge SANS consentement : leurs balises sont laissées telles quelles, ni
+	 * `data-fc-src` ni `type=text/plain`. Vide = comportement historique, tout bloqué.
+	 *
+	 * @var string[]
+	 */
+	protected $exempt = array();
+
+	/**
+	 * @param string[] $exempt Services exemptés (déjà normalisés par Freecookie_Categories::exempt_services).
+	 */
+	public function __construct( $exempt = array() ) {
+		$this->exempt = array_values( array_filter( array_map( 'strval', (array) $exempt ) ) );
+	}
+
+	/**
+	 * Un service est-il exempté du blocage sur ce site ?
+	 *
+	 * @param string $service Clé de service ('' si inconnue).
+	 * @return bool
+	 */
+	protected function is_exempt( $service ) {
+		return '' !== $service && in_array( $service, $this->exempt, true );
+	}
+
+	/**
 	 * Signatures de scripts INLINE à bloquer (regex sans délimiteurs), par finalité.
 	 *
 	 * @return array<string,string>
@@ -112,6 +138,10 @@ class Freecookie_Script_Blocker {
 			$category = $this->match_url( $sm[1] );
 			if ( '' !== $category ) {
 				$service = Freecookie_Categories::match_service( $sm[1] );
+				// 0.16.1 : service exempté sur ce site → la balise part intacte.
+				if ( $this->is_exempt( $service ) ) {
+					return $m[0];
+				}
 			}
 		}
 
@@ -187,6 +217,11 @@ class Freecookie_Script_Blocker {
 			return $m[0];
 		}
 		$service = Freecookie_Categories::match_service( $sm[1] );
+		// 0.16.1 : service exempté sur ce site (ex. YouTube sur un annuaire de chaînes) → l'iframe
+		// garde son `src` et se charge comme avant le plugin ; aucune façade ne la recouvre.
+		if ( $this->is_exempt( $service ) ) {
+			return $m[0];
+		}
 		$svc     = $service ? ' data-fc-service="' . esc_attr( $service ) . '"' : '';
 
 		// src → data-fc-src pour empêcher le chargement, + classe pour le placeholder CSS.

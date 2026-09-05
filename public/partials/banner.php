@@ -76,10 +76,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 														aria-label="<?php echo esc_attr( $fc_risk . ' — ' . $strings['edu_open'] ); ?>"><?php echo esc_html( $fc_risk ); ?></button>
 												<?php endif; ?>
 											</span>
+											<?php if ( ! empty( $svc['exempt'] ) ) : ?>
+												<?php /* 0.16.1 — service exempté du blocage : chargé sans consentement, dit tel quel. */ ?>
+												<span class="fc-cat__lock fc-svc__lock"><?php echo esc_html( $strings['always_on'] ); ?></span>
+												<input type="checkbox" class="fc-svc-toggle" checked disabled data-fc-exempt="1"
+													data-fc-svc="<?php echo esc_attr( $svc['key'] ); ?>"
+													data-fc-cat="<?php echo esc_attr( $key ); ?>"
+													aria-label="<?php echo esc_attr( $svc['label'] . ' — ' . $strings['always_on'] ); ?>">
+											<?php else : ?>
 											<input type="checkbox" class="fc-svc-toggle" disabled
 												data-fc-svc="<?php echo esc_attr( $svc['key'] ); ?>"
 												data-fc-cat="<?php echo esc_attr( $key ); ?>"
 												aria-label="<?php echo esc_attr( $svc['label'] . ( $fc_risk ? ' — ' . $fc_risk : '' ) ); ?>">
+											<?php endif; ?>
 										</label>
 										<?php if ( ! empty( $svc['purpose'] ) ) : ?>
 											<p class="fc-svc__desc"><?php echo esc_html( $svc['purpose'] ); ?></p>

@@ -181,6 +181,7 @@
 		off = off || [];
 		on = on || [];
 		function allowed(cat, svc) {
+			if (svc && D.exemptServices && D.exemptServices.indexOf(svc) !== -1) { return true; } // 0.16.1 : exempté sur ce site
 			if (svc && on.indexOf(svc) !== -1) { return true; } // service accepté individuellement
 			return granted.indexOf(cat) !== -1 && (!svc || off.indexOf(svc) === -1);
 		}
@@ -314,6 +315,8 @@
 			t.checked = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 		});
 		Array.prototype.forEach.call(root.querySelectorAll('.fc-svc-toggle'), function (t) {
+			// 0.16.1 : un service exempté reste coché et verrouillé, quel que soit le choix.
+			if (t.hasAttribute('data-fc-exempt')) { t.checked = true; t.disabled = true; return; }
 			var catOn = granted.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 			var svc = t.getAttribute('data-fc-svc');
 			// Un service peut être accepté individuellement (façade) : la case
@@ -450,6 +453,7 @@
 		});
 		var off = [], on = [];
 		Array.prototype.forEach.call(document.querySelectorAll('.fc-svc-toggle'), function (t) {
+			if (t.hasAttribute('data-fc-exempt')) { return; } // 0.16.1 : ni « off » ni « on », il n'est pas soumis au choix
 			var catOn = cats.indexOf(t.getAttribute('data-fc-cat')) !== -1;
 			if (!t.checked) { off.push(t.getAttribute('data-fc-svc')); }
 			else if (!catOn) { on.push(t.getAttribute('data-fc-svc')); } // service seul, catégorie refusée
@@ -623,6 +627,7 @@
 			if (t && t.classList && t.classList.contains('fc-toggle')) {
 				var cat = t.getAttribute('data-fc-cat');
 				Array.prototype.forEach.call(root.querySelectorAll('.fc-svc-toggle[data-fc-cat="' + cat + '"]'), function (s) {
+					if (s.hasAttribute('data-fc-exempt')) { return; } // 0.16.1
 					s.disabled = !t.checked;
 					s.checked = t.checked;
 				});

@@ -202,6 +202,40 @@ class Freecookie_Categories {
 	}
 
 	/**
+	 * 0.16.1 — Ne garde d'une liste d'exemptions que des clés de services CONNUS,
+	 * en minuscules, sans doublon. Une clé inconnue est ignorée (jamais devinée).
+	 *
+	 * @param mixed $list Liste soumise (formulaire, option, filtre).
+	 * @return string[]
+	 */
+	public static function normalize_exempt( $list ) {
+		$known = array_keys( self::known_services() );
+		$out   = array();
+		foreach ( (array) $list as $key ) {
+			$key = is_string( $key ) ? strtolower( trim( $key ) ) : '';
+			if ( '' !== $key && in_array( $key, $known, true ) && ! in_array( $key, $out, true ) ) {
+				$out[] = $key;
+			}
+		}
+		return $out;
+	}
+
+	/**
+	 * 0.16.1 — Services exemptés du blocage a priori pour ce site : le réglage
+	 * `exempt_services`, complété par le filtre `freecookie_exempt_services`.
+	 * Ces services sont chargés SANS consentement — c'est une décision de l'éditeur
+	 * du site, que le bandeau rend visible (« Toujours actif »), jamais un défaut.
+	 *
+	 * @param array $settings Réglages du plugin.
+	 * @return string[]
+	 */
+	public static function exempt_services( $settings ) {
+		$list = ( is_array( $settings ) && isset( $settings['exempt_services'] ) ) ? $settings['exempt_services'] : array();
+		$list = apply_filters( 'freecookie_exempt_services', (array) $list );
+		return self::normalize_exempt( $list );
+	}
+
+	/**
 	 * Services tiers connus détectés par le moteur d'auto-blocage.
 	 * Chaque service = liste de fragments d'URL (hôtes) + finalité.
 	 *

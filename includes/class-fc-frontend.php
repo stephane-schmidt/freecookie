@@ -110,6 +110,8 @@ class Freecookie_Frontend {
 				'strings'        => $strings,
 				// Libellés des services connus (façade des embeds bloqués).
 				'serviceLabels'  => self::service_labels(),
+				// 0.16.1 : services exemptés du blocage a priori (déjà chargés côté serveur).
+				'exemptServices' => Freecookie_Categories::exempt_services( $this->settings ),
 				// Mode auto : aucune couleur principale fixée dans les réglages
 				// → le badge/bannière suit la couleur dominante de CHAQUE page.
 				'autoColor'      => ( '' === Freecookie_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
@@ -135,6 +137,7 @@ class Freecookie_Frontend {
 		$keys = ( $scan && ! empty( $scan['services'] ) ) ? $scan['services'] : array();
 		$out  = array();
 		$db   = include FREECOOKIE_DIR . 'includes/data/known-cookies.php';
+		$fc_exempt = Freecookie_Categories::exempt_services( $this->settings ); // 0.16.1
 		foreach ( $keys as $key ) {
 			$meta = Freecookie_Categories::meta( $key );
 			if ( 'necessary' === $meta['category'] ) {
@@ -158,6 +161,8 @@ class Freecookie_Frontend {
 				'risk'    => Freecookie_Categories::risk_key( $meta['score'] ),
 				'color'   => Freecookie_Categories::score_color( $meta['score'] ),
 				'cookies' => $cookies,
+				// 0.16.1 : chargé sans consentement sur ce site → affiché « Toujours actif ».
+				'exempt'  => in_array( $key, $fc_exempt, true ),
 			);
 		}
 		return $out;
