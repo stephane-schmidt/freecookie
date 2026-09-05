@@ -23,6 +23,11 @@ on:
         description: "Sous-titre de la release (facultatif)"
         required: false
         default: ""
+      derniere:
+        description: "Marquer cette release comme la dernière (non : publication d'une version ANTÉRIEURE, la dernière reste en place)"
+        required: false
+        type: boolean
+        default: true
   push:
     tags: ['v*']
 
@@ -106,3 +111,4 @@ jobs:
           body_path: build/corps.md
           files: build/freecookie-${{ steps.v.outputs.version }}.zip
           fail_on_unmatched_files: true
+          make_latest: ${{ github.event_name == 'workflow_dispatch' && inputs.derniere == false && 'false' || 'true' }}
