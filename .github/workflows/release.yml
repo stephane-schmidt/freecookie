@@ -1,0 +1,97 @@
+name: release
+
+# Publie une release GitHub du plugin, avec son zip, depuis l'arbre de `main`.
+#
+# POURQUOI CE WORKFLOW EXISTE. Les sessions Claude Code peuvent pousser sur `main` mais ne
+# peuvent ni pousser un tag ni créer une release (refus de l'API : « not permitted for this
+# session type »). Ce workflow fait les deux, avec le jeton de l'action, à partir de ce que
+# `main` porte déjà : la version est LUE dans l'en-tête du plugin, jamais saisie deux fois.
+#
+# Deux déclencheurs :
+#   · workflow_dispatch : « Run workflow » depuis l'onglet Actions (ou l'API). Entrée facultative
+#     `nom` = le sous-titre de la release (« 0.16.1 — services exemptés … »).
+#   · push d'un tag v* : si quelqu'un tague à la main, la release suit.
+#
+# Gardes : l'en-tête `Version:` et le `Stable tag` du readme doivent être d'accord ; le
+# changelog du readme doit porter une section `= <version> =` (c'est elle qui devient le corps
+# de la release) ; un tag déjà existant sur un autre commit fait échouer, jamais écraser.
+
+on:
+  workflow_dispatch:
+    inputs:
+      nom:
+        description: "Sous-titre de la release (facultatif)"
+        required: false
+        default: ""
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lire et vérifier la version
+        id: v
+        run: |
+          set -eu
+          V=$(grep -m1 -oE 'Version: *[0-9]+\.[0-9]+\.[0-9]+' freecookie.php | grep -oE '[0-9.]+')
+          ST=$(grep -m1 -oE 'Stable tag: *[0-9.]+' readme.txt | grep -oE '[0-9.]+')
+          echo "en-tête : $V · stable tag : $ST"
+          [ "$V" = "$ST" ] || { echo "::error::Version ($V) et Stable tag ($ST) diffèrent"; exit 1; }
+          grep -qE "^= $V =$" readme.txt || { echo "::error::readme.txt n'a pas de section changelog « = $V = »"; exit 1; }
+          if [ "${GITHUB_REF_TYPE:-}" = "tag" ]; then
+            [ "$GITHUB_REF_NAME" = "v$V" ] || { echo "::error::le tag $GITHUB_REF_NAME ne correspond pas à la version $V de l'arbre"; exit 1; }
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Corps de la release (section du changelog)
+        run: |
+          set -eu
+          V="${{ steps.v.outputs.version }}"
+          awk -v v="$V" '$0=="= " v " ="{p=1; next} /^= [0-9]/{if(p) exit} p' readme.txt | sed '/^[[:space:]]*$/d' > corps.md
+          [ -s corps.md ] || { echo "::error::section changelog vide"; exit 1; }
+          cat corps.md
+
+      - name: Fabriquer le zip (arbre du plugin, sans .git ni .github)
+        run: |
+          set -eu
+          V="${{ steps.v.outputs.version }}"
+          mkdir -p build/freecookie
+          tar --exclude=.git --exclude=.github --exclude=build -cf - . | tar -xf - -C build/freecookie
+          (cd build && zip -qr -X "freecookie-$V.zip" freecookie)
+          N=$(unzip -Z1 "build/freecookie-$V.zip" | grep -v '/$' | wc -l)
+          echo "zip : build/freecookie-$V.zip · $N fichiers · $(wc -c < "build/freecookie-$V.zip") octets"
+          [ "$N" -ge 80 ] || { echo "::error::zip trop petit ($N fichiers)"; exit 1; }
+
+      - name: Tag (créé s'il manque, jamais déplacé)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          set -eu
+          V="${{ steps.v.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --tags origin "refs/tags/v$V" | grep -q .; then
+            SHA=$(git ls-remote --tags origin "refs/tags/v$V^{}" | cut -f1); SHA=${SHA:-$(git ls-remote --tags origin "refs/tags/v$V" | cut -f1)}
+            [ "$SHA" = "$GITHUB_SHA" ] || { echo "::error::le tag v$V existe déjà sur $SHA, pas sur ce commit"; exit 1; }
+            echo "tag v$V déjà posé sur ce commit"
+          else
+            git tag -a "v$V" -m "$V"
+            git push origin "v$V"
+            echo "tag v$V poussé"
+          fi
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.v.outputs.version }}
+          name: ${{ steps.v.outputs.version }}${{ inputs.nom != '' && format(' — {0}', inputs.nom) || '' }}
+          body_path: corps.md
+          files: build/freecookie-${{ steps.v.outputs.version }}.zip
+          fail_on_unmatched_files: true
