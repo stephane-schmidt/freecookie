@@ -4,7 +4,10 @@
  * (description + niveau de risque) et leurs interrupteurs sont visibles
  * directement, sans étape « Personnaliser ».
  *
- * Variables : $strings, $cats, $services, $about, $alabels, $shape.
+ * Variables : $strings, $cats, $services, $about, $alabels, $shape, $fc_policy.
+ * 0.16.0 : la carte s'ouvre en vue COMPACTE (titre, texte, Personnaliser / Refuser /
+ * Accepter) ; « Personnaliser » déplie les catégories et les traceurs dans la même
+ * carte (data-fc-state="prefs"). Refuser et Accepter restent à un clic.
  * Masqué par défaut ; c'est le JS qui décide de l'afficher selon le cookie.
  *
  * @package FreeCookie
@@ -20,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<div class="fc-inner">
 			<div class="fc-text">
 				<h2 id="fc-title" class="fc-title"><?php echo esc_html( $strings['title'] ); ?></h2>
-				<p id="fc-desc" class="fc-desc"><?php echo esc_html( $strings['body'] ); ?></p>
+				<p id="fc-desc" class="fc-desc"><?php echo esc_html( $strings['body'] ); ?><?php if ( ! empty( $fc_policy ) ) : ?> <?php echo $fc_policy; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- assemblé et échappé champ par champ dans banner_markup(). ?><?php endif; ?></p>
 			</div>
 
 			<ul class="fc-cats">
@@ -106,9 +109,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<?php endif; ?>
 
 			<div class="fc-actions">
-				<button type="button" class="fc-btn fc-btn--secondary" data-fc="save"><?php echo esc_html( $strings['save'] ); ?></button>
-				<button type="button" class="fc-btn fc-btn--primary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
-				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( $strings['accept_all'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--secondary" data-fc="customize" data-fc-only="banner"><?php echo esc_html( $strings['customize'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--secondary" data-fc="save" data-fc-only="prefs"><?php echo esc_html( $strings['save'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( isset( $strings['reject'] ) ? $strings['reject'] : $strings['reject_all'] ); ?></button>
+				<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( isset( $strings['accept'] ) ? $strings['accept'] : $strings['accept_all'] ); ?></button>
 			</div>
 
 			<div class="fc-foot">
@@ -175,6 +179,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div>
 </div>
 
+<?php if ( ! empty( $fc_layout ) && 'trait' === $fc_layout ) : ?>
+	<?php
+	/* 0.16.0 — LE TRAIT (Stéphane, 04/09). Au repos : une ligne de 3 px au bord bas de
+	   l'écran, rien d'autre ; toute la ligne est la cible (zone de toucher élargie en CSS).
+	   Un toucher ouvre une rangée de 40 px : Réglages / Refuser / Accepter, les trois au
+	   même clic (le refus aussi simple que l'accord). « Réglages » déplie le panneau EN
+	   FLUX, comme la barre. Après un choix, tout disparaît et le badge reprend. */
+	?>
+	<div id="freecookie-trait" class="fc-trait"<?php echo ! empty( $fc_rtl ) ? ' dir="rtl"' : ''; ?> hidden
+		role="region" aria-label="<?php echo esc_attr( $strings['title'] ); ?>">
+		<button type="button" class="fc-trait__ligne" data-fc="trait-open" aria-expanded="false"
+			aria-controls="freecookie-trait-row" aria-label="<?php echo esc_attr( $strings['title'] . ' — ' . $strings['manage'] ); ?>"></button>
+		<div id="freecookie-trait-row" class="fc-trait__row" hidden>
+			<span class="fc-trait__lb"><?php echo esc_html( isset( $strings['cookies_short'] ) ? $strings['cookies_short'] : 'Cookies' ); ?></span>
+			<button type="button" class="fc-btn fc-btn--secondary fc-mini__more" data-fc="more" aria-expanded="false"
+				aria-controls="freecookie-banner"><?php echo esc_html( isset( $strings['settings'] ) ? $strings['settings'] : $strings['manage'] ); ?></button>
+			<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( isset( $strings['reject'] ) ? $strings['reject'] : $strings['reject_all'] ); ?></button>
+			<button type="button" class="fc-btn fc-btn--primary" data-fc="accept"><?php echo esc_html( isset( $strings['accept'] ) ? $strings['accept'] : $strings['accept_all'] ); ?></button>
+		</div>
+	</div>
+<?php endif; ?>
+
 <?php if ( ! empty( $fc_layout ) && 'mini' === $fc_layout ) : ?>
 	<?php
 	/* 0.15.0 — LA BARRE. Premier contact réduit : le titre, OK, Refuser, Plus d'infos.
@@ -188,8 +214,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		role="region" aria-label="<?php echo esc_attr( $strings['title'] ); ?>">
 		<p class="fc-mini__text"><?php echo esc_html( $strings['title'] ); ?></p>
 		<div class="fc-mini__actions">
-			<button type="button" class="fc-btn fc-btn--primary fc-mini__ok" data-fc="accept">OK</button>
-			<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( $strings['reject_all'] ); ?></button>
+			<?php /* 0.16.0 : les mêmes mots que la carte (« Accepter » / « Refuser »), traduits ; « OK » reste le repli des langues sans la clé. */ ?>
+			<button type="button" class="fc-btn fc-btn--primary fc-mini__ok" data-fc="accept"><?php echo esc_html( isset( $strings['accept'] ) ? $strings['accept'] : 'OK' ); ?></button>
+			<button type="button" class="fc-btn fc-btn--secondary" data-fc="reject"><?php echo esc_html( isset( $strings['reject'] ) ? $strings['reject'] : $strings['reject_all'] ); ?></button>
 			<button type="button" class="fc-link fc-mini__more" data-fc="more" aria-expanded="false"
 				aria-controls="freecookie-banner"><?php echo esc_html( $strings['manage'] ); ?></button>
 		</div>

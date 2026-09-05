@@ -17,7 +17,7 @@ class Freecookie_Admin {
 	/** Champs de couleur : clé => libellé. */
 	protected function color_fields() {
 		return array(
-			'accent'         => __( 'Couleur principale (boutons, badge)', 'freecookie' ),
+			'accent'         => __( 'Couleur d’accent (badge ; bouton Accepter si renseignée — vide : encre sur papier, comme la maquette)', 'freecookie' ),
 			'accent_text'    => __( 'Texte sur la couleur principale', 'freecookie' ),
 			'bg'             => __( 'Fond de la bannière', 'freecookie' ),
 			'text'           => __( 'Texte de la bannière', 'freecookie' ),
@@ -152,7 +152,7 @@ class Freecookie_Admin {
 		$hide = sanitize_text_field( $input['hide_for'] ?? ( $out['hide_for'] ?? 'logged' ) );
 		$out['hide_for'] = in_array( $hide, array( 'none', 'admins', 'logged' ), true ) ? $hide : 'logged';
 		$fc_layout = sanitize_text_field( $input['layout'] ?? ( $out['layout'] ?? 'full' ) );
-		$out['layout'] = in_array( $fc_layout, array( 'full', 'mini' ), true ) ? $fc_layout : 'full';
+		$out['layout'] = in_array( $fc_layout, array( 'full', 'mini', 'trait' ), true ) ? $fc_layout : 'full';
 		// Sélecteur CSS de l'ancre du mode mini : texte brut, jamais interprété côté PHP
 		// (le JS fait un querySelector et retombe sur la barre si rien ne correspond).
 		$out['mini_anchor'] = substr( sanitize_text_field( $input['mini_anchor'] ?? ( $out['mini_anchor'] ?? '' ) ), 0, 120 );
@@ -188,6 +188,14 @@ class Freecookie_Admin {
 			$colors[ $key ] = Freecookie_Colors::sanitize( $input['colors'][ $key ] ?? '' );
 		}
 		$out['colors'] = $colors;
+
+		// 0.16.0 — jour/nuit : auto (navigateur) | light | dark, et les deux couleurs du mode sombre.
+		$theme        = sanitize_text_field( $input['theme'] ?? 'auto' );
+		$out['theme'] = in_array( $theme, Freecookie_Colors::THEMES, true ) ? $theme : 'auto';
+		$out['colors_dark'] = array(
+			'bg'   => Freecookie_Colors::sanitize( $input['colors_dark']['bg'] ?? '' ),
+			'text' => Freecookie_Colors::sanitize( $input['colors_dark']['text'] ?? '' ),
+		);
 
 		// Textes : surcharge la langue soumise, préserve les autres.
 		$lang = isset( $input['_lang'] ) ? Freecookie_I18n::normalize( sanitize_text_field( $input['_lang'] ) ) : 'fr';
@@ -302,6 +310,31 @@ class Freecookie_Admin {
 					<?php endforeach; ?>
 				</tbody></table>
 
+				<?php
+				$fc_theme = Freecookie_Colors::theme( $s );
+				$fc_dark  = is_array( $s['colors_dark'] ?? null ) ? $s['colors_dark'] : array();
+				?>
+				<h2 class="title"><?php esc_html_e( 'Apparence — jour et nuit', 'freecookie' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'La carte existe en version claire et en version sombre. Par défaut elle suit le réglage du navigateur du visiteur (ou l’interrupteur jour/nuit du site, s’il en expose un sur <html>).', 'freecookie' ); ?></p>
+				<table class="form-table" role="presentation"><tbody>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Thème', 'freecookie' ); ?></th>
+						<td><fieldset>
+							<label><input type="radio" name="freecookie_settings[theme]" value="auto" <?php checked( $fc_theme, 'auto' ); ?>> <?php esc_html_e( 'Automatique — clair ou sombre selon le navigateur du visiteur (recommandé)', 'freecookie' ); ?></label><br>
+							<label><input type="radio" name="freecookie_settings[theme]" value="light" <?php checked( $fc_theme, 'light' ); ?>> <?php esc_html_e( 'Toujours clair', 'freecookie' ); ?></label><br>
+							<label><input type="radio" name="freecookie_settings[theme]" value="dark" <?php checked( $fc_theme, 'dark' ); ?>> <?php esc_html_e( 'Toujours sombre', 'freecookie' ); ?></label>
+						</fieldset></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-dark-bg"><?php esc_html_e( 'Fond de la bannière (mode sombre)', 'freecookie' ); ?></label></th>
+						<td><input type="text" class="fc-color-field" id="fc-dark-bg" name="freecookie_settings[colors_dark][bg]" value="<?php echo esc_attr( $fc_dark['bg'] ?? '' ); ?>" data-default-color=""></td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="fc-dark-text"><?php esc_html_e( 'Texte de la bannière (mode sombre)', 'freecookie' ); ?></label></th>
+						<td><input type="text" class="fc-color-field" id="fc-dark-text" name="freecookie_settings[colors_dark][text]" value="<?php echo esc_attr( $fc_dark['text'] ?? '' ); ?>" data-default-color=""></td>
+					</tr>
+				</tbody></table>
+
 				<h2 class="title"><?php esc_html_e( 'Forme du cookie', 'freecookie' ); ?></h2>
 				<p class="description"><?php esc_html_e( 'Choisissez la forme du badge flottant (elle prend la couleur du site).', 'freecookie' ); ?></p>
 				<?php
@@ -402,6 +435,7 @@ class Freecookie_Admin {
 							<select id="fc-layout" name="freecookie_settings[layout]">
 								<option value="full" <?php selected( $s['layout'] ?? 'full', 'full' ); ?>><?php esc_html_e( 'Panneau complet — tout est visible d’emblée', 'freecookie' ); ?></option>
 								<option value="mini" <?php selected( $s['layout'] ?? '', 'mini' ); ?>><?php esc_html_e( 'Barre discrète — OK / Refuser, détails à la demande', 'freecookie' ); ?></option>
+								<option value="trait" <?php selected( $s['layout'] ?? '', 'trait' ); ?>><?php esc_html_e( 'Trait — une ligne de 3 px en bas, les choix s’ouvrent au toucher', 'freecookie' ); ?></option>
 							</select>
 							<p style="margin-top:8px">
 								<label for="fc-mini-anchor"><?php esc_html_e( 'Ancre des détails (mode barre) :', 'freecookie' ); ?></label>

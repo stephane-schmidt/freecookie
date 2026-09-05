@@ -627,3 +627,43 @@ msgstr "Setting %d"
 #: includes/class-fc-admin.php
 msgid "Détection faite dans le navigateur du visiteur, compatible avec les caches de page. Décochée, le bandeau suit toujours la langue du site."
 msgstr "Detection happens in the visitor's browser, compatible with page caches. When unchecked, the banner always follows the site language."
+
+#: includes/class-fc-admin.php
+msgid "Couleur d’accent (badge ; bouton Accepter si renseignée — vide : encre sur papier, comme la maquette)"
+msgstr "Accent colour (badge; Accept button when set — empty: ink on paper, like the mockup)"
+
+#: includes/class-fc-admin.php
+msgid "Apparence — jour et nuit"
+msgstr "Appearance — day and night"
+
+#: includes/class-fc-admin.php
+msgid "La carte existe en version claire et en version sombre. Par défaut elle suit le réglage du navigateur du visiteur (ou l’interrupteur jour/nuit du site, s’il en expose un sur <html>)."
+msgstr "The card comes in a light and a dark version. By default it follows the visitor's browser setting (or the site's own day/night switch, when one is exposed on <html>)."
+
+#: includes/class-fc-admin.php
+msgid "Thème"
+msgstr "Theme"
+
+#: includes/class-fc-admin.php
+msgid "Automatique — clair ou sombre selon le navigateur du visiteur (recommandé)"
+msgstr "Automatic — light or dark following the visitor's browser (recommended)"
+
+#: includes/class-fc-admin.php
+msgid "Toujours clair"
+msgstr "Always light"
+
+#: includes/class-fc-admin.php
+msgid "Toujours sombre"
+msgstr "Always dark"
+
+#: includes/class-fc-admin.php
+msgid "Fond de la bannière (mode sombre)"
+msgstr "Banner background (dark mode)"
+
+#: includes/class-fc-admin.php
+msgid "Texte de la bannière (mode sombre)"
+msgstr "Banner text (dark mode)"
+
+#: includes/class-fc-admin.php
+msgid "Trait — une ligne de 3 px en bas, les choix s’ouvrent au toucher"
+msgstr "Line — a 3 px line at the bottom, choices open on tap"

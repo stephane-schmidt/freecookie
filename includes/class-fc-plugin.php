@@ -44,12 +44,17 @@ class Freecookie_Plugin {
 			'scan_pages'       => 10, // pages échantillonnées par scan : 10, 25, 50 ou 100.
 			'purge_on_uninstall' => false, // false = le journal de preuve survit à la désinstallation (auditabilité).
 			'position'         => 'bottom',
+			// 0.16.0 : auto = suit prefers-color-scheme du navigateur ; light | dark = force.
+			'theme'            => 'auto',
 			// 0.15.0 : présentation du premier contact. `full` = le panneau complet en
 			// dialogue (comportement historique). `mini` = une barre discrète en bas de
 			// page (OK / Refuser / Plus d'infos) ; le panneau complet ne s'ouvre qu'à la
 			// demande, EN FLUX dans la page (jamais en surcouche) — inséré après
 			// l'élément désigné par `mini_anchor` (sélecteur CSS, ex. `footer .foot-row`),
 			// ou juste au-dessus de la barre si l'ancre est introuvable.
+			// 0.16.0 : `trait` = une ligne de 3 px au bord bas ; un toucher ouvre une rangée
+			// de 40 px (Réglages / Refuser / Accepter) ; les détails se déplient en flux comme
+			// en mode barre. Demande Stéphane 04/09 pour terondo.
 			'layout'           => 'full',
 			'mini_anchor'      => '',
 			'badge_shape'      => 'croque-lateral',
@@ -62,6 +67,11 @@ class Freecookie_Plugin {
 				'secondary_bg'   => '',
 				'secondary_text' => '',
 				'badge'          => '',
+			),
+			// Couleurs du mode SOMBRE (vide = palette de la maquette : carte #1c1c1a, encre #f2f1ec).
+			'colors_dark'      => array(
+				'bg'   => '',
+				'text' => '',
 			),
 			'text_overrides'   => array(), // [langue][clé] => texte
 			'about'            => array(

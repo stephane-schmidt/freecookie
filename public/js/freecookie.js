@@ -325,6 +325,8 @@
 
 	/* 0.15.0 — mode barre : la barre elle-même, et l'état « déplié en flux ». */
 	function miniEl() { return document.getElementById('freecookie-mini'); }
+	/* 0.16.0 — mode trait : la ligne de 3 px et sa rangée. */
+	function traitEl() { return document.getElementById('freecookie-trait'); }
 	function isInline() { return root && root.classList.contains('fc-inline'); }
 
 	// Piège de focus : tant que le bandeau est ouvert EN DIALOGUE, Tab reste dedans.
@@ -355,6 +357,33 @@
 		var first = root.querySelector('button, input:not([disabled])');
 		if (first) { first.focus(); }
 	}
+	// 0.16.0 — vue « Personnaliser » : mêmes catégories, même carte, dépliées.
+	function openPrefs() {
+		show(root); hide(aboutEl()); hide(eduEl());
+		banner.setAttribute('data-fc-state', 'prefs');
+		reflect();
+		announce(D.strings.prefs_title || '');
+		var first = root.querySelector('.fc-cats input:not([disabled])');
+		if (first) { first.focus({ preventScroll: true }); }
+	}
+	// 0.16.0 — mode trait : un toucher sur la ligne ouvre (ou referme) la rangée des choix.
+	function openTrait() {
+		var t = traitEl();
+		if (!t) { return; }
+		var row = t.querySelector('.fc-trait__row');
+		var ligne = t.querySelector('.fc-trait__ligne');
+		if (!row) { return; }
+		if (row.hidden) {
+			show(row);
+			if (ligne) { ligne.setAttribute('aria-expanded', 'true'); }
+			announce(D.strings.title || '');
+			var first = row.querySelector('button');
+			if (first) { first.focus({ preventScroll: true }); }
+		} else {
+			hide(row);
+			if (ligne) { ligne.setAttribute('aria-expanded', 'false'); ligne.focus({ preventScroll: true }); }
+		}
+	}
 	function openAbout() {
 		show(root); show(aboutEl()); hide(eduEl());
 		banner.setAttribute('data-fc-state', 'about');
@@ -370,7 +399,7 @@
 		if (D.miniAnchor) {
 			try { anchor = document.querySelector(D.miniAnchor); } catch (e) { anchor = null; }
 		}
-		var m = miniEl();
+		var m = miniEl() || traitEl();
 		if (anchor) { anchor.insertAdjacentElement('afterend', root); }
 		else if (m && m.parentNode) { m.parentNode.insertBefore(root, m); }
 		root.classList.add('fc-inline');
@@ -400,6 +429,7 @@
 	function closeAll() {
 		hide(root); show(badge);
 		hide(miniEl()); // mode barre : un choix fait, la barre s'en va aussi
+		hide(traitEl()); // mode trait : idem
 		if (badge) {
 			badge.setAttribute('aria-expanded', 'false');
 			// On ne rend le focus au badge qu'aux utilisateurs CLAVIER : à la
@@ -431,7 +461,8 @@
 		if (action === 'accept') { saveConsent(optionalKeys(), [], 'accept'); closeAll(); }
 		else if (action === 'reject') { saveConsent([], [], 'reject', []); closeAll(); }
 		else if (action === 'save') { var t = readToggles(); saveConsent(t.cats, t.off, 'save', t.on); closeAll(); }
-		else if (action === 'customize') { openBanner(); } // rétro-compat : tout est déjà visible.
+		else if (action === 'customize') { openPrefs(); }
+		else if (action === 'trait-open') { openTrait(); }
 		else if (action === 'more') { openInlineTranslated(); } // mode barre : détails en flux, sous les slogans.
 		else if (action === 'about') { openAbout(); }
 		else if (action === 'about-back') { openBanner(); }
@@ -575,7 +606,7 @@
 		});
 		// Mode barre : MÊME la réouverture par le badge se fait en flux dans la page —
 		// la consigne est « jamais en surcouche », pas « jamais au premier contact ».
-		var fcOpen = (D.layout === 'mini') ? openInlineTranslated : openBannerTranslated;
+		var fcOpen = (D.layout === 'mini' || D.layout === 'trait') ? openInlineTranslated : openBannerTranslated;
 		if (badge) { badge.addEventListener('click', fcOpen); }
 		document.addEventListener('keydown', trapTab, true);
 		document.addEventListener('keydown', function (e) {
@@ -604,6 +635,14 @@
 			applyConsentMode(consent.c);
 			unblock(consent.c, consent.off || [], consent.on || []);
 			show(badge);
+		} else if (D.layout === 'trait' && traitEl()) {
+			// Mode trait : le premier contact est la ligne de 3 px ; ses [data-fc] vivent hors de root.
+			var fcTrait = traitEl();
+			fcTrait.addEventListener('click', function (e) {
+				var b = e.target.closest('[data-fc]');
+				if (b) { e.preventDefault(); onClick(b.getAttribute('data-fc')); }
+			});
+			show(fcTrait);
 		} else if (D.layout === 'mini' && miniEl()) {
 			// Mode barre : le premier contact est la barre, pas le panneau. La barre
 			// porte ses propres [data-fc] hors de root : elle a son écouteur.
@@ -672,8 +711,9 @@
 		window.addEventListener('resize', cueAll);
 		if (!root.hidden) { nudge(); }
 		if (window.MutationObserver) {
-			new MutationObserver(function () { if (!root.hidden) { nudge(); } })
-				.observe(root, { attributes: true, attributeFilter: ['hidden'] });
+			// 0.16.0 : l'ouverture de « Personnaliser » change la hauteur défilable → on re-mesure.
+			new MutationObserver(function () { if (!root.hidden) { done = false; nudge(); } })
+				.observe(root, { attributes: true, subtree: true, attributeFilter: ['hidden', 'data-fc-state'] });
 		}
 	});
 })();

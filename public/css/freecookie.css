@@ -107,7 +107,7 @@
 .fc-score { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 100px; color: #fff; white-space: nowrap; }
 /* La pastille est un bouton : clic → volet « Comprendre les cookies ». */
 button.fc-score { border: 0; cursor: pointer; font-family: inherit; line-height: 1.5; }
-button.fc-score:hover { box-shadow: 0 0 0 2px rgba(0, 0, 0, .12); }
+button.fc-score:hover { box-shadow: 0 0 0 2px var(--fc-border, #e6e6e6); }
 button.fc-score:focus-visible { outline: 2px solid var(--fc-accent, #1c7a6b); outline-offset: 2px; }
 .fc-score--green { background: #1f9d55; }
 .fc-score--orange { background: #cf8500; }
@@ -281,7 +281,9 @@ iframe.fc-blocked-embed {
 	/* Mobile : modale un peu plus large que l'ancien 70vw (≈280px = « timbre-poste »
 	   sur grand mobile) mais bornée à 380px pour rester discrète — compromis validé
 	   par Stéphane le 13/07. Reste centrée et défile verticalement en interne si haute. */
-	.fc-banner { width: min(86vw, 380px) !important; max-width: min(86vw, 380px) !important; bottom: 10px; }
+	/* 0.16.0 : la carte prend toute la largeur moins 12px de chaque côté (feuille basse),
+	   voir le bloc 0.16.0 en fin de feuille. L'ancien `min(86vw,380px) !important` est retiré :
+	   un !important ici battrait la maquette. */
 	/* Compact mobile (retour Stéphane 15/07, iPhone) : espacements resserrés,
 	   boutons plus denses — la modale gagne en hauteur sans perdre en lisibilité. */
 	.fc-inner { padding: 16px; gap: 12px; }
@@ -355,8 +357,9 @@ iframe.fc-blocked-embed {
 .fc-cl__table thead th { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: #6b7784; }
 .fc-cl__table code { font-size: 13px; background: #f3f5f7; padding: 1px 6px; border-radius: 4px; }
 
-/* Les couleurs de la bannière sont pilotées par l'administration (variables --fc-*),
-   on ne force donc pas de thème sombre automatique qui les écraserait. */
+/* 0.16.0 — jour/nuit : les variables --fc-* sont posées par PHP (Freecookie_Colors::inline_css)
+   en deux jeux, clair et sombre, sous `prefers-color-scheme` quand le thème est « auto ».
+   Cette feuille ne connaît donc aucune couleur : tout passe par var(--fc-*). */
 
 /* ==== 0.13.7 — indice de défilement : fondu bas persistant tant qu'il reste du contenu
    sous le pli (classe fc-can-scroll posée par le JS). Sticky : il accompagne le défilement
@@ -384,24 +387,6 @@ iframe.fc-blocked-embed {
 	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--fc-bg, #ffffff) 82%);
 	pointer-events: none;
 }
-
-/* ==== 0.13.8 — fenêtre CENTRÉE sur l'écran (plus ancrée en bas), réduite ; titre aligné
-   sur la marge du texte, plus grand (adaptatif si long) ; boutons resserrés et plus
-   costauds, centrés (retours Stéphane 15/07, desktop). ==== */
-.fc-banner{top:50%;bottom:auto;transform:translate(-50%,-50%);width:min(560px,max(280px,70vw));max-height:min(78vh,620px)}
-#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{
-	font-size:22px;line-height:1.25;margin:0;padding:0;text-indent:0;text-align:left;
-	letter-spacing:-.01em;border:0;background:none}
-#freecookie-banner .fc-title--long{font-size:17px}
-#freecookie-banner .fc-text{margin:0;padding:0}
-.fc-actions{justify-content:center;gap:12px}
-.fc-actions .fc-btn{flex:0 1 auto;min-width:150px;padding:12px 20px}
-@media(max-width:560px){
-	.fc-banner{top:50%;bottom:auto}
-	.fc-actions{flex-direction:column}
-	.fc-actions .fc-btn{min-width:0}
-}
-@media(max-height:700px){.fc-banner{top:50%;bottom:auto}}
 
 /* ══ 0.15.0 — MODE BARRE (premier contact réduit) ════════════════════════════════════
    La barre occupe AU PLUS 8 % de la hauteur de l'écran (rectification Stéphane du 17/08 —
@@ -474,4 +459,112 @@ iframe.fc-blocked-embed {
 	margin: 18px auto;
 	box-shadow: none;
 	border-radius: 10px;
+}
+
+/* ==== 0.16.0 — LA MAQUETTE (Stéphane, 04/09) : une carte compacte à grands angles,
+   monochrome, en bas à gauche ; un titre, un paragraphe (lien vers la politique), trois
+   pilules Personnaliser / Refuser / Accepter. « Personnaliser » déplie les catégories dans
+   la même carte. Jour ou nuit selon le navigateur : les variables sont posées par PHP,
+   cette feuille ne contient aucune couleur. Ce bloc est en FIN de feuille : à spécificité
+   égale il gagne sur les réglages historiques ci-dessus, qui restent pour l'insularité. ==== */
+.fc-banner{
+	top:auto;bottom:24px;left:24px;right:auto;transform:none;
+	width:min(520px,calc(100vw - 48px));max-height:min(82vh,720px);
+	border-radius:24px;border:1px solid var(--fc-border,#e6e6e6);
+	box-shadow:0 18px 60px rgba(0,0,0,.28);
+	font-size:16px;line-height:1.5
+}
+.fc-inner{padding:28px 32px 26px;gap:18px}
+#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{
+	font-size:26px;line-height:1.2;font-weight:500;margin:0;padding:0;text-indent:0;text-align:left;
+	letter-spacing:-.015em;border:0;background:none;color:var(--fc-text,#1a1a1a)}
+#freecookie-banner .fc-title--long{font-size:22px}
+#freecookie-banner .fc-text{margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+#freecookie-banner .fc-desc{margin:0;font-size:16px;line-height:1.5;color:var(--fc-muted,#4c4c4c)}
+#freecookie-banner .fc-policy{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+#freecookie-banner .fc-policy:hover{color:var(--fc-text,#1a1a1a)}
+/* Les trois pilules : à leur taille, alignées à gauche, Accepter en dernier (comme la maquette). */
+.fc-actions{justify-content:flex-start;gap:12px}
+.fc-actions .fc-btn{flex:0 1 auto;min-width:0;padding:13px 22px;border-radius:12px;font-size:16px;font-weight:500;line-height:1.2}
+#freecookie-banner .fc-btn--primary{background:var(--fc-primary-bg,#1a1a1a);color:var(--fc-primary-text,#fff);border-color:transparent}
+#freecookie-banner .fc-btn--primary:hover{background:var(--fc-primary-deep,#3a3a3a);border-color:transparent}
+#freecookie-banner .fc-btn--secondary,#freecookie-banner .fc-btn--ghost{background:var(--fc-secondary-bg,#e8e8e8);color:var(--fc-secondary-text,#1a1a1a);border-color:transparent}
+#freecookie-banner .fc-btn--secondary:hover,#freecookie-banner .fc-btn--ghost:hover{background:var(--fc-secondary-deep,#dcdcdc);border-color:transparent}
+#freecookie-banner .fc-btn:focus-visible,.fc-btn:focus-visible{outline:2px solid var(--fc-text,#1a1a1a);outline-offset:2px}
+/* Monochrome : ce qui prenait l'accent prend l'encre. Le badge cookie, lui, garde ses couleurs. */
+#freecookie-banner .fc-prefs__title,#freecookie-banner .fc-edu__title,#freecookie-banner .fc-about__title{color:var(--fc-text,#1a1a1a)}
+.fc-cat__lock{color:var(--fc-muted,#4c4c4c)}
+.fc-cat input[type="checkbox"],.fc-svc input[type="checkbox"]{accent-color:var(--fc-primary-bg,#1a1a1a)}
+.fc-ck-details summary,.fc-about__social a{color:var(--fc-text,#1a1a1a)}
+.fc-cat{border-radius:12px}
+.fc-note{background:var(--fc-secondary-bg,#e8e8e8)}
+#freecookie-badge:focus-visible{outline-color:var(--fc-text,#1a1a1a)}
+/* La barre du mode « mini » suit la même maquette : mêmes pilules, mêmes variables jour/nuit. */
+.fc-mini{border-top:0;box-shadow:0 -10px 40px rgba(0,0,0,.22);gap:10px 18px;padding:10px clamp(12px,4vw,28px);font-size:15px}
+.fc-mini .fc-btn{padding:9px 18px;border-radius:12px;font-weight:500;border-color:transparent}
+.fc-mini .fc-btn--primary{background:var(--fc-primary-bg,#1a1a1a);color:var(--fc-primary-text,#fff)}
+.fc-mini .fc-btn--primary:hover{background:var(--fc-primary-deep,#3a3a3a)}
+.fc-mini .fc-btn--secondary{background:var(--fc-secondary-bg,#e8e8e8);color:var(--fc-secondary-text,#1a1a1a)}
+.fc-mini .fc-btn--secondary:hover{background:var(--fc-secondary-deep,#dcdcdc)}
+.fc-mini .fc-link{color:var(--fc-muted,#4c4c4c)}
+/* Les deux vues de la carte. Vue compacte : ni catégories, ni note, ni « Enregistrer ». */
+#freecookie-banner[data-fc-state="banner"] .fc-cats,
+#freecookie-banner[data-fc-state="banner"] .fc-note,
+#freecookie-banner[data-fc-state="banner"] [data-fc-only="prefs"],
+#freecookie-banner[data-fc-state="prefs"] [data-fc-only="banner"]{display:none}
+#freecookie-banner[data-fc-state="prefs"] .fc-cats{max-height:min(46vh,420px)}
+/* Téléphone : feuille basse, pleine largeur ; les pilules s'empilent. */
+@media (max-width:560px){
+	.fc-banner{left:12px;right:12px;bottom:12px;width:auto;max-width:none;border-radius:20px;font-size:15px}
+	.fc-inner{padding:22px 20px 20px;gap:14px}
+	#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{font-size:22px}
+	#freecookie-banner .fc-desc{font-size:15px}
+	.fc-actions{flex-direction:column;gap:10px}
+	.fc-actions .fc-btn{width:auto;flex:1 1 auto;padding:13px 18px}
+}
+@media (max-height:700px){
+	.fc-banner{bottom:12px;max-height:calc(100vh - 24px)}
+	#freecookie-banner h2.fc-title,#freecookie-banner .fc-title{font-size:20px}
+	.fc-inner{padding:18px 22px 16px;gap:12px}
+}
+
+/* ══ 0.16.0 — MODE TRAIT (Stéphane, 04/09) : 3 px au repos, une rangée de 40 px au toucher ════
+   Le trait est un bouton de 3 px de haut ; sa zone de toucher est élargie de 21 px vers le
+   haut par un pseudo-élément (24 px au total), le dessin reste 3 px. Ouvert, la rangée porte
+   le trait comme bord haut : la ligne ne bouge pas, elle se prolonge. Les couleurs sont les
+   variables du plugin (jour/nuit, posées par PHP sur #freecookie-trait). ══════════════════ */
+.fc-trait[hidden], .fc-trait .fc-trait__row[hidden] { display: none !important; }
+.fc-trait {
+	position: fixed; inset-inline: 0; bottom: 0; z-index: 2147483000;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 14px; line-height: 1.3; color: var(--fc-text, #1a1a1a);
+}
+#freecookie-trait .fc-trait__ligne {
+	display: block; width: 100%; height: 3px; min-height: 0 !important; max-height: none;
+	margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important;
+	background: var(--fc-primary-bg, #1a1a1a) !important; box-shadow: none; appearance: none;
+	position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+#freecookie-trait .fc-trait__ligne::before { content: ""; position: absolute; left: 0; right: 0; top: -21px; bottom: 0; }
+#freecookie-trait .fc-trait__ligne:focus-visible { outline: 2px solid var(--fc-text, #1a1a1a); outline-offset: 3px; }
+#freecookie-trait .fc-trait__ligne[aria-expanded="true"] { display: none; }
+#freecookie-trait .fc-trait__row {
+	display: flex; align-items: center; gap: 8px; min-height: 40px;
+	padding: 5px 10px max(5px, env(safe-area-inset-bottom));
+	background: var(--fc-bg, #fff); color: var(--fc-text, #1a1a1a);
+	border-top: 3px solid var(--fc-primary-bg, #1a1a1a);
+}
+#freecookie-trait .fc-trait__lb { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--fc-muted, #4c4c4c); font-weight: 500; }
+#freecookie-trait .fc-btn {
+	flex: 0 0 auto; margin: 0 !important; min-height: 0; padding: 7px 12px; border: 0; border-radius: 9px;
+	font: inherit; font-size: 13px; font-weight: 500; line-height: 1.2; cursor: pointer; text-transform: none; letter-spacing: normal;
+}
+#freecookie-trait .fc-btn--primary { background: var(--fc-primary-bg, #1a1a1a); color: var(--fc-primary-text, #fff); }
+#freecookie-trait .fc-btn--primary:hover { background: var(--fc-primary-deep, #3a3a3a); }
+#freecookie-trait .fc-btn--secondary { background: var(--fc-secondary-bg, #e8e8e8); color: var(--fc-secondary-text, #1a1a1a); }
+#freecookie-trait .fc-btn--secondary:hover { background: var(--fc-secondary-deep, #dcdcdc); }
+#freecookie-trait .fc-btn:focus-visible { outline: 2px solid var(--fc-text, #1a1a1a); outline-offset: 2px; }
+@media (min-width: 1025px) {
+	#freecookie-trait .fc-trait__row { padding-left: 24px; padding-right: 24px; gap: 10px; font-size: 15px; }
+	#freecookie-trait .fc-btn { padding: 8px 14px; font-size: 14px; }
 }

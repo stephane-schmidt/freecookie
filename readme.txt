@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.15.4
+Stable tag: 0.16.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,14 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.16.0 =
+* New look: the banner takes the design of a compact card (large rounded corners, one title, one paragraph with a link to your cookie policy, three pill buttons: Customize, Reject, Accept). The categories and detected services open on **Customize**, in the same card; Accept and Reject stay one click away.
+* New: **light and dark mode**. The card follows the visitor's browser or system setting (`prefers-color-scheme`) by default; FreeCookie ▸ Options ▸ "Day and night" lets you force it always light or always dark, and set the two dark-mode colors (card background, text). A site that exposes its own day/night switch through `data-theme="light|day|dark|night"` (or `html.dark`) on `<html>` is honoured over the browser setting.
+* The default palette is now monochrome, like the mockup: ink on paper (black on white by day, white on near-black by night). A brand accent set in the options still colours the Accept button and the badge; when left empty, only the cookie badge keeps the detected site colours.
+* The link to the cookie policy uses the WordPress privacy policy page (Settings ▸ Privacy); the `freecookie_policy_url` filter overrides it. Without a page, the sentence is simply omitted.
+* New first-contact layout **"Line"** (Options ▸ First contact): at rest, a 3 px line along the bottom edge of the screen and nothing else; a tap opens a 40 px row with Settings / Reject / Accept, all one tap away; Settings unfolds the full panel in the page flow, like the bar layout. After a choice the line disappears and the badge takes over.
+* New strings `accept`, `reject`, `policy_sentence`, `policy_link`, `settings`, `cookies_short` (French and English; other languages fall back to "Accept all" / "Reject all" and omit the policy sentence until translated).
 
 = 0.15.4 =
 * Browser-language detection is now ON by default: the banner speaks the visitor's browser language when it is among the 27 shipped languages, and falls back to the site language otherwise (Polylang/WPML page language still wins when present). A consent banner must be understandable by the visitor, not by the site. Detection still happens client-side through the uncached REST endpoint (see 0.13.9), so page caches remain safe. Installations that explicitly saved the setting keep their choice.

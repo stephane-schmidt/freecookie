@@ -140,25 +140,118 @@ class Freecookie_Colors {
 		return '#1c7a6b';
 	}
 
+	/** Thèmes reconnus : auto (navigateur), light, dark. */
+	const THEMES = array( 'auto', 'light', 'dark' );
+
 	/**
-	 * Construit toutes les variables CSS à partir des réglages.
+	 * Palette de la maquette du 04/09 : monochrome, encre sur papier.
+	 * Le jour : carte blanche, encre presque noire. La nuit : carte presque
+	 * noire (jamais #000, elle doit se détacher d'un fond de page sombre),
+	 * encre blanc cassé.
+	 */
+	const LIGHT_BG   = '#ffffff';
+	const LIGHT_TEXT = '#1a1a1a';
+	const DARK_BG    = '#1c1c1a';
+	const DARK_TEXT  = '#f2f1ec';
+
+	/**
+	 * Thème réglé (valeur inconnue = auto).
 	 *
-	 * @param array $settings Réglages du plugin.
+	 * @param array $settings Réglages.
+	 * @return string auto|light|dark
+	 */
+	public static function theme( array $settings ) {
+		$t = isset( $settings['theme'] ) ? (string) $settings['theme'] : 'auto';
+		return in_array( $t, self::THEMES, true ) ? $t : 'auto';
+	}
+
+	/**
+	 * Luminance relative WCAG 2.x (0 = noir, 1 = blanc).
+	 *
+	 * @param string $hex Couleur.
+	 * @return float
+	 */
+	public static function luminance( $hex ) {
+		$out = array();
+		foreach ( self::rgb( $hex ) as $c ) {
+			$c     = $c / 255;
+			$out[] = $c <= 0.03928 ? $c / 12.92 : pow( ( $c + 0.055 ) / 1.055, 2.4 );
+		}
+		return 0.2126 * $out[0] + 0.7152 * $out[1] + 0.0722 * $out[2];
+	}
+
+	/**
+	 * Ratio de contraste WCAG entre deux couleurs (1 à 21).
+	 *
+	 * @param string $a Couleur.
+	 * @param string $b Couleur.
+	 * @return float
+	 */
+	public static function contrast( $a, $b ) {
+		$x = self::luminance( $a );
+		$y = self::luminance( $b );
+		return ( max( $x, $y ) + 0.05 ) / ( min( $x, $y ) + 0.05 );
+	}
+
+	/**
+	 * Pousse une couleur vers $towards, par pas de 7 %, jusqu'à ce qu'elle tienne
+	 * $min:1 sur $bg. Un accent de marque sombre posé sur la carte de nuit se
+	 * fondrait dans la carte : on le remonte au lieu de le laisser disparaître.
+	 *
+	 * @param string $hex     Couleur de départ.
+	 * @param string $bg      Fond sur lequel elle doit tenir.
+	 * @param string $towards Couleur vers laquelle pousser (l'encre du schéma).
+	 * @param float  $min     Ratio minimal.
+	 * @return string
+	 */
+	public static function lift( $hex, $bg, $towards, $min ) {
+		for ( $i = 0; $i < 16 && self::contrast( $hex, $bg ) < $min; $i++ ) {
+			$hex = self::mix( $hex, $towards, 0.07 );
+		}
+		return $hex;
+	}
+
+	/**
+	 * Construit toutes les variables CSS à partir des réglages, pour UN schéma.
+	 *
+	 * @param array  $settings Réglages du plugin.
+	 * @param string $scheme   light | dark.
 	 * @return array<string,string> nom-de-variable => valeur
 	 */
-	public static function css_vars( array $settings ) {
-		$c = isset( $settings['colors'] ) && is_array( $settings['colors'] ) ? $settings['colors'] : array();
+	public static function css_vars( array $settings, $scheme = 'light' ) {
+		$c    = isset( $settings['colors'] ) && is_array( $settings['colors'] ) ? $settings['colors'] : array();
+		$cd   = isset( $settings['colors_dark'] ) && is_array( $settings['colors_dark'] ) ? $settings['colors_dark'] : array();
+		$dark = ( 'dark' === $scheme );
 
-		$accent = self::sanitize( $c['accent'] ?? '' );
-		if ( '' === $accent ) {
-			$accent = self::default_accent();
+		$accent_set = self::sanitize( $c['accent'] ?? '' );
+		$accent     = '' !== $accent_set ? $accent_set : self::default_accent();
+
+		if ( $dark ) {
+			$bg   = self::sanitize( $cd['bg'] ?? '' ) ?: self::DARK_BG;
+			$text = self::sanitize( $cd['text'] ?? '' ) ?: self::DARK_TEXT;
+		} else {
+			$bg   = self::sanitize( $c['bg'] ?? '' ) ?: self::LIGHT_BG;
+			$text = self::sanitize( $c['text'] ?? '' ) ?: self::LIGHT_TEXT;
 		}
-		$bg   = self::sanitize( $c['bg'] ?? '' ) ?: '#ffffff';
-		$text = self::sanitize( $c['text'] ?? '' ) ?: '#1a2430';
-
+		// Un accent qui se fond dans la carte (seuil non-texte 3:1) est remonté vers l'encre.
+		$accent      = self::lift( $accent, $bg, $text, 3 );
 		$accent_text = self::sanitize( $c['accent_text'] ?? '' ) ?: self::readable_on( $accent );
-		$sec_bg      = self::sanitize( $c['secondary_bg'] ?? '' ) ?: self::mix( $bg, $text, 0.06 );
-		$sec_text    = self::sanitize( $c['secondary_text'] ?? '' ) ?: $text;
+
+		// Boutons secondaires (Personnaliser, Refuser) : aplat doux dérivé de la carte.
+		// Les couleurs saisies pour le jour ne s'appliquent pas à la nuit : elles ont été
+		// choisies sur une carte claire, on dérive.
+		$sec_bg   = ( ! $dark && self::sanitize( $c['secondary_bg'] ?? '' ) ) ?: self::mix( $bg, $text, 0.10 );
+		$sec_text = ( ! $dark && self::sanitize( $c['secondary_text'] ?? '' ) ) ?: $text;
+
+		// Bouton principal (Accepter) : la maquette est MONOCHROME, encre sur papier.
+		// Un accent choisi à la main dans les options prend sa place.
+		if ( '' !== $accent_set ) {
+			$prim_bg   = $accent;
+			$prim_text = $accent_text;
+		} else {
+			$prim_bg   = $text;
+			$prim_text = $bg;
+		}
 		$badge_solid = self::sanitize( $c['badge'] ?? '' ) ?: $accent;
 
 		// Palette multicolore : les couleurs détectées du site (jusqu'à 4),
@@ -182,31 +275,72 @@ class Freecookie_Colors {
 			'--fc-c3'             => $multi[2],
 			'--fc-c4'             => $multi[3],
 			'--fc-accent'         => $accent,
-			'--fc-accent-deep'    => self::shade( $accent, 0.18 ),
+			'--fc-accent-deep'    => $dark ? self::tint( $accent, 0.12 ) : self::shade( $accent, 0.18 ),
 			'--fc-accent-text'    => $accent_text,
 			'--fc-bg'             => $bg,
 			'--fc-text'           => $text,
-			'--fc-muted'          => self::mix( $text, $bg, 0.38 ),
+			'--fc-muted'          => self::mix( $text, $bg, 0.22 ),
 			'--fc-border'         => self::mix( $text, $bg, 0.86 ),
 			'--fc-secondary-bg'   => $sec_bg,
 			'--fc-secondary-text' => $sec_text,
+			'--fc-secondary-deep' => self::mix( $sec_bg, $text, 0.10 ),
+			'--fc-primary-bg'     => $prim_bg,
+			'--fc-primary-text'   => $prim_text,
+			'--fc-primary-deep'   => self::mix( $prim_bg, $bg, 0.16 ),
 			'--fc-badge-solid'    => $badge_solid,
 			'--fc-badge-hole'     => self::tint( $badge_solid, 0.58 ),
 		);
 	}
 
 	/**
-	 * Bloc CSS inline scopé à la bannière et au badge.
+	 * Déclarations `--x:y;` d'une palette.
+	 *
+	 * @param array $vars Palette.
+	 * @return string
+	 */
+	protected static function decl( array $vars ) {
+		$decl = '';
+		foreach ( $vars as $name => $value ) {
+			$decl .= $name . ':' . $value . ';';
+		}
+		return $decl;
+	}
+
+	/**
+	 * Bloc CSS inline scopé à la bannière et au badge : jour, nuit, ou les deux
+	 * sous `prefers-color-scheme` (thème auto). En auto, un site qui expose son
+	 * propre interrupteur jour/nuit sur <html> (data-theme, ou la classe .dark)
+	 * l'emporte sur le réglage du navigateur : le visiteur l'a choisi lui-même.
 	 *
 	 * @param array $settings Réglages.
 	 * @return string CSS.
 	 */
 	public static function inline_css( array $settings ) {
-		$vars = self::css_vars( $settings );
-		$decl = '';
-		foreach ( $vars as $name => $value ) {
-			$decl .= $name . ':' . $value . ';';
+		// 0.16.0 : la barre du mode mini vit HORS de #freecookie-root — sans elle dans le
+		// sélecteur, elle retombait sur les replis de la feuille (blanc, quel que soit le thème).
+		$sel   = '#freecookie-root,#freecookie-badge,#freecookie-mini,#freecookie-trait';
+		$light = self::decl( self::css_vars( $settings, 'light' ) ) . 'color-scheme:light;';
+		$dark  = self::decl( self::css_vars( $settings, 'dark' ) ) . 'color-scheme:dark;';
+		$theme = self::theme( $settings );
+		if ( 'light' === $theme ) {
+			return $sel . '{' . $light . '}';
 		}
-		return '#freecookie-root,#freecookie-badge{' . $decl . '}';
+		if ( 'dark' === $theme ) {
+			return $sel . '{' . $dark . '}';
+		}
+		$host = function ( $hosts ) {
+			$out = array();
+			foreach ( $hosts as $h ) {
+				$out[] = $h . ' #freecookie-root';
+				$out[] = $h . ' #freecookie-badge';
+				$out[] = $h . ' #freecookie-mini';
+				$out[] = $h . ' #freecookie-trait';
+			}
+			return implode( ',', $out );
+		};
+		return $sel . '{' . $light . '}'
+			. '@media (prefers-color-scheme:dark){' . $sel . '{' . $dark . '}}'
+			. $host( array( 'html[data-theme="dark"]', 'html[data-theme="night"]', 'html.dark' ) ) . '{' . $dark . '}'
+			. $host( array( 'html[data-theme="light"]', 'html[data-theme="day"]' ) ) . '{' . $light . '}';
 	}
 }

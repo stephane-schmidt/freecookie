@@ -115,7 +115,7 @@ class Freecookie_Frontend {
 				'autoColor'      => ( '' === Freecookie_Colors::sanitize( isset( $this->settings['colors']['accent'] ) ? $this->settings['colors']['accent'] : '' ) ),
 				// 0.15.0 — mode « barre » : premier contact réduit, détails EN FLUX
 				// dans la page (insérés après `miniAnchor`), jamais en surcouche.
-				'layout'         => ( isset( $this->settings['layout'] ) && 'mini' === $this->settings['layout'] ) ? 'mini' : 'full',
+				'layout'         => ( isset( $this->settings['layout'] ) && in_array( $this->settings['layout'], array( 'mini', 'trait' ), true ) ) ? $this->settings['layout'] : 'full',
 				'miniAnchor'     => isset( $this->settings['mini_anchor'] ) ? (string) $this->settings['mini_anchor'] : '',
 			)
 		);
@@ -258,7 +258,17 @@ class Freecookie_Frontend {
 		if ( Freecookie_Shapes::is_pro( $shape ) && ! Freecookie_Pro::active( $this->settings ) ) {
 			$shape = Freecookie_Shapes::DEFAULT_ID; // forme Pro sans clé : repli sur la forme libre.
 		}
-		$fc_layout = ( isset( $this->settings['layout'] ) && 'mini' === $this->settings['layout'] ) ? 'mini' : 'full';
+		$fc_layout = ( isset( $this->settings['layout'] ) && in_array( $this->settings['layout'], array( 'mini', 'trait' ), true ) ) ? $this->settings['layout'] : 'full';
+		// 0.16.0 — « … notre politique en matière de cookies ici. » : la page de
+		// confidentialité de WordPress (Réglages ▸ Confidentialité), ou le filtre.
+		// Sans page et sans traduction de la phrase, on n'écrit rien : un lien vide
+		// est pire qu'une phrase absente.
+		$fc_policy     = '';
+		$fc_policy_url = (string) apply_filters( 'freecookie_policy_url', function_exists( 'get_privacy_policy_url' ) ? get_privacy_policy_url() : '' );
+		if ( '' !== $fc_policy_url && ! empty( $strings['policy_sentence'] ) && ! empty( $strings['policy_link'] ) && false !== strpos( $strings['policy_sentence'], '{link}' ) ) {
+			$fc_link   = '<a class="fc-policy" href="' . esc_url( $fc_policy_url ) . '" target="_blank" rel="noopener">' . esc_html( $strings['policy_link'] ) . '</a>';
+			$fc_policy = str_replace( '{link}', $fc_link, esc_html( $strings['policy_sentence'] ) );
+		}
 		ob_start();
 		include FREECOOKIE_DIR . 'public/partials/banner.php';
 		return (string) ob_get_clean();
