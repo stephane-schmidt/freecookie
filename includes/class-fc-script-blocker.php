@@ -95,17 +95,172 @@ class Freecookie_Script_Blocker {
 	/**
 	 * Réécrit les balises <script>.
 	 *
+	 * 0.16.3 — `preg_replace_callback` renvoie NULL quand PCRE abandonne (limite de retours en
+	 * arrière ou pile JIT atteinte sur un très gros document, typiquement un énorme script en
+	 * ligne). L'ancien transtypage `(string)` en faisait une chaîne vide : la page ENTIÈRE partait
+	 * blanche, en 200, sans une ligne au journal. Désormais l'échec est signalé, puis la même
+	 * réécriture est refaite par un analyseur linéaire (scan_tags) qui n'applique aucune
+	 * expression régulière au document : ni page vide, ni traceur laissé passer avant le
+	 * consentement.
+	 *
 	 * @param string $html HTML complet.
 	 * @return string
 	 */
 	protected function rewrite_scripts( $html ) {
 		// Le motif d'attributs accepte les valeurs entre guillemets contenant « > »
 		// (sinon une balise piégée pourrait échapper à la neutralisation).
-		return (string) preg_replace_callback(
+		$out = preg_replace_callback(
 			'#<script\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>(.*?)</script>#is',
 			array( $this, 'cb_script' ),
 			$html
 		);
+		if ( null !== $out ) {
+			return $out;
+		}
+		$this->report_pcre_failure( 'script', preg_last_error(), strlen( $html ) );
+		return $this->scan_tags( $html, 'script', true, 'cb_script' );
+	}
+
+	/**
+	 * 0.16.3 — Signale un abandon de PCRE sur le document : une ligne au journal d'erreurs PHP
+	 * et l'action `freecookie_blocker_pcre_failure`, pour qu'un site puisse le surveiller.
+	 * La page, elle, est tout de même servie réécrite (voir rewrite_scripts).
+	 *
+	 * @param string $tag    Balise en cours de réécriture : 'script' ou 'iframe'.
+	 * @param int    $code   Code renvoyé par preg_last_error() juste après l'échec.
+	 * @param int    $length Taille du document, en octets.
+	 */
+	protected function report_pcre_failure( $tag, $code, $length ) {
+		$names = array(
+			PREG_INTERNAL_ERROR        => 'erreur interne',
+			PREG_BACKTRACK_LIMIT_ERROR => 'pcre.backtrack_limit atteinte',
+			PREG_RECURSION_LIMIT_ERROR => 'pcre.recursion_limit atteinte',
+			PREG_BAD_UTF8_ERROR        => 'UTF-8 invalide',
+			PREG_BAD_UTF8_OFFSET_ERROR => 'décalage UTF-8 invalide',
+			PREG_JIT_STACKLIMIT_ERROR  => 'pile JIT épuisée',
+		);
+		$reason = isset( $names[ $code ] ) ? $names[ $code ] : 'code ' . (int) $code;
+
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- chemin d'échec, à tracer.
+		error_log(
+			sprintf(
+				'FreeCookie : PCRE a abandonné la réécriture des <%1$s> (%2$s) sur un document de %3$d octets ; page réécrite par l\'analyseur de secours.',
+				$tag,
+				$reason,
+				$length
+			)
+		);
+
+		/**
+		 * PCRE a abandonné sur le document ; l'analyseur de secours a pris le relais.
+		 *
+		 * @param string $tag    'script' ou 'iframe'.
+		 * @param int    $code   Code preg_last_error().
+		 * @param int    $length Taille du document, en octets.
+		 */
+		do_action( 'freecookie_blocker_pcre_failure', $tag, (int) $code, (int) $length );
+	}
+
+	/**
+	 * 0.16.3 — Analyseur de secours : parcourt le document à la recherche des balises `<$name …>`
+	 * et applique le même rappel que l'expression régulière, avec les mêmes groupes. Uniquement
+	 * des recherches de chaînes (strpos, strcspn) : le coût est linéaire et rien ne peut
+	 * « abandonner », quelle que soit la taille du document.
+	 *
+	 * La grammaire reproduit celle des motifs : nom de balise insensible à la casse et suivi
+	 * d'une frontière de mot ; attributs jusqu'au premier « > » situé hors guillemets ; pour une
+	 * balise appariée, contenu jusqu'à la première fermeture `</$name>`.
+	 *
+	 * @param string $html     HTML complet.
+	 * @param string $name     Nom de balise en minuscules ('script', 'iframe').
+	 * @param bool   $paired   true : capturer aussi le contenu jusqu'à `</$name>`.
+	 * @param string $callback Méthode de rappel (cb_script, cb_iframe).
+	 * @return string
+	 */
+	protected function scan_tags( $html, $name, $paired, $callback ) {
+		$low   = strtolower( $html ); // Une seule copie en minuscules : positions identiques.
+		$open  = '<' . $name;
+		$close = '</' . $name . '>';
+		$olen  = strlen( $open );
+		$clen  = strlen( $close );
+		$out   = '';
+		$pos   = 0;
+
+		while ( false !== ( $start = strpos( $low, $open, $pos ) ) ) {
+			$after = $start + $olen;
+			$end   = $this->is_word_char( $html, $after ) ? false : $this->tag_end( $html, $after );
+			if ( false === $end ) {
+				// `<scripts`, balise jamais refermée, guillemet orphelin : pas une balise pour
+				// le motif non plus. On la laisse et on reprend juste après.
+				$out .= substr( $html, $pos, $after - $pos );
+				$pos  = $after;
+				continue;
+			}
+
+			$attrs = substr( $html, $after, $end - $after );
+			if ( ! $paired ) {
+				$stop = $end + 1;
+				$m    = array( substr( $html, $start, $stop - $start ), $attrs );
+			} else {
+				$shut = strpos( $low, $close, $end + 1 );
+				if ( false === $shut ) {
+					break; // Plus aucune fermeture dans le document : le reste part tel quel.
+				}
+				$stop = $shut + $clen;
+				$m    = array(
+					substr( $html, $start, $stop - $start ),
+					$attrs,
+					substr( $html, $end + 1, $shut - $end - 1 ),
+				);
+			}
+
+			$out .= substr( $html, $pos, $start - $pos ) . $this->$callback( $m );
+			$pos  = $stop;
+		}
+
+		return $out . substr( $html, $pos );
+	}
+
+	/**
+	 * Position du « > » qui ferme la balise ouvrante, en sautant les valeurs entre guillemets
+	 * (elles peuvent contenir « > »). false si la balise ne se referme pas, ou si un guillemet
+	 * reste ouvert jusqu'à la fin du document.
+	 *
+	 * @param string $html HTML complet.
+	 * @param int    $from Position juste après le nom de balise.
+	 * @return int|false
+	 */
+	protected function tag_end( $html, $from ) {
+		$len = strlen( $html );
+		$i   = $from;
+		while ( $i < $len ) {
+			$i += strcspn( $html, '>"\'', $i );
+			if ( $i >= $len ) {
+				return false;
+			}
+			if ( '>' === $html[ $i ] ) {
+				return $i;
+			}
+			$quote = strpos( $html, $html[ $i ], $i + 1 );
+			if ( false === $quote ) {
+				return false;
+			}
+			$i = $quote + 1;
+		}
+		return false;
+	}
+
+	/**
+	 * L'octet à cette position est-il un caractère de mot (au sens de `\w` sans le drapeau u) ?
+	 * Sert de frontière de mot après le nom de balise : `<script>` oui, `<scripts>` non.
+	 *
+	 * @param string $html HTML complet.
+	 * @param int    $at   Position à tester.
+	 * @return bool
+	 */
+	protected function is_word_char( $html, $at ) {
+		return isset( $html[ $at ] )
+			&& false !== strpos( 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_', $html[ $at ] );
 	}
 
 	/**
@@ -190,11 +345,17 @@ class Freecookie_Script_Blocker {
 	 * @return string
 	 */
 	protected function rewrite_iframes( $html ) {
-		return (string) preg_replace_callback(
+		$out = preg_replace_callback(
 			'#<iframe\b((?:[^>"\']|"[^"]*"|\'[^\']*\')*)>#is',
 			array( $this, 'cb_iframe' ),
 			$html
 		);
+		if ( null !== $out ) {
+			return $out;
+		}
+		// 0.16.3 : même filet que rewrite_scripts, jamais de chaîne vide.
+		$this->report_pcre_failure( 'iframe', preg_last_error(), strlen( $html ) );
+		return $this->scan_tags( $html, 'iframe', false, 'cb_iframe' );
 	}
 
 	/**

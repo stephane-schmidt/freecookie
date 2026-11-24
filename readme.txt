@@ -4,7 +4,7 @@ Donate link: https://polar.sh/freeeconcept
 Tags: cookies, gdpr, consent, privacy, cookie banner
 Requires at least: 6.0
 Tested up to: 6.8
-Stable tag: 0.16.1
+Stable tag: 0.16.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -108,6 +108,10 @@ The consent cookie itself (`freecookie_consent`) is a strictly necessary first-p
 4. The banner in Arabic: full RTL support, one of the 26 shipped languages.
 
 == Changelog ==
+
+= 0.16.3 =
+* Fix: a page could be served completely empty (HTTP 200, nothing in the logs) when PCRE gave up on a very large document, typically a huge inline script hitting `pcre.backtrack_limit` or the JIT stack limit. The a-priori blocking engine turned that failure into an empty string. It now detects it and redoes the same rewrite with a linear scanner that applies no regular expression to the document: the page is served, and third-party tags are still neutralised before consent.
+* The failure is written to the PHP error log, and the new `freecookie_blocker_pcre_failure` action (tag, `preg_last_error()` code, document size in bytes) lets a site monitor it.
 
 = 0.16.1 =
 * New option **Services loaded without consent** (FreeCookie ▸ Options, under "A-priori blocking"): a list of the known services that this site EXEMPTS from a-priori blocking. An exempted service (say, the YouTube player on a TV-channel directory, where the player *is* the page) keeps its `src` and loads as if the plugin were not there; no veil, no "Load the player" button. The banner shows it as **Always on** with a locked checkbox, and the choice is stored in `exempt_services` (validated against the known-services list, unknown keys are dropped). The `freecookie_exempt_services` filter adds keys from code. Nothing is exempted by default, and the site owner takes responsibility for what they exempt.
